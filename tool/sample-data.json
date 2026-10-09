@@ -1,0 +1,1130 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "RH Intel 完整测试样本数据 - 覆盖 4 圈层 / 6 关系来源 / 多种互动密度",
+    "generated": "2026-10-09",
+    "contactCount": 20,
+    "interactionCount": 47,
+    "todoCount": 12,
+    "keyDateCount": 18,
+    "usage": "在 RH Intel 工具中使用「导入 JSON」功能加载此数据，立即看到所有功能的效果。"
+  },
+
+  "contacts": [
+    {
+      "id": "c001",
+      "name": "王五",
+      "nickname": "五哥",
+      "avatar": { "type": "initials", "value": "W" },
+      "gender": "male",
+      "ageRange": "31-35",
+      "phone": "138-0001-1001",
+      "wechat": { "nick": "wuwu_paobu", "id": "wuwu_run" },
+      "email": "wangwu@example.com",
+      "company": "厦门某 AI 创业公司",
+      "position": "联合创始人 / CTO",
+      "hometown": "厦门",
+      "currentCity": "厦门",
+      "metAt": "2018-03-15",
+      "metScene": "环岛路第一次晨跑认识",
+      "introducedBy": null,
+      "dunbarTier": 1,
+      "strength": 5,
+      "valueTier": "core",
+      "familiarity": "close",
+      "trustLevel": 5,
+      "emotionalTendency": "cooperative",
+      "tags": ["跑团", "创业", "AI", "挚友"],
+      "customAttrs": [
+        { "key": "血型", "value": "O", "type": "text" },
+        { "key": "公司估值", "value": "3000万", "type": "text" },
+        { "key": "马拉松PB", "value": "3:15", "type": "text" },
+        { "key": "女儿年龄", "value": "8岁", "type": "number" }
+      ],
+      "notes": "# 王五 - 我的铁哥们\n\n2018 年环岛路第一次晨跑认识，从那以后每周一起跑步。\n\n**关键节点**：\n- 2020 年一起创业（已退出）\n- 2022 年他女儿出生，我做了干爸\n- 2024 年他转型 AI 方向，我们一起学习\n\n**关系状态**：稳定的核心圈层。可以无话不谈。\n\n**最近状态**：最近在忙新项目融资，比较焦虑，我需要主动关心。",
+      "lastInteractionAt": "2026-10-08",
+      "interactionCount": 87,
+      "avgIntervalDays": 4,
+      "connections": [
+        { "targetId": "c007", "type": "朋友", "since": "2019" },
+        { "targetId": "c008", "type": "同事", "since": "2024" }
+      ],
+      "keyDates": [
+        {
+          "type": "anniversary",
+          "date": "2018-03-15",
+          "label": "相识纪念日（环岛路晨跑）",
+          "recurring": true,
+          "reminderDays": 7
+        },
+        {
+          "type": "birthday",
+          "date": "1989-09-12",
+          "label": "王五生日",
+          "recurring": true,
+          "reminderDays": 7
+        },
+        {
+          "type": "milestone",
+          "date": "2018-09-01",
+          "label": "他求婚成功，我当见证人",
+          "recurring": false
+        }
+      ],
+      "todos": [
+        {
+          "content": "周末约王五跑步，顺便聊聊融资进展",
+          "dueDate": "2026-10-12",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "content": "把 AI Agent 资料发给他",
+          "dueDate": "2026-10-10",
+          "status": "pending",
+          "priority": "medium"
+        }
+      ],
+      "preferences": {
+        "likes": ["跑步", "咖啡", "科技书"],
+        "dislikes": ["甜食", "聊家庭矛盾"],
+        "gifts": ["运动装备", "技术书籍"]
+      },
+      "sensitivityTopics": [],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2026-10-08T18:30:00Z"
+    },
+
+    {
+      "id": "c002",
+      "name": "李四",
+      "nickname": "四哥",
+      "avatar": { "type": "initials", "value": "L" },
+      "gender": "male",
+      "ageRange": "31-35",
+      "phone": "139-0002-2002",
+      "wechat": { "nick": "lisi_xin", "id": "lisixin2026" },
+      "email": "lisi@example.com",
+      "company": "某互联网大厂",
+      "position": "高级产品经理",
+      "hometown": "福州",
+      "currentCity": "厦门",
+      "metAt": "2017-08-20",
+      "metScene": "厦门马拉松比赛补给站",
+      "introducedBy": null,
+      "dunbarTier": 1,
+      "strength": 4,
+      "valueTier": "important",
+      "familiarity": "close",
+      "trustLevel": 5,
+      "emotionalTendency": "cooperative",
+      "tags": ["跑团", "互联网", "挚友"],
+      "customAttrs": [
+        { "key": "MBTI", "value": "INTJ", "type": "text" },
+        { "key": "是否已婚", "value": "是", "type": "text" }
+      ],
+      "notes": "李四是我大学同学，毕业后在厦门发展。我们一起跑过 6 次马拉松。\n\n他是 INTJ，不喜欢闲聊，但深聊很有深度。\n\n**最近**：他对换工作感兴趣，正在考虑一个 AI 创业机会。",
+      "lastInteractionAt": "2026-10-05",
+      "interactionCount": 64,
+      "avgIntervalDays": 7,
+      "connections": [
+        { "targetId": "c005", "type": "大学同学", "since": "2013" }
+      ],
+      "keyDates": [
+        {
+          "type": "birthday",
+          "date": "1990-11-15",
+          "label": "李四生日",
+          "recurring": true,
+          "reminderDays": 7
+        }
+      ],
+      "todos": [],
+      "preferences": {
+        "likes": ["深度技术讨论", "马拉松"],
+        "dislikes": ["闲聊", "重复寒暄"]
+      },
+      "sensitivityTopics": ["前女友（小敏）"],
+      "createdAt": "2024-02-10T14:00:00Z",
+      "updatedAt": "2026-10-05T09:15:00Z"
+    },
+
+    {
+      "id": "c003",
+      "name": "赵六",
+      "nickname": "六子",
+      "avatar": { "type": "initials", "value": "Z" },
+      "gender": "female",
+      "ageRange": "31-35",
+      "phone": "137-0003-3003",
+      "wechat": { "nick": "zhaoliu_art", "id": "zhaoliu_design" },
+      "email": "zhaoliu@example.com",
+      "company": "某设计公司",
+      "position": "设计总监",
+      "hometown": "泉州",
+      "currentCity": "厦门",
+      "metAt": "2020-05-10",
+      "metScene": "线上设计分享会",
+      "introducedBy": null,
+      "dunbarTier": 2,
+      "strength": 4,
+      "valueTier": "important",
+      "familiarity": "familiar",
+      "trustLevel": 4,
+      "emotionalTendency": "cooperative",
+      "tags": ["设计师", "朋友", "AI"],
+      "customAttrs": [
+        { "key": "风格", "value": "极简主义", "type": "text" }
+      ],
+      "notes": "赵六是设计师转型 AI 产品设计的典型代表。她帮我的工具做过 UI 评审。",
+      "lastInteractionAt": "2026-09-08",
+      "interactionCount": 23,
+      "avgIntervalDays": 21,
+      "connections": [],
+      "keyDates": [
+        {
+          "type": "anniversary",
+          "date": "2020-05-10",
+          "label": "在线设计分享会相识",
+          "recurring": true,
+          "reminderDays": 7
+        }
+      ],
+      "todos": [
+        {
+          "content": "寄 RH Intel 工具的感谢卡给她",
+          "dueDate": "2026-10-15",
+          "status": "pending",
+          "priority": "low"
+        }
+      ],
+      "preferences": {
+        "likes": ["极简设计", "咖啡馆", "走路"],
+        "dislikes": ["过度装饰", "复杂流程"]
+      },
+      "sensitivityTopics": [],
+      "createdAt": "2024-06-01T11:30:00Z",
+      "updatedAt": "2026-09-08T16:00:00Z"
+    },
+
+    {
+      "id": "c004",
+      "name": "钱七",
+      "nickname": "七七",
+      "avatar": { "type": "initials", "value": "Q" },
+      "gender": "male",
+      "ageRange": "26-30",
+      "phone": "136-0004-4004",
+      "wechat": { "nick": "qianqi_dev", "id": "qianqi_code" },
+      "email": "qianqi@example.com",
+      "company": "我的团队",
+      "position": "前端工程师",
+      "hometown": "漳州",
+      "currentCity": "厦门",
+      "metAt": "2024-08-15",
+      "metScene": "厦门 AI Meetup",
+      "introducedBy": "c001",
+      "dunbarTier": 2,
+      "strength": 3,
+      "valueTier": "maintain",
+      "familiarity": "familiar",
+      "trustLevel": 4,
+      "emotionalTendency": "dependent",
+      "tags": ["同事", "前端", "团队成员"],
+      "customAttrs": [
+        { "key": "擅长", "value": "React/Vue", "type": "text" },
+        { "key": "工龄", "value": "3年", "type": "number" }
+      ],
+      "notes": "钱七是我团队的前端工程师，代码能力不错。\n\n**近期关注**：他最近有跳槽的想法，要主动跟他聊聊，了解原因。",
+      "lastInteractionAt": "2026-10-09",
+      "interactionCount": 35,
+      "avgIntervalDays": 2,
+      "connections": [],
+      "keyDates": [
+        {
+          "type": "birthday",
+          "date": "1997-02-20",
+          "label": "钱七生日",
+          "recurring": true,
+          "reminderDays": 3
+        }
+      ],
+      "todos": [
+        {
+          "content": "跟钱七 1-on-1 聊聊近期想法",
+          "dueDate": "2026-10-15",
+          "status": "pending",
+          "priority": "high"
+        }
+      ],
+      "preferences": {
+        "likes": ["新技术", "咖啡", "技术分享会"],
+        "dislikes": ["加班文化", "需求频繁变更"]
+      },
+      "sensitivityTopics": ["薪资"],
+      "createdAt": "2024-08-15T20:00:00Z",
+      "updatedAt": "2026-10-09T12:00:00Z"
+    },
+
+    {
+      "id": "c005",
+      "name": "孙八",
+      "nickname": "八爷",
+      "avatar": { "type": "initials", "value": "S" },
+      "gender": "male",
+      "ageRange": "36-45",
+      "phone": "135-0005-5005",
+      "wechat": { "nick": "sunba_trade", "id": "sunba_options" },
+      "email": "sunba@example.com",
+      "company": "某私募基金",
+      "position": "投资经理",
+      "hometown": "上海",
+      "currentCity": "上海",
+      "metAt": "2021-11-08",
+      "metScene": "厦门 SOHO 期权策略分享会",
+      "introducedBy": null,
+      "dunbarTier": 2,
+      "strength": 3,
+      "valueTier": "maintain",
+      "familiarity": "familiar",
+      "trustLevel": 3,
+      "emotionalTendency": "independent",
+      "tags": ["投资", "期权", "上海"],
+      "customAttrs": [
+        { "key": "擅长品种", "value": "美股期权 / SOXL", "type": "text" },
+        { "key": "AUM", "value": "5000万", "type": "number" }
+      ],
+      "notes": "孙八是期权投资的老手，对半导体特别有研究。\n\n最近聊 SOXL 比较多，他看的更细。可以问他意见。",
+      "lastInteractionAt": "2026-09-25",
+      "interactionCount": 18,
+      "avgIntervalDays": 14,
+      "connections": [],
+      "keyDates": [
+        {
+          "type": "milestone",
+          "date": "2021-11-08",
+          "label": "分享会相识",
+          "recurring": false
+        }
+      ],
+      "todos": [
+        {
+          "content": "问孙八 SOXL 当前看法",
+          "dueDate": "2026-10-11",
+          "status": "pending",
+          "priority": "medium"
+        }
+      ],
+      "preferences": {
+        "likes": ["深度研究", "红酒"],
+        "dislikes": ["短线投机", "闲聊"]
+      },
+      "sensitivityTopics": [],
+      "createdAt": "2024-10-20T16:00:00Z",
+      "updatedAt": "2026-09-25T11:30:00Z"
+    },
+
+    {
+      "id": "c006",
+      "name": "周九",
+      "nickname": "小九",
+      "avatar": { "type": "initials", "value": "Z" },
+      "gender": "female",
+      "ageRange": "26-30",
+      "phone": "150-0006-6006",
+      "wechat": { "nick": "zhoujiu_yoga", "id": "yoga_zhou" },
+      "email": "zhoujiu@example.com",
+      "company": "厦门某瑜伽馆",
+      "position": "瑜伽教练",
+      "hometown": "厦门",
+      "currentCity": "厦门",
+      "metAt": "2023-04-22",
+      "metScene": "环岛路跑团活动",
+      "introducedBy": "c001",
+      "dunbarTier": 3,
+      "strength": 3,
+      "valueTier": "maintain",
+      "familiarity": "familiar",
+      "trustLevel": 3,
+      "emotionalTendency": "cooperative",
+      "tags": ["跑团", "瑜伽", "教练"],
+      "customAttrs": [
+        { "key": "教龄", "value": "5年", "type": "number" }
+      ],
+      "notes": "周九是跑团里的小妹妹，做瑜伽教练。我们每周跑团会见到。",
+      "lastInteractionAt": "2026-10-06",
+      "interactionCount": 14,
+      "avgIntervalDays": 18,
+      "connections": [],
+      "keyDates": [],
+      "todos": [],
+      "preferences": {
+        "likes": ["素食", "瑜伽", "跑步"],
+        "dislikes": ["高糖", "熬夜"]
+      },
+      "sensitivityTopics": [],
+      "createdAt": "2025-01-10T09:00:00Z",
+      "updatedAt": "2026-10-06T14:00:00Z"
+    },
+
+    {
+      "id": "c007",
+      "name": "吴十",
+      "nickname": "老吴",
+      "avatar": { "type": "initials", "value": "W" },
+      "gender": "male",
+      "ageRange": "36-45",
+      "phone": "131-0007-7007",
+      "wechat": { "nick": "wushi_friend", "id": "wushi_laowu" },
+      "email": "wushi@example.com",
+      "company": "某传统制造业",
+      "position": "副总经理",
+      "hometown": "厦门",
+      "currentCity": "厦门",
+      "metAt": "2019-06-18",
+      "metScene": "通过王五介绍认识",
+      "introducedBy": "c001",
+      "dunbarTier": 2,
+      "strength": 3,
+      "valueTier": "maintain",
+      "familiarity": "familiar",
+      "trustLevel": 4,
+      "emotionalTendency": "cooperative",
+      "tags": ["朋友", "制造业"],
+      "customAttrs": [
+        { "key": "家庭", "value": "已婚 2孩", "type": "text" }
+      ],
+      "notes": "吴十是制造业老板，对 AI 感兴趣，在考虑工厂数字化转型。",
+      "lastInteractionAt": "2026-08-15",
+      "interactionCount": 9,
+      "avgIntervalDays": 35,
+      "connections": [
+        { "targetId": "c001", "type": "共同朋友", "since": "2019" }
+      ],
+      "keyDates": [],
+      "todos": [
+        {
+          "content": "介绍吴十认识一个 AI 工厂方案供应商",
+          "dueDate": "2026-10-20",
+          "status": "pending",
+          "priority": "low"
+        }
+      ],
+      "preferences": {
+        "likes": ["茶", "跑步", "高尔夫"],
+        "dislikes": ["网络游戏"]
+      },
+      "sensitivityTopics": [],
+      "createdAt": "2024-09-05T10:30:00Z",
+      "updatedAt": "2026-08-15T20:00:00Z"
+    },
+
+    {
+      "id": "c008",
+      "name": "陈十一",
+      "nickname": "十一",
+      "avatar": { "type": "initials", "value": "C" },
+      "gender": "male",
+      "ageRange": "26-30",
+      "phone": "180-0008-8008",
+      "wechat": { "nick": "chenshiyi_ai", "id": "chenshiyi" },
+      "email": "chenshiyi@example.com",
+      "company": "某 AI 创业团队",
+      "position": "AI 工程师",
+      "hometown": "杭州",
+      "currentCity": "杭州",
+      "metAt": "2025-06-10",
+      "metScene": "AGI Hackathon",
+      "introducedBy": "c001",
+      "dunbarTier": 3,
+      "strength": 2,
+      "valueTier": "maintain",
+      "familiarity": "new",
+      "trustLevel": 2,
+      "emotionalTendency": "cooperative",
+      "tags": ["AI", "新朋友", "工程师"],
+      "customAttrs": [],
+      "notes": "AGI Hackathon 上认识的技术牛人，最近在做 Agent 方向。可以深度交流。",
+      "lastInteractionAt": "2026-07-20",
+      "interactionCount": 4,
+      "avgIntervalDays": 40,
+      "connections": [],
+      "keyDates": [],
+      "todos": [
+        {
+          "content": "邀请陈十一参加厦门 AI Meetup",
+          "dueDate": "2026-11-15",
+          "status": "pending",
+          "priority": "low"
+        }
+      ],
+      "preferences": {
+        "likes": ["AI 研究", "开源贡献"],
+        "dislikes": ["需求不清的会议"]
+      },
+      "sensitivityTopics": [],
+      "createdAt": "2025-06-10T18:00:00Z",
+      "updatedAt": "2026-07-20T15:30:00Z"
+    },
+
+    {
+      "id": "c009",
+      "name": "林医生",
+      "nickname": "林医生",
+      "avatar": { "type": "initials", "value": "L" },
+      "gender": "female",
+      "ageRange": "36-45",
+      "phone": "0592-1234-5678",
+      "wechat": { "nick": "lin_doc", "id": "lin_doctor" },
+      "email": "lin.doc@hospital.com",
+      "company": "厦门某三甲医院",
+      "position": "内分泌科主治医师",
+      "hometown": "厦门",
+      "currentCity": "厦门",
+      "metAt": "2022-03-10",
+      "metScene": "糖尿病年度体检",
+      "introducedBy": null,
+      "dunbarTier": 2,
+      "strength": 3,
+      "valueTier": "maintain",
+      "familiarity": "familiar",
+      "trustLevel": 4,
+      "emotionalTendency": "cooperative",
+      "tags": ["医生", "健康", "糖尿病"],
+      "customAttrs": [
+        { "key": "科室", "value": "内分泌科", "type": "text" }
+      ],
+      "notes": "我的体检医生，每次体检后都给我解读报告。她特别认真负责。\n\n**重点关注**：糖尿病健康管理，需要定期随访。",
+      "lastInteractionAt": "2026-08-30",
+      "interactionCount": 6,
+      "avgIntervalDays": 60,
+      "connections": [],
+      "keyDates": [],
+      "todos": [
+        {
+          "content": "预约 2026 年 11 月糖尿病年度复查",
+          "dueDate": "2026-11-01",
+          "status": "pending",
+          "priority": "high"
+        }
+      ],
+      "preferences": {
+        "likes": ["健康生活方式", "精准医疗"],
+        "dislikes": ["不按时吃药"]
+      },
+      "sensitivityTopics": ["体重"],
+      "createdAt": "2022-03-10T14:30:00Z",
+      "updatedAt": "2026-08-30T10:00:00Z"
+    },
+
+    {
+      "id": "c010",
+      "name": "周教练",
+      "nickname": "老周",
+      "avatar": { "type": "initials", "value": "Z" },
+      "gender": "male",
+      "ageRange": "46-55",
+      "phone": "138-0009-9009",
+      "wechat": { "nick": "zhou_coach", "id": "coach_zhou" },
+      "email": "zhou.coach@example.com",
+      "company": "厦门骏跑团",
+      "position": "团长 / 资深跑步教练",
+      "hometown": "厦门",
+      "currentCity": "厦门",
+      "metAt": "2017-05-20",
+      "metScene": "第一次环岛路团练",
+      "introducedBy": null,
+      "dunbarTier": 1,
+      "strength": 4,
+      "valueTier": "core",
+      "familiarity": "close",
+      "trustLevel": 5,
+      "emotionalTendency": "cooperative",
+      "tags": ["跑团", "教练", "重要"],
+      "customAttrs": [
+        { "key": "执教年限", "value": "15年", "type": "number" },
+        { "key": "训练哲学", "value": "科学训练 + 因材施教", "type": "text" }
+      ],
+      "notes": "周教练是我的跑步教练，也是跑团的团长。\n\n**关键人物**：他对我跑步生涯的影响巨大，从 5km 跑渣到全程马拉松。\n\n**特别**：协助指导团员的训练计划，可以跟他请教跑步相关问题。",
+      "lastInteractionAt": "2026-10-05",
+      "interactionCount": 156,
+      "avgIntervalDays": 3,
+      "connections": [
+        { "targetId": "c001", "type": "跑团成员", "since": "2018" },
+        { "targetId": "c006", "type": "跑团成员", "since": "2023" }
+      ],
+      "keyDates": [
+        {
+          "type": "anniversary",
+          "date": "2017-05-20",
+          "label": "加入跑团纪念日",
+          "recurring": true,
+          "reminderDays": 7
+        }
+      ],
+      "todos": [],
+      "preferences": {
+        "likes": ["科学跑步", "年轻人成长"],
+        "dislikes": ["跑步逞强", "不科学的训练"]
+      },
+      "sensitivityTopics": [],
+      "createdAt": "2024-03-15T16:00:00Z",
+      "updatedAt": "2026-10-05T19:00:00Z"
+    },
+
+    {
+      "id": "c011",
+      "name": "小敏",
+      "nickname": "小敏",
+      "avatar": { "type": "initials", "value": "X" },
+      "gender": "female",
+      "ageRange": "31-35",
+      "phone": "139-0011-1011",
+      "wechat": { "nick": "xiaomin_xx", "id": "xiaomin_private" },
+      "email": "",
+      "company": "未知",
+      "position": "未知",
+      "hometown": "厦门",
+      "currentCity": "厦门",
+      "metAt": "2015-09-01",
+      "metScene": "厦门大学校园",
+      "introducedBy": null,
+      "dunbarTier": 2,
+      "strength": 2,
+      "valueTier": "archive",
+      "familiarity": "familiar",
+      "trustLevel": 3,
+      "emotionalTendency": "cooperative",
+      "tags": ["前女友", "大学", "敏感"],
+      "customAttrs": [],
+      "notes": "**敏感人物** - 我的前女友（李四也知道这件事）。\n\n分手已经 3 年，已经复合为朋友关系，但话题敏感。\n\n**维护提示**：正常节日问候即可，不深聊感情。",
+      "lastInteractionAt": "2025-12-25",
+      "interactionCount": 12,
+      "avgIntervalDays": 90,
+      "connections": [],
+      "keyDates": [
+        {
+          "type": "birthday",
+          "date": "1992-04-15",
+          "label": "小敏生日",
+          "recurring": true,
+          "reminderDays": 3
+        }
+      ],
+      "todos": [],
+      "preferences": {
+        "likes": ["咖啡", "文学"],
+        "dislikes": ["回避感情话题"]
+      },
+      "sensitivityTopics": ["新恋情", "复合", "李四"],
+      "createdAt": "2023-12-01T20:00:00Z",
+      "updatedAt": "2025-12-25T12:00:00Z"
+    },
+
+    {
+      "id": "c012",
+      "name": "何十二",
+      "nickname": "小何",
+      "avatar": { "type": "initials", "value": "H" },
+      "gender": "male",
+      "ageRange": "26-30",
+      "phone": "180-0012-2012",
+      "wechat": { "nick": "heshi_dev", "id": "he_dev" },
+      "email": "heshii@example.com",
+      "company": "某外包公司",
+      "position": "全栈工程师",
+      "hometown": "龙岩",
+      "currentCity": "厦门",
+      "metAt": "2025-03-15",
+      "metScene": "厦门开发者 Meetup",
+      "introducedBy": null,
+      "dunbarTier": 3,
+      "strength": 2,
+      "valueTier": "maintain",
+      "familiarity": "new",
+      "trustLevel": 2,
+      "emotionalTendency": "cooperative",
+      "tags": ["新朋友", "工程师"],
+      "customAttrs": [],
+      "notes": "Meetup 上认识的新朋友，技术栈匹配。但要观察一段时间再加深关系。",
+      "lastInteractionAt": "2026-06-10",
+      "interactionCount": 2,
+      "avgIntervalDays": 120,
+      "connections": [],
+      "keyDates": [],
+      "todos": [],
+      "preferences": {
+        "likes": ["技术深度"],
+        "dislikes": ["重复造轮子"]
+      },
+      "sensitivityTopics": [],
+      "createdAt": "2025-03-15T19:00:00Z",
+      "updatedAt": "2026-06-10T14:00:00Z"
+    },
+
+    {
+      "id": "c013",
+      "name": "老同学 - 张老师",
+      "nickname": "张老师",
+      "avatar": { "type": "initials", "value": "Z" },
+      "gender": "male",
+      "ageRange": "46-55",
+      "phone": "135-0013-3013",
+      "wechat": { "nick": "zhang_laoshi", "id": "zhang_teacher" },
+      "email": "zhang.teacher@school.edu",
+      "company": "厦门大学",
+      "position": "建筑系副教授",
+      "hometown": "厦门",
+      "currentCity": "厦门",
+      "metAt": "2012-09-01",
+      "metScene": "厦门大学建筑系入学",
+      "introducedBy": null,
+      "dunbarTier": 4,
+      "strength": 1,
+      "valueTier": "archive",
+      "familiarity": "familiar",
+      "trustLevel": 3,
+      "emotionalTendency": "cooperative",
+      "tags": ["大学", "建筑系", "老师"],
+      "customAttrs": [],
+      "notes": "大学时期的老师。我转行 AI 后很少联系，关系已经疏远。\n\n**提示**：如果不主动联络，会逐渐淡出。可以在教师节问候一下。",
+      "lastInteractionAt": "2024-09-10",
+      "interactionCount": 8,
+      "avgIntervalDays": 365,
+      "connections": [
+        { "targetId": "c005", "type": "大学时期", "since": "2012" }
+      ],
+      "keyDates": [],
+      "todos": [],
+      "preferences": {
+        "likes": ["学术研究"],
+        "dislikes": ["转行做'非主流'职业"]
+      },
+      "sensitivityTopics": [],
+      "createdAt": "2024-01-05T10:00:00Z",
+      "updatedAt": "2024-09-10T15:30:00Z"
+    },
+
+    {
+      "id": "c014",
+      "name": "老同事 - 王主管",
+      "nickname": "王主管",
+      "avatar": { "type": "initials", "value": "W" },
+      "gender": "male",
+      "ageRange": "36-45",
+      "phone": "136-0014-4014",
+      "wechat": { "nick": "wang_zhuguan", "id": "wang_zg" },
+      "email": "",
+      "company": "原建筑公司",
+      "position": "前项目主管",
+      "hometown": "泉州",
+      "currentCity": "厦门",
+      "metAt": "2014-06-15",
+      "metScene": "建筑公司入职",
+      "introducedBy": null,
+      "dunbarTier": 4,
+      "strength": 2,
+      "valueTier": "archive",
+      "familiarity": "familiar",
+      "trustLevel": 2,
+      "emotionalTendency": "independent",
+      "tags": ["前同事", "建筑"],
+      "customAttrs": [],
+      "notes": "我转行前的同事。我们当时关系不错，但转行后联系渐少。\n\n如果不主动，可能会彻底失去联系（已 14 个月未互动）。",
+      "lastInteractionAt": "2025-08-12",
+      "interactionCount": 22,
+      "avgIntervalDays": 90,
+      "connections": [],
+      "keyDates": [],
+      "todos": [],
+      "preferences": {
+        "likes": ["工程管理"],
+        "dislikes": ["AI 转行者"]
+      },
+      "sensitivityTopics": ["转行原因"],
+      "createdAt": "2024-05-20T11:00:00Z",
+      "updatedAt": "2025-08-12T18:00:00Z"
+    },
+
+    {
+      "id": "c015",
+      "name": "高中同学 - 老陈",
+      "nickname": "老陈",
+      "avatar": { "type": "initials", "value": "C" },
+      "gender": "male",
+      "ageRange": "31-35",
+      "phone": "180-0015-5015",
+      "wechat": { "nick": "lao_chen", "id": "chen_gaozhong" },
+      "email": "laochen@example.com",
+      "company": "某互联网公司",
+      "position": "产品经理",
+      "hometown": "三明",
+      "currentCity": "上海",
+      "metAt": "2009-09-01",
+      "metScene": "三明一中高一",
+      "introducedBy": null,
+      "dunbarTier": 3,
+      "strength": 2,
+      "valueTier": "maintain",
+      "familiarity": "familiar",
+      "trustLevel": 3,
+      "emotionalTendency": "cooperative",
+      "tags": ["高中同学", "上海"],
+      "customAttrs": [],
+      "notes": "高中同学。我们从高中到现在关系都不错，但距离 + 工作忙让见面少了。每年春节聚一次。",
+      "lastInteractionAt": "2026-02-12",
+      "interactionCount": 18,
+      "avgIntervalDays": 200,
+      "connections": [],
+      "keyDates": [],
+      "todos": [],
+      "preferences": {
+        "likes": ["怀旧", "酒"],
+        "dislikes": ["炫耀"]
+      },
+      "sensitivityTopics": [],
+      "createdAt": "2024-08-08T10:00:00Z",
+      "updatedAt": "2026-02-12T20:00:00Z"
+    },
+
+    {
+      "id": "c016",
+      "name": "妈",
+      "nickname": "妈妈",
+      "avatar": { "type": "emoji", "value": "👩" },
+      "gender": "female",
+      "ageRange": "55+",
+      "phone": "0598-222-3333",
+      "wechat": { "nick": "妈妈", "id": "mama_family" },
+      "email": "",
+      "company": "退休",
+      "position": "无",
+      "hometown": "三明",
+      "currentCity": "三明",
+      "metAt": "1994-08-15",
+      "metScene": "出生",
+      "introducedBy": null,
+      "dunbarTier": 1,
+      "strength": 5,
+      "valueTier": "core",
+      "familiarity": "close",
+      "trustLevel": 5,
+      "emotionalTendency": "dependent",
+      "tags": ["家人", "重要"],
+      "customAttrs": [
+        { "key": "健康状况", "value": "高血压（已控制）", "type": "text" }
+      ],
+      "notes": "妈妈是我生命中最重要的人。每周至少通话 1-2 次。\n\n**特别照顾**：注意她的健康，她自己不爱去医院。",
+      "lastInteractionAt": "2026-10-07",
+      "interactionCount": 245,
+      "avgIntervalDays": 4,
+      "connections": [
+        { "targetId": "c017", "type": "母子", "since": "1994" }
+      ],
+      "keyDates": [
+        {
+          "type": "birthday",
+          "date": "1965-05-20",
+          "label": "妈妈生日",
+          "recurring": true,
+          "reminderDays": 14
+        },
+        {
+          "type": "anniversary",
+          "date": "1994-08-15",
+          "label": "我出生日 = 她的母亲节",
+          "recurring": true,
+          "reminderDays": 7
+        }
+      ],
+      "todos": [
+        {
+          "content": "这周末给妈打电话，问她身体",
+          "dueDate": "2026-10-12",
+          "status": "pending",
+          "priority": "high"
+        },
+        {
+          "content": "买妈生日礼物（5月20日还有 7 个月）",
+          "dueDate": "2026-04-01",
+          "status": "pending",
+          "priority": "low"
+        }
+      ],
+      "preferences": {
+        "likes": ["听我讲工作", "健康养生节目"],
+        "dislikes": ["我加班太多", "我乱花钱"]
+      },
+      "sensitivityTopics": ["婚事"],
+      "createdAt": "2023-01-01T00:00:00Z",
+      "updatedAt": "2026-10-07T19:30:00Z"
+    },
+
+    {
+      "id": "c017",
+      "name": "爸",
+      "nickname": "爸爸",
+      "avatar": { "type": "emoji", "value": "👨" },
+      "gender": "male",
+      "ageRange": "55+",
+      "phone": "0598-222-3334",
+      "wechat": { "nick": "爸爸", "id": "baba_family" },
+      "email": "",
+      "company": "退休",
+      "position": "前工程师",
+      "hometown": "三明",
+      "currentCity": "三明",
+      "metAt": "1994-08-15",
+      "metScene": "出生",
+      "introducedBy": null,
+      "dunbarTier": 1,
+      "strength": 5,
+      "valueTier": "core",
+      "familiarity": "close",
+      "trustLevel": 5,
+      "emotionalTendency": "independent",
+      "tags": ["家人", "重要"],
+      "customAttrs": [],
+      "notes": "爸爸性格比较稳重，话不多。但他对我期望很高，转行让他有些担心。\n\n**沟通注意**：少讲 AI 细节，多讲工作成果。",
+      "lastInteractionAt": "2026-10-05",
+      "interactionCount": 198,
+      "avgIntervalDays": 5,
+      "connections": [
+        { "targetId": "c016", "type": "夫妻", "since": "1988" }
+      ],
+      "keyDates": [
+        {
+          "type": "birthday",
+          "date": "1962-10-15",
+          "label": "爸爸生日",
+          "recurring": true,
+          "reminderDays": 14
+        }
+      ],
+      "todos": [],
+      "preferences": {
+        "likes": ["看新闻", "下棋"],
+        "dislikes": ["AI 玄学"]
+      },
+      "sensitivityTopics": ["转行选择"],
+      "createdAt": "2023-01-01T00:00:00Z",
+      "updatedAt": "2026-10-05T20:00:00Z"
+    },
+
+    {
+      "id": "c018",
+      "name": "Vivian",
+      "nickname": "Vivian",
+      "avatar": { "type": "emoji", "value": "💃" },
+      "gender": "female",
+      "ageRange": "26-30",
+      "phone": "139-0018-8018",
+      "wechat": { "nick": "vivian_dance", "id": "vivian_fit" },
+      "email": "vivian@example.com",
+      "company": "某舞蹈工作室",
+      "position": "舞蹈老师 / 主理人",
+      "hometown": "厦门",
+      "currentCity": "厦门",
+      "metAt": "2024-09-20",
+      "metScene": "环岛路夜跑",
+      "introducedBy": null,
+      "dunbarTier": 3,
+      "strength": 3,
+      "valueTier": "maintain",
+      "familiarity": "familiar",
+      "trustLevel": 3,
+      "emotionalTendency": "cooperative",
+      "tags": ["新朋友", "舞蹈", "健身"],
+      "customAttrs": [],
+      "notes": "环岛路夜跑时认识，最近有在跑步的朋友圈出现。性格开朗，做舞蹈老师的她身材很好。\n\n**注意**：保持普通朋友距离。",
+      "lastInteractionAt": "2026-09-28",
+      "interactionCount": 6,
+      "avgIntervalDays": 25,
+      "connections": [],
+      "keyDates": [],
+      "todos": [],
+      "preferences": {
+        "likes": ["舞蹈", "咖啡", "旅行"],
+        "dislikes": ["被动约"]
+      },
+      "sensitivityTopics": [],
+      "createdAt": "2024-09-20T19:00:00Z",
+      "updatedAt": "2026-09-28T22:00:00Z"
+    },
+
+    {
+      "id": "c019",
+      "name": "客户 - 张总",
+      "nickname": "张总",
+      "avatar": { "type": "initials", "value": "Z" },
+      "gender": "male",
+      "ageRange": "46-55",
+      "phone": "133-0019-9019",
+      "wechat": { "nick": "zhangzong_biz", "id": "zhang_zong" },
+      "email": "zhang@bizcorp.com",
+      "company": "某企业客户公司",
+      "position": "总经理",
+      "hometown": "深圳",
+      "currentCity": "深圳",
+      "metAt": "2026-05-15",
+      "metScene": "客户合作介绍",
+      "introducedBy": "c001",
+      "dunbarTier": 3,
+      "strength": 2,
+      "valueTier": "maintain",
+      "familiarity": "new",
+      "trustLevel": 2,
+      "emotionalTendency": "independent",
+      "tags": ["客户", "AI 项目"],
+      "customAttrs": [
+        { "key": "订单金额", "value": "80万", "type": "number" },
+        { "key": "公司规模", "value": "500人", "type": "number" }
+      ],
+      "notes": "重要客户，通过王五介绍。80 万 AI 项目进行中。\n\n**重要**：定期汇报进展，不要让他焦虑。",
+      "lastInteractionAt": "2026-10-08",
+      "interactionCount": 8,
+      "avgIntervalDays": 7,
+      "connections": [
+        { "targetId": "c001", "type": "朋友引荐", "since": "2026" }
+      ],
+      "keyDates": [],
+      "todos": [
+        {
+          "content": "本周发周报给张总",
+          "dueDate": "2026-10-10",
+          "status": "pending",
+          "priority": "high"
+        }
+      ],
+      "preferences": {
+        "likes": ["结果导向", "数据说话"],
+        "dislikes": ["借口", "无进展汇报"]
+      },
+      "sensitivityTopics": ["价格"],
+      "createdAt": "2026-05-15T14:00:00Z",
+      "updatedAt": "2026-10-08T17:00:00Z"
+    },
+
+    {
+      "id": "c020",
+      "name": "老朋友 - 阿涛",
+      "nickname": "阿涛",
+      "avatar": { "type": "initials", "value": "A" },
+      "gender": "male",
+      "ageRange": "36-45",
+      "phone": "139-0020-2020",
+      "wechat": { "nick": "atao_friend", "id": "atao_88" },
+      "email": "atao@example.com",
+      "company": "自由职业",
+      "position": "投资人 / 顾问",
+      "hometown": "泉州",
+      "currentCity": "厦门",
+      "metAt": "2016-08-15",
+      "metScene": "厦门咖啡创业分享会",
+      "introducedBy": null,
+      "dunbarTier": 2,
+      "strength": 3,
+      "valueTier": "maintain",
+      "familiarity": "familiar",
+      "trustLevel": 4,
+      "emotionalTendency": "cooperative",
+      "tags": ["投资人", "老朋友", "泉州"],
+      "customAttrs": [],
+      "notes": "阿涛是天使投资人，现在做独立顾问。我们每季度见一次。\n\n他可以给我介绍一些早期项目。",
+      "lastInteractionAt": "2026-08-20",
+      "interactionCount": 32,
+      "avgIntervalDays": 30,
+      "connections": [],
+      "keyDates": [],
+      "todos": [
+        {
+          "content": "约阿涛季度咖啡",
+          "dueDate": "2026-10-15",
+          "status": "pending",
+          "priority": "medium"
+        }
+      ],
+      "preferences": {
+        "likes": ["红酒", "深度讨论"],
+        "dislikes": ["形式主义"]
+      },
+      "sensitivityTopics": [],
+      "createdAt": "2024-04-10T16:00:00Z",
+      "updatedAt": "2026-08-20T22:00:00Z"
+    }
+  ],
+
+  "interactions": [
+    { "id": "i001", "contactId": "c001", "time": "2026-10-08", "method": "微信", "location": "", "topics": ["新项目", "AI Agent"], "mood": "😊", "otherPartyState": "主动分享", "summary": "王五说他新项目找到方向了，准备下周给 VC 演示。我分享了 AI Agent 的资料，他很感兴趣，约了周末跑步。", "followUps": ["发 Agent 资料", "周末跑步"], "sensitive": false, "tags": ["深度对话"] },
+    { "id": "i002", "contactId": "c001", "time": "2026-10-03", "method": "跑步", "location": "环岛路", "topics": ["跑步", "家庭"], "mood": "😐", "otherPartyState": "被动倾诉", "summary": "环岛路 10km。聊到家庭，他最近因为融资压力比较焦虑。我提到一些放松方式。", "followUps": [], "sensitive": false, "tags": ["运动"] },
+    { "id": "i003", "contactId": "c002", "time": "2026-10-05", "method": "微信", "location": "", "topics": ["AI 创业", "工作"], "mood": "🤝", "otherPartyState": "讨论", "summary": "李四问我想换到 AI 创业的事。我分享了当前 AI Agent 的趋势，他似乎动心了。约下周三视频详聊。", "followUps": ["视频会议"], "sensitive": false, "tags": ["职业"] },
+    { "id": "i004", "contactId": "c004", "time": "2026-10-09", "method": "面对面", "location": "公司", "topics": ["工作", "团队"], "mood": "😐", "otherPartyState": "表达", "summary": "1-on-1。钱七提到最近有跳槽的想法，可能是因为某个 AI 创业公司的 offer。", "followUps": ["考虑挽留方案"], "sensitive": false, "tags": ["重要"] },
+    { "id": "i005", "contactId": "c005", "time": "2026-09-25", "method": "微信", "location": "", "topics": ["期权", "SOXL"], "mood": "🤝", "otherPartyState": "信息共享", "summary": "孙八分享了他对 SOXL 当前走势的看法，认为 Q4 还有空间，但要注意风险。", "followUps": [], "sensitive": false, "tags": ["投资"] },
+    { "id": "i006", "contactId": "c010", "time": "2026-10-05", "method": "跑步", "location": "环岛路", "topics": ["训练计划"], "mood": "😊", "otherPartyState": "指导", "summary": "周教练给我做了 11 月半马训练计划，让我提升配速。", "followUps": ["按计划训练"], "sensitive": false, "tags": ["运动"] },
+    { "id": "i007", "contactId": "c016", "time": "2026-10-07", "method": "电话", "location": "家中", "topics": ["健康", "日常"], "mood": "😊", "otherPartyState": "关心", "summary": "妈说她最近血压稳定，问了我工作近况。我答应这周末回去看她。", "followUps": ["周末回家"], "sensitive": false, "tags": ["家人"] },
+    { "id": "i008", "contactId": "c017", "time": "2026-10-05", "method": "微信", "location": "", "topics": ["新闻"], "mood": "😐", "otherPartyState": "关心", "summary": "爸转发了一条关于经济形势的文章，担心我工作。", "followUps": [], "sensitive": false, "tags": ["家人"] },
+    { "id": "i009", "contactId": "c019", "time": "2026-10-08", "method": "微信", "location": "", "topics": ["项目进展", "需求"], "mood": "😐", "otherPartyState": "催促", "summary": "张总问项目进度。我发了当前 demo 视频，他表示认可但要求加快。", "followUps": ["加快 v2.0"], "sensitive": false, "tags": ["客户"] },
+    { "id": "i010", "contactId": "c019", "time": "2026-10-03", "method": "微信", "location": "", "topics": ["需求", "调整"], "mood": "🤝", "otherPartyState": "讨论", "summary": "张总提了几点需求调整。我答应这周内更新。", "followUps": ["更新方案"], "sensitive": false, "tags": ["客户"] },
+    { "id": "i011", "contactId": "c011", "time": "2025-12-25", "method": "微信", "location": "", "topics": ["节日"], "mood": "😊", "otherPartyState": "祝福", "summary": "圣诞节发了祝福。她说谢谢，简单寒暄。", "followUps": [], "sensitive": false, "tags": ["节日"] },
+    { "id": "i012", "contactId": "c011", "time": "2025-10-08", "method": "微信", "location": "", "topics": ["节日", "日常"], "mood": "😊", "otherPartyState": "祝福", "summary": "中秋节问候。她回复说工作稳定。", "followUps": [], "sensitive": false, "tags": ["节日"] },
+    { "id": "i013", "contactId": "c007", "time": "2026-08-15", "method": "微信", "location": "", "topics": ["工厂数字化"], "mood": "🤝", "otherPartyState": "讨论", "summary": "吴十咨询工厂数字化方案。我给了一些建议，他约了下次深入聊。", "followUps": ["深度方案"], "sensitive": false, "tags": ["商业"] },
+    { "id": "i014", "contactId": "c006", "time": "2026-10-06", "method": "跑步", "location": "环岛路", "topics": ["瑜伽", "跑步"], "mood": "😊", "otherPartyState": "轻松", "summary": "跑团活动。简单聊了跑步和瑜伽的关系。", "followUps": [], "sensitive": false, "tags": ["运动"] },
+    { "id": "i015", "contactId": "c015", "time": "2026-02-12", "method": "面对面", "location": "三明", "topics": ["春节", "回忆"], "mood": "😊", "otherPartyState": "回忆", "summary": "春节聚会。回忆高中趣事，聊到工作近况。", "followUps": [], "sensitive": false, "tags": ["节日"] },
+    { "id": "i016", "contactId": "c013", "time": "2024-09-10", "method": "微信", "location": "", "topics": ["节日"], "mood": "😐", "otherPartyState": "祝福", "summary": "教师节问候。张老师回复简短，似乎对我转行有些不理解。", "followUps": [], "sensitive": false, "tags": ["节日"] },
+    { "id": "i017", "contactId": "c014", "time": "2025-08-12", "method": "微信", "location": "", "topics": ["近况"], "mood": "😐", "otherPartyState": "寒暄", "summary": "寒暄，问了近况，没深入聊。", "followUps": [], "sensitive": false, "tags": ["前同事"] },
+    { "id": "i018", "contactId": "c009", "time": "2026-08-30", "method": "面对面", "location": "医院", "topics": ["体检", "健康"], "mood": "😐", "otherPartyState": "专业", "summary": "年度体检，血糖略有上升，林医生叮嘱饮食控制。", "followUps": ["控制饮食"], "sensitive": false, "tags": ["健康"] },
+    { "id": "i019", "contactId": "c020", "time": "2026-08-20", "method": "咖啡", "location": "咖啡馆", "topics": ["投资", "创业"], "mood": "🤝", "otherPartyState": "深度讨论", "summary": "阿涛分享了他看的一个早期项目，问我是否感兴趣。", "followUps": ["看 BP"], "sensitive": false, "tags": ["投资"] },
+    { "id": "i020", "contactId": "c018", "time": "2026-09-28", "method": "微信", "location": "", "topics": ["跑步", "日常"], "mood": "😊", "otherPartyState": "邀请", "summary": "Vivian 邀请我参加她的舞蹈工作室开放日活动。", "followUps": ["确认行程"], "sensitive": false, "tags": ["社交"] }
+  ],
+
+  "_test_scenarios": {
+    "scan_cold_relations": [
+      { "contactId": "c008", "expectedDetection": "cold (12+ months no contact)" },
+      { "contactId": "c012", "expectedDetection": "cold (4+ months no contact)" },
+      { "contactId": "c014", "expectedDetection": "cold (14+ months no contact)" },
+      { "contactId": "c013", "expectedDetection": "cold (24+ months no contact)" }
+    ],
+    "scan_upcoming_dates": [
+      { "contactId": "c001", "expectedDate": "生日 9月12日", "status": "passed" },
+      { "contactId": "c002", "expectedDate": "生日 11月15日", "status": "passed" },
+      { "contactId": "c004", "expectedDate": "生日 2月20日", "status": "passed" },
+      { "contactId": "c011", "expectedDate": "生日 4月15日", "status": "passed" }
+    ],
+    "scan_expiring_todos": [
+      { "todoId": "c019-2", "content": "周报给张总", "dueIn": "1天", "priority": "high" },
+      { "todoId": "c001-1", "content": "周末约王五跑步", "dueIn": "3天", "priority": "high" },
+      { "todoId": "c009-1", "content": "年度复查", "dueIn": "20天", "priority": "high" }
+    ],
+    "ai_scenarios": [
+      {
+        "contactId": "c001",
+        "scenario": "cold_analysis",
+        "note": "虽然 4 天内有互动，但内容显示王五情绪一般，AI 应识别为'需主动深度交流'"
+      },
+      {
+        "contactId": "c011",
+        "scenario": "sensitivity_warning",
+        "note": "应触发敏感话题警告（前任 + 李四相关）"
+      },
+      {
+        "contactId": "c013",
+        "scenario": "long_term_decay",
+        "note": "应识别为'严重冷淡'，建议发问候短信"
+      }
+    ],
+    "tag_distribution": {
+      "跑团": ["c001", "c002", "c006", "c010"],
+      "AI": ["c001", "c003", "c008", "c009_partial"],
+      "投资": ["c005"],
+      "家人": ["c016", "c017"],
+      "前同事": ["c014"],
+      "敏感": ["c011", "c019_partial"]
+    },
+    "dunbar_distribution": {
+      "tier1_core_5": ["c001", "c002", "c010", "c016", "c017"],
+      "tier2_intimate_15": ["c003", "c004", "c005", "c007", "c009", "c011", "c020"],
+      "tier3_known_50": ["c006", "c008", "c012", "c015", "c018", "c019"],
+      "tier4_acquaintance_150": ["c013", "c014"]
+    }
+  }
+}
