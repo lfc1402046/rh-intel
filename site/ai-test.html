@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 话术测试 · RH Intel</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <style>
+    .test-layout { display: grid; grid-template-columns: 320px 1fr; gap: 32px; padding: 32px 0; }
+    @media (max-width: 900px) { .test-layout { grid-template-columns: 1fr; } }
+    .test-sidebar { background: white; border-radius: 16px; padding: 24px; border: 1px solid #E5E5EA; height: fit-content; position: sticky; top: 80px; }
+    .test-main { background: white; border-radius: 16px; padding: 32px; border: 1px solid #E5E5EA; min-height: 600px; }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 13px; font-weight: 500; color: #6E6E73; margin-bottom: 6px; }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; padding: 10px 14px; font-size: 14px;
+      border: 1px solid #E5E5EA; border-radius: 8px; font-family: inherit;
+    }
+    .form-textarea { min-height: 80px; resize: vertical; line-height: 1.5; }
+    .contact-card-mini { background: #FBFBFD; border-radius: 12px; padding: 16px; margin-bottom: 12px; cursor: pointer; transition: all 150ms; border: 2px solid transparent; }
+    .contact-card-mini:hover { border-color: #0071E3; }
+    .contact-card-mini.active { border-color: #0071E3; background: rgba(0, 113, 227, 0.05); }
+    .contact-card-mini .name { font-weight: 600; margin-bottom: 4px; }
+    .contact-card-mini .meta { font-size: 12px; color: #6E6E73; margin-bottom: 8px; }
+    .contact-card-mini .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .contact-card-mini .tag { font-size: 10px; padding: 2px 8px; border-radius: 999px; background: white; }
+    .scenario-card { background: #FBFBFD; border-radius: 12px; padding: 14px; margin-bottom: 8px; cursor: pointer; transition: all 150ms; border: 2px solid transparent; }
+    .scenario-card:hover { border-color: #FFD66B; }
+    .scenario-card.active { border-color: #FFD66B; background: rgba(255, 214, 107, 0.08); }
+    .scenario-card .title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .scenario-card .desc { font-size: 12px; color: #6E6E73; }
+    .result-block { background: #FBFBFD; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+    .result-block .label { font-size: 11px; font-weight: 600; text-transform: uppercase; color: #86868B; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .result-block .content { font-size: 15px; line-height: 1.6; color: #1D1D1F; }
+    .validation-pass { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: rgba(127, 212, 160, 0.15); color: #5DA975; margin-right: 6px; }
+    .validation-fail { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: rgba(232, 137, 137, 0.15); color: #C26868; margin-right: 6px; }
+    .loading { display: inline-block; width: 16px; height: 16px; border: 2px solid #FBFBFD; border-top-color: #0071E3; border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .api-key-warning { background: rgba(255, 159, 10, 0.1); border: 1px solid rgba(255, 159, 10, 0.3); border-radius: 8px; padding: 12px; font-size: 13px; color: #8B5A0E; margin-bottom: 16px; }
+    .section-divider { border: none; border-top: 1px solid #E5E5EA; margin: 24px 0; }
+    details summary { cursor: pointer; font-weight: 600; padding: 8px 0; }
+    details summary::marker { color: #0071E3; }
+    details[open] summary { margin-bottom: 8px; }
+    pre.json { background: #1D1D1F; color: #A8D5A8; padding: 16px; border-radius: 8px; font-size: 12px; overflow-x: auto; max-height: 400px; }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">跳到主内容</a>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="./" class="logo">
+        <span class="logo-mark">R</span>
+        <span>RH Intel</span>
+      </a>
+      <nav class="nav">
+        <a href="./">首页</a>
+        <a href="features.html">功能</a>
+        <a href="architecture.html">架构</a>
+        <a href="guide.html">指南</a>
+        <a href="download.html">下载</a>
+      </nav>
+      <div class="header-actions">
+        <span style="font-size: 13px; color: #86868B;">AI 测试工具</span>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" style="padding: 60px 0 30px;">
+      <div class="container">
+        <span class="hero-eyebrow">端到端测试</span>
+        <h1 style="font-size: 48px;">AI 话术测试器</h1>
+        <p class="hero-subtitle">用 v3.0 深度档案测试 AI 生成的个性化开场白<br>自动验证是否符合档案约束（doNotMention / triggerTopics）</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding: 0 0 60px;">
+      <div class="container">
+        <div class="api-key-warning">
+          ⚠️ <strong>API Key 仅在你的浏览器内使用</strong>，不发送到任何中间服务器。生产环境部署时可关闭此页。
+        </div>
+
+        <div class="test-layout">
+          <!-- ===== 侧边栏 ===== -->
+          <aside class="test-sidebar">
+            <div class="form-group">
+              <label class="form-label">API Provider</label>
+              <select class="form-select" id="provider">
+                <option value="openai">OpenAI 兼容（GPT-4o-mini 推荐）</option>
+                <option value="claude">Anthropic Claude</option>
+                <option value="deepseek">DeepSeek</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">API Key</label>
+              <input type="password" class="form-input" id="api-key" placeholder="sk-... 或 sk-ant-...">
+              <p style="font-size: 11px; color: #86868B; margin-top: 4px;">
+                留空则使用占位符，实际调用时需填入
+              </p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">API Endpoint（可选）</label>
+              <input type="text" class="form-input" id="api-endpoint" placeholder="留空用默认">
+              <p style="font-size: 11px; color: #86868B; margin-top: 4px;">
+                例：https://api.deepseek.com/v1
+              </p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">模型</label>
+              <input type="text" class="form-input" id="model-name" value="gpt-4o-mini">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Temperature</label>
+              <input type="number" class="form-input" id="temperature" value="0.7" min="0" max="2" step="0.1">
+            </div>
+
+            <hr class="section-divider">
+
+            <h3 style="font-size: 14px; margin-bottom: 12px;">📋 选择档案（5 个）</h3>
+            <div id="contact-list"></div>
+          </aside>
+
+          <!-- ===== 主区 ===== -->
+          <div class="test-main">
+            <h2 style="font-size: 24px; margin-bottom: 8px;">测试场景</h2>
+            <p style="color: #6E6E73; font-size: 14px; margin-bottom: 24px;">为选中的档案选择要测试的场景</p>
+
+            <h3 style="font-size: 16px; margin-bottom: 12px;">可用场景</h3>
+            <div id="scenario-list"></div>
+
+            <div id="scenario-custom" style="margin-top: 16px;">
+              <h3 style="font-size: 16px; margin-bottom: 12px;">或自定义场景</h3>
+              <div class="form-group">
+                <label class="form-label">自定义场景描述</label>
+                <textarea class="form-textarea" id="custom-scenario" placeholder="例：3 个月没联系了，想在周末约他跑步顺便聊聊 AI 项目"></textarea>
+              </div>
+            </div>
+
+            <hr class="section-divider">
+
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+              <button class="btn btn-primary" id="generate-btn" disabled>🚀 生成话术</button>
+              <div id="loading-indicator" style="display: none;">
+                <span class="loading"></span>
+                <span style="margin-left: 8px;">生成中...</span>
+              </div>
+            </div>
+
+            <!-- 档案详情 -->
+            <details id="profile-details" style="margin-bottom: 24px;">
+              <summary>📄 查看完整档案</summary>
+              <pre id="profile-json" class="json"></pre>
+            </details>
+
+            <!-- 生成结果 -->
+            <div id="results" style="display: none;">
+              <h2 style="font-size: 24px; margin-bottom: 16px;">🎯 生成结果</h2>
+
+              <!-- 验证 -->
+              <div id="validation-block" style="margin-bottom: 24px;"></div>
+
+              <!-- 3 版本 -->
+              <div class="result-block">
+                <div class="label">保守版（最安全）</div>
+                <div class="content" id="result-conservative"></div>
+              </div>
+              <div class="result-block">
+                <div class="label">标准版（推荐）</div>
+                <div class="content" id="result-standard"></div>
+              </div>
+              <div class="result-block">
+                <div class="label">直接版（最有效但有风险）</div>
+                <div class="content" id="result-direct"></div>
+              </div>
+
+              <div class="result-block" style="background: rgba(127, 212, 160, 0.08);">
+                <div class="label">预期反应</div>
+                <div class="content" id="result-reaction"></div>
+              </div>
+
+              <div class="result-block" style="background: rgba(255, 159, 10, 0.05);">
+                <div class="label">潜在风险</div>
+                <div class="content" id="result-risks"></div>
+              </div>
+
+              <details style="margin-top: 24px;">
+                <summary>📦 查看原始 JSON 响应</summary>
+                <pre id="result-json" class="json"></pre>
+              </details>
+
+              <!-- 反馈 -->
+              <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #E5E5EA;">
+                <h3 style="font-size: 16px; margin-bottom: 12px;">📝 反馈学习</h3>
+                <p style="font-size: 13px; color: #6E6E73; margin-bottom: 12px;">你的反馈会调整档案的 aiFeedback 字段，让 AI 越来越懂你</p>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                  <button class="btn btn-secondary btn-sm" onclick="recordFeedback('accepted')">✅ 采纳</button>
+                  <button class="btn btn-secondary btn-sm" onclick="recordFeedback('modified')">✏️ 修改</button>
+                  <button class="btn btn-secondary btn-sm" onclick="recordFeedback('rejected')">❌ 忽略</button>
+                </div>
+                <p id="feedback-status" style="font-size: 13px; color: #7FD4A0; margin-top: 12px; display: none;">✓ 反馈已记录</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container-wide">
+      <div class="footer-grid">
+        <div class="footer-brand"><a href="./" class="logo"><span class="logo-mark">R</span><span>RH Intel</span></a><p>AI 话术测试器</p></div>
+        <div class="footer-col"><h4>工具</h4><ul><li><a href="./">首页</a></li><li><a href="tool/sample-data-preview.html">样本数据预览</a></li></ul></div>
+        <div class="footer-col"><h4>文档</h4><ul><li><a href="docs/人物档案-深度设计.md">档案设计指南</a></li></ul></div>
+        <div class="footer-col"><h4>提示</h4><ul><li>key 仅在你浏览器内使用</li></ul></div>
+      </div>
+      <div class="footer-bottom"><p>© 2026 RH Intel · API Key 不上传</p></div>
+    </div>
+  </footer>
+
+  <script src="assets/js/ai-test.js"></script>
+</body>
+</html>
