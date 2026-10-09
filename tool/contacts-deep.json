@@ -1,0 +1,355 @@
+{
+  "_meta": {
+    "version": "3.0",
+    "description": "深度版联系人数据 - 5 个高测试价值联系人完整字段",
+    "basedOn": "sample-data.json",
+    "fieldsAdded": ["archetype", "innerStruggle", "coreFear", "triggerTopics", "safeTopics", "verbalTics", "formativeEvents", "aiPersona", "voiceTone", "doNotMention"],
+    "usage": "导入此文件到工具中，结合 AI 大模型测试个性化话术生成。完整设计见 docs/人物档案-深度设计.md"
+  },
+
+  "contacts": [
+    {
+      "id": "c001",
+      "name": "王五",
+      "nickname": "五哥",
+      "petName": "五哥",
+      "avatar": { "type": "initials", "value": "W" },
+      "gender": "male",
+      "birthYear": 1989,
+      "ageRange": "31-35",
+      "company": "厦门某 AI 创业公司",
+      "position": "联合创始人 / CTO",
+      "city": "厦门",
+
+      "dunbarTier": 1,
+      "strength": 5,
+      "valueTier": "core",
+      "familiarity": "close",
+      "trustLevel": 5,
+      "emotionalTendency": "cooperative",
+      "tags": ["跑团", "创业", "AI", "挚友"],
+
+      "archetype": "老大哥型",
+      "publicPersona": "事业有成的科技创业者",
+      "innerStruggle": "要强的外表下担心融资失败让团队失望 + 担心创业压力让他忽略家庭",
+      "coreFear": "成为那种'为了事业牺牲一切'的爸爸",
+      "deepDesire": "做出有影响力的产品 + 陪伴女儿长大",
+
+      "triggerTopics": ["父亲健康", "如果融资失败", "女儿未来"],
+      "safeTopics": ["AI Agent 研究", "环岛路训练", "他喜欢的咖啡店", "女儿新技能"],
+      "verbalTics": [
+        "说'靠谱'当肯定",
+        "自我怀疑时说'没事，先这样'",
+        "讲技术时手做'打字'动作"
+      ],
+      "decisionPattern": "分析型 — 需要数据，但不拖延",
+      "conflictStyle": "协商 — 倾向双赢，但涉及家人或团队会坚持",
+
+      "formativeEvents": [
+        { "age": 8, "event": "父亲办工厂失败，家庭困难 3 年" },
+        { "age": 22, "event": "加入大厂，发现决策迟缓" },
+        { "age": 26, "event": "首次创业失败，抑郁半年" },
+        { "age": 28, "event": "重新站起来做 AI 产品" },
+        { "age": 30, "event": "女儿出生" }
+      ],
+      "peakMoments": ["2024 年 AI 产品 B 轮融资", "2025 年带女儿完成首次 5km 跑"],
+      "rockBottoms": ["2017 年首次创业失败", "2024 年带女儿时间不足"],
+      "unresolvedIssues": ["融资压力下如何保证家庭时间", "是否要为家庭妥协事业"],
+
+      "comfortableScenarios": ["环岛路跑步", "咖啡馆聊 AI", "带孩子去公园"],
+      "uncomfortableScenarios": ["多人酒局", "被外人议论外表", "被催融资"],
+      "smallHabits": ["美式咖啡必加奶", "焦虑时反复摸手机壳"],
+
+      "aiPersona": "你在他面前是 8 年挚友 + 干爸。他信任你。",
+      "voiceTone": "温暖 + 偶尔直给 + 兄长口吻",
+      "doNotMention": ["他岳父", "指责他陪家人少", "父亲创业失败细节"],
+      "openWith": "跑步 / AI / 女儿",
+      "suggestionRisks": ["生活方式建议他会抵触", "不要劝他'放松点'"],
+
+      "_deepExample": "### AI 生成的示例\n- 冷淡重启（5 月未联系）：'五哥，上次你说融资压力大，我看了下你朋友圈，这两个月你都没发出来。这周末要不要环岛路跑一圈？边跑边聊。'\n- 生日：'五哥生日快乐！想起 2018 年我们一起跑第一个半马。希望今年你心里能松弛一点。'",
+
+      "lastInteractionAt": "2026-10-08",
+      "interactionCount": 87
+    },
+
+    {
+      "id": "c013",
+      "name": "张老师",
+      "nickname": "张老师",
+      "avatar": { "type": "initials", "value": "Z" },
+      "gender": "male",
+      "birthYear": 1968,
+      "ageRange": "46-55",
+      "company": "厦门大学",
+      "position": "建筑系副教授",
+      "city": "厦门",
+
+      "dunbarTier": 4,
+      "strength": 1,
+      "valueTier": "archive",
+      "familiarity": "familiar",
+      "trustLevel": 3,
+      "emotionalTendency": "avoidant",
+      "tags": ["大学", "建筑", "老师"],
+
+      "archetype": "传统守望者型",
+      "publicPersona": "学术严谨的传统学者，对学生严厉但有责任",
+      "innerStruggle": "认为我转行 AI 是'背叛'，但他不会说出来",
+      "coreFear": "自己的学生失败 / 学生否定他教的东西",
+      "deepDesire": "学生回来说'谢谢老师，我学到了最重要的东西'",
+
+      "triggerTopics": ["AI 转行是否值得", "建筑师身份", "学生毕业选择"],
+      "safeTopics": ["建筑学理论", "古典音乐", "校园新建设施", "他太太红烧肉"],
+      "verbalTics": [
+        "说'嗯，这个嘛...'开始思考",
+        "引用老子 / 庄子",
+        "批评时用'我很欣慰你'开头"
+      ],
+      "decisionPattern": "分析 + 慢决",
+      "conflictStyle": "退让但不认同 — 表面不冲突，心里记着",
+
+      "formativeEvents": [
+        { "age": "童年", "event": "书香门第，父亲是中学校长" },
+        { "age": 30, "event": "入职厦大，立志'培养有社会责任感的设计师'" },
+        { "age": 50, "event": "我入学成为他的学生" },
+        { "age": 55, "event": "我转 AI，他半年没回我微信" }
+      ],
+      "peakMoments": ["发表 30 篇核心期刊论文", "汶川地震参与重建"],
+      "rockBottoms": ["2018 博士生被质疑抄袭", "2020 未评博导"],
+      "unresolvedIssues": ["我转行是否让他失望", "如果我回校他会不会觉得炫耀"],
+
+      "comfortableScenarios": ["校园散步", "古典音乐会", "和太太下厨"],
+      "uncomfortableScenarios": ["互联网热词", "和成功转行者对比", "质疑他教的内容"],
+      "smallHabits": ["茶必用紫砂壶", "写邮件用'您'", "回微信慢（半小时以上）"],
+
+      "aiPersona": "你是他的前学生。转 AI 后他有未表达的心结。",
+      "voiceTone": "恭敬 + 自嘲 + 求教",
+      "doNotMention": ["AI 收入对比", "直接问转行看法", "暗示他教的内容'过时'"],
+      "openWith": "请教 + 校园话题",
+      "suggestionRisks": ["绝对不要谈薪资对比", "他可能回微信慢，需等 1-2 周"],
+
+      "_deepExample": "### AI 生成的示例\n- 冷淡重启（2 年未联系）：'张老师好，上次听说学校新图书馆建成了？您参与的设计学院项目进展如何？学生近期请教我几个建筑史问题，想跟您请教。'\n- 教师节：'张老师教师节快乐！厦大读书时您教我的'严谨'两个字，一直受用。今年我把工具开源了，github 上特别标注'感谢厦大建筑系的逻辑训练'。'",
+
+      "lastInteractionAt": "2024-09-10",
+      "interactionCount": 8
+    },
+
+    {
+      "id": "c011",
+      "name": "小敏",
+      "petName": "（避免）",
+      "avatar": { "type": "initials", "value": "X" },
+      "gender": "female",
+      "birthYear": 1992,
+      "ageRange": "31-35",
+      "city": "厦门",
+
+      "dunbarTier": 2,
+      "strength": 2,
+      "valueTier": "archive",
+      "familiarity": "familiar",
+      "trustLevel": 3,
+      "emotionalTendency": "avoidant",
+      "tags": ["前任", "大学", "敏感"],
+
+      "archetype": "温柔疏离型",
+      "publicPersona": "温婉的大学校友，朋友圈分享读书感悟",
+      "innerStruggle": "分手后她仍有复杂情感，但她选择了不再主动联系",
+      "coreFear": "再次让对方失望 / 双方尴尬",
+      "deepDesire": "维持不尴尬的'老朋友'，证明双方都能向前走",
+
+      "triggerTopics": ["新恋情", "复合", "大学共同朋友", "李四"],
+      "safeTopics": ["她喜欢的书", "季节性祝福", "咖啡店 / 展览"],
+      "verbalTics": [
+        "回复带'嗯嗯'开头",
+        "用'哈哈'化解紧张",
+        "提到从前用'那时候'"
+      ],
+      "decisionPattern": "等待型 — 让她先动",
+      "conflictStyle": "退让",
+
+      "formativeEvents": [
+        { "age": 20, "event": "厦大认识，专业相邻" },
+        { "age": 23, "event": "恋爱 1.5 年，最甜时期" },
+        { "age": 24, "event": "毕业分手（异地 + 我选 AI 方向）" },
+        { "age": 27, "event": "回厦门工作，复合为朋友" }
+      ],
+      "peakMoments": ["厦大图书馆前的樱花", "分手前最后一次晚餐（没吃好）"],
+      "rockBottoms": ["分手电话里她哭我听不到语气", "分手后第一年生日没送礼物"],
+      "unresolvedIssues": ["我们是否真的释怀", "如果她遇到困难我能帮多少"],
+
+      "comfortableScenarios": ["群里聊天", "远距离节日问候"],
+      "uncomfortableScenarios": ["单独约咖啡", "聊新感情", "对方问'你最近怎么样'"],
+      "smallHabits": ["回复消息加表情", "读书时听古典乐"],
+
+      "aiPersona": "你是她的前男友。她已放下，主动联系要小心。",
+      "voiceTone": "轻松 + 距离 + 不越界",
+      "doNotMention": ["任何'想当年'", "复合可能性", "你未来对象"],
+      "openWith": "群发节日祝福 / 中性话题",
+      "suggestionRisks": ["不要任何暗示关心", "保持 90% 群发感 10% 个性化"],
+
+      "_deepExample": "### AI 生成的示例\n- 生日祝福（应有但不应亲密）：'小敏生日快乐！看到你喜欢的那本新书也在榜上，想起上次跟你聊过的内容。简单问候。'\n- ❌ 错误示例：'小敏，看到一本关于分手后如何做朋友的书，送给你。'\n   → 错：在 triggerTopics 列表中",
+
+      "lastInteractionAt": "2025-12-25",
+      "interactionCount": 12
+    },
+
+    {
+      "id": "c019",
+      "name": "张总",
+      "nickname": "张总",
+      "avatar": { "type": "initials", "value": "Z" },
+      "gender": "male",
+      "birthYear": 1978,
+      "ageRange": "46-55",
+      "company": "某企业客户公司",
+      "position": "总经理",
+      "city": "深圳",
+
+      "dunbarTier": 3,
+      "strength": 2,
+      "valueTier": "maintain",
+      "familiarity": "new",
+      "trustLevel": 2,
+      "emotionalTendency": "anxious",
+      "tags": ["客户", "AI 项目"],
+
+      "archetype": "高压决策者型",
+      "publicPersona": "精明果断的企业家，对 ROI 斤斤计较",
+      "innerStruggle": "AI 项目是他的转型赌注，赌赢董事会认可，赌输证明反对者正确",
+      "coreFear": "被视为'被 AI 概念忽悠的人'",
+      "deepDesire": "成为带领传统行业成功升级的典范",
+
+      "triggerTopics": ["项目延期", "模糊承诺", "与同行对比"],
+      "safeTopics": ["具体业务指标", "行业最佳实践", "他女儿留学", "高尔夫"],
+      "verbalTics": [
+        "'我只看结果'",
+        "'数据告诉我什么'",
+        "'一句话说清楚'"
+      ],
+      "decisionPattern": "数据 + 直觉 — 给数据他下决心",
+      "conflictStyle": "协商 + 严格",
+
+      "formativeEvents": [
+        { "age": 28, "event": "接管家族企业（500 人）" },
+        { "age": 35, "event": "经历金融危机，几乎破产" },
+        { "age": 42, "event": "转型智能化，赶上制造业红利" },
+        { "age": 47, "event": "开 AI 项目（80 万合同与我合作）" }
+      ],
+      "peakMoments": ["2023 营收破亿", "女儿考上浙大", "AI 项目一期交付"],
+      "rockBottoms": ["2009 差点破产靠借贷", "2018 员工集体辞职"],
+      "unresolvedIssues": ["AI 项目最终 ROI 能否说服董事会", "女儿是否接班"],
+
+      "comfortableScenarios": ["面对面数据汇报", "线下晚宴", "高尔夫球局"],
+      "uncomfortableScenarios": ["模糊的'差不多'", "不解释的 jargon", "群发邮件不点名"],
+      "smallHabits": ["开会必带笔记本", "承诺必写邮件确认", "回复喜欢用句号"],
+
+      "aiPersona": "你是他的 AI 项目供应商。80 万合同关键执行人。",
+      "voiceTone": "专业 + 简洁 + 数据驱动",
+      "doNotMention": ["模糊时间承诺", "他不 care 的技术细节", "董事会内部分歧"],
+      "openWith": "数据 + 进度",
+      "suggestionRisks": ["绝对不要说'差不多'", "承诺要给具体百分比"],
+
+      "_deepExample": "### AI 生成的示例\n- 周报（高 stakes）：'张总，本周交付达成率 65%，较上周 +12 个百分点。AI 模型 F1 score 0.78，下周重点突破边界 case 准确率。预判项目按计划 11 月底交付，偏差 ±3 天。'\n- ❌ 错误：'张总，项目进展顺利，差不多就完成了。'\n   → 错：'差不多'在他的 doNotMention 中",
+
+      "lastInteractionAt": "2026-10-08",
+      "interactionCount": 8
+    },
+
+    {
+      "id": "c018",
+      "name": "Vivian",
+      "petName": "（避免昵称）",
+      "avatar": { "type": "emoji", "value": "💃" },
+      "gender": "female",
+      "birthYear": 1997,
+      "ageRange": "26-30",
+      "company": "某舞蹈工作室",
+      "position": "舞蹈老师 / 主理人",
+      "city": "厦门",
+
+      "dunbarTier": 3,
+      "strength": 3,
+      "valueTier": "maintain",
+      "familiarity": "familiar",
+      "trustLevel": 3,
+      "emotionalTendency": "cooperative",
+      "tags": ["新朋友", "舞蹈", "健身"],
+
+      "archetype": "活力型",
+      "publicPersona": "阳光开朗的舞蹈老师，朋友圈练舞 + 美食",
+      "innerStruggle": "可能对你有社交兴趣，但她独立，不一定是浪漫兴趣",
+      "coreFear": "被错认为'被追求'而失去朋友",
+      "deepDesire": "建立真实的厦门朋友圈",
+
+      "triggerTopics": ["我感情状态", "深夜单独约", "物质成本"],
+      "safeTopics": ["舞蹈/健身", "厦门美食/咖啡馆", "工作坊开放日"],
+      "verbalTics": [
+        "'哎呦喂'表达惊讶",
+        "笑声豪爽",
+        "主动分享食物照片"
+      ],
+      "decisionPattern": "直觉型 — 想到就做",
+      "conflictStyle": "直接 — 不喜欢虚伪",
+
+      "formativeEvents": [
+        { "age": 18, "event": "艺考进舞蹈学院" },
+        { "age": 26, "event": "回厦门开工作室" },
+        { "age": 27, "event": "环岛路夜跑认识我" }
+      ],
+      "peakMoments": ["2024 工作室年营收破 80 万", "2025 全国舞蹈比赛带学生获二等奖"],
+      "rockBottoms": ["2022 深圳合伙人撤资差点破产", "4 年恋爱分手后恢复期长"],
+      "unresolvedIssues": ["工作室扩张", "是否找伴侣"],
+
+      "comfortableScenarios": ["团队活动（多人）", "咖啡馆下午", "舞蹈开放日"],
+      "uncomfortableScenarios": ["深夜单独见面", "过度物质关心", "暗示浪漫"],
+      "smallHabits": ["早起练舞", "咖啡只喝冰美式", "晚上 11 点前必睡"],
+
+      "aiPersona": "你是她的新朋友。她对所有人都阳光开朗，不要误解。",
+      "voiceTone": "轻松 + 平等 + 健康",
+      "doNotMention": ["任何暧昧暗示", "单独约晚餐", "她的身材"],
+      "openWith": "群活动 / 咖啡馆",
+      "suggestionRisks": ["保持 100% 健康", "回微信不用秒回（避免刻意）"],
+
+      "_deepExample": "### AI 生成的示例\n- 邀请（健康版本）：'Vivian，最近工作室开放日是哪天？我有几个朋友想去体验一下。'\n- ❌ 错误：'Vivian，今晚有空吗？想约你单独吃饭。'\n   → 错：'单独晚餐'在 uncomfortableScenarios 中",
+
+      "lastInteractionAt": "2026-09-28",
+      "interactionCount": 6
+    }
+  ],
+
+  "_quick_start": {
+    "useInYourApp": {
+      "step1": "读取 contacts 数组",
+      "step2": "对每个 contact，构建 prompt：",
+      "promptTemplate": "你是一位社交助手。基于以下档案，生成符合此人的开场白：\n\n档案：\n${JSON.stringify(contact)}\n\n要求：\n1. 仅使用 safeTopics\n2. 不要提 triggerTopics 和 doNotMention\n3. 语气匹配 voiceTone\n4. 场景选择 comfortableScenarios\n5. 深度匹配 familiarity",
+      "step3": "输出 3 种版本的开场白（保守/标准/直接）",
+      "step4": "对比 _deepExample 验证质量"
+    },
+    "aBTest": "用同一档案生成 5 次，比对一致性（好的档案应保证结果稳定）",
+    "feedbackLoop": "记录用户采纳/修改/忽略，更新 aiFeedback 字段"
+  },
+
+  "_test_scenarios": {
+    "cold_restart_5_months": {
+      "target": ["c013 (张老师, 2年未联系)", "c011 (小敏, 11月未联系)"],
+      "expected": "使用 safeTopics 切入，避免 triggerTopics"
+    },
+    "birthday_blessing": {
+      "target": ["c001 (王五, 9月12日)", "c019 (张总, 业务关系不适合私人祝福)"],
+      "expected": "私人祝福走心，业务关系给项目数据"
+    },
+    "business_report": {
+      "target": ["c019 (张总)"],
+      "expected": "数据 + 进度 + 无模糊词"
+    },
+    "boundary_setting": {
+      "target": ["c018 (Vivian)", "c011 (小敏)"],
+      "expected": "100% 健康 + 不暧昧"
+    },
+    "long_term_decay_warning": {
+      "target": ["c013 (张老师, 24月前)"],
+      "expected": "AI 应主动生成建议联络话术"
+    }
+  }
+}
