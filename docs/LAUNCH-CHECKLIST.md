@@ -228,7 +228,7 @@ Chrome → F12 → Lighthouse → 选择 "Navigation" + "Mobile" → Analyze
 
 - [ ] Settings → Pages → Source = "GitHub Actions"
 - [ ] 首次部署成功
-- [ ] 访问 `https://username.github.io/rh-intel/` 正常
+- [ ] 访问 `https://lfc1402046.github.io/rh-intel/` 正常
 
 ### G3. 自动化部署
 

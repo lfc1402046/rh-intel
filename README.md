@@ -6,7 +6,7 @@
 
 *单文件工具 · 本地存储 · 隐私优先 · 完全免费*
 
-[🌐 在线访问](https://username.github.io/rh-intel/) · [⬇️ 下载工具](https://username.github.io/rh-intel/download.html) · [📖 使用指南](https://username.github.io/rh-intel/guide.html) · [⭐ Star](https://github.com/username/rh-intel)
+[🌐 在线访问](https://lfc1402046.github.io/rh-intel/) · [⬇️ 下载工具](https://lfc1402046.github.io/rh-intel/download.html) · [📖 使用指南](https://lfc1402046.github.io/rh-intel/guide.html) · [⭐ Star](https://github.com/lfc1402046/rh-intel)
 
 </div>
 
@@ -51,17 +51,17 @@ RH Intel 是一个**单文件 HTML 工具**，帮你管理所有联系人、关�
 
 ```bash
 # 访问部署好的站点
-https://username.github.io/rh-intel/
+https://lfc1402046.github.io/rh-intel/
 
 # 下载工具本体（单文件 31KB）
-https://username.github.io/rh-intel/download.html
+https://lfc1402046.github.io/rh-intel/download.html
 ```
 
 ### 方法 2：本地开发
 
 ```bash
 # 1. 克隆仓库
-git clone https://github.com/username/rh-intel.git
+git clone https://github.com/lfc1402046/rh-intel.git
 cd rh-intel
 
 # 2. 直接打开 site/index.html（无需构建）
@@ -169,10 +169,10 @@ rh-intel/
 
 ## 🐛 反馈与支持
 
-- 🐛 **Bug 反馈**：[GitHub Issues](https://github.com/username/rh-intel/issues)
-- 💡 **功能建议**：[GitHub Discussions](https://github.com/username/rh-intel/discussions)
+- 🐛 **Bug 反馈**：[GitHub Issues](https://github.com/lfc1402046/rh-intel/issues)
+- 💡 **功能建议**：[GitHub Discussions](https://github.com/lfc1402046/rh-intel/discussions)
 - 📧 **邮件联系**：hi@example.com
-- 📮 **在线表单**：[联系页](https://username.github.io/rh-intel/contact.html)
+- 📮 **在线表单**：[联系页](https://lfc1402046.github.io/rh-intel/contact.html)
 
 ## 📜 许可证
 
@@ -206,7 +206,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND...
 
 <div align="center">
 
-**[⬇️ 立即下载开始使用](https://username.github.io/rh-intel/download.html)** · **[⭐ Star 支持我们](https://github.com/username/rh-intel)**
+**[⬇️ 立即下载开始使用](https://lfc1402046.github.io/rh-intel/download.html)** · **[⭐ Star 支持我们](https://github.com/lfc1402046/rh-intel)**
 
 Made with ❤️ · 本地优先 · 隐私至上
 

@@ -15,7 +15,7 @@
 | ✅ sitemap.xml + robots.txt | SEO 必需 |
 | ✅ .github/workflows/deploy.yml | 自动部署 |
 | ⚠️ Formspree form ID | `site/contact.html` 替换 `YOUR_FORM_ID` |
-| ⚠️ GitHub 用户名 | 替换所有 `username` 占位符 |
+| ⚠️ GitHub 用户名 | 替换所有 `lfc1402046` 占位符 |
 
 ---
 
@@ -46,8 +46,8 @@ cd /d/桌面文件/workbuddy/人际关系图谱
 # 初始化 Git（如果还没有）
 git init
 
-# 添加远程仓库（替换 username 为你的 GitHub 用户名）
-git remote add origin https://github.com/username/rh-intel.git
+# 添加远程仓库（替换 lfc1402046 为你的 GitHub 用户名）
+git remote add origin https://github.com/lfc1402046/rh-intel.git
 
 # 配置提交身份（如果还没有）
 git config user.name "Your Name"
@@ -67,7 +67,7 @@ git push -u origin main
 1. 进入仓库页面 → **Settings** → **Pages**
 2. **Source** 选择 **GitHub Actions**（不是 main 分支）
 3. 等待 30 秒，Actions 工作流会自动运行
-4. 访问 `https://username.github.io/rh-intel/` 验证
+4. 访问 `https://lfc1402046.github.io/rh-intel/` 验证
 
 #### 1.4 （可选）配置自定义域名
 
@@ -75,13 +75,13 @@ git push -u origin main
 
 | 类型 | 主机记录 | 记录值 |
 |---|---|---|
-| CNAME | @ 或 www | username.github.io |
+| CNAME | @ 或 www | lfc1402046.github.io |
 
 或在子域名：
 
 | 类型 | 主机记录 | 记录值 |
 |---|---|---|
-| CNAME | rh | username.github.io |
+| CNAME | rh | lfc1402046.github.io |
 
 **仓库配置**：
 
@@ -332,7 +332,7 @@ scp -r site/ root@your-server-ip:/var/www/rh-intel/
 # 或用 Git（推荐）
 # 在服务器上：
 cd /var/www/rh-intel
-git clone https://github.com/username/rh-intel.git .
+git clone https://github.com/lfc1402046/rh-intel.git .
 ```
 
 ### 步骤 7.5：SSL 证书
@@ -406,6 +406,6 @@ certbot renew --dry-run
 ## 📞 遇到问题？
 
 1. **查看部署文档**（本文档）
-2. **搜索 GitHub Issues**：https://github.com/username/rh-intel/issues
+2. **搜索 GitHub Issues**：https://github.com/lfc1402046/rh-intel/issues
 3. **新建 Issue**：附上错误截图 + 部署方式 + 浏览器版本
 4. **邮件联系**：hi@example.com

@@ -124,7 +124,7 @@ var _hmt = _hmt || [];
 // 工具本体的 JS 错误处理
 window.addEventListener('error', (event) => {
   // 上报到 GitHub Issue（用 API）
-  fetch('https://api.github.com/repos/username/rh-intel/issues', {
+  fetch('https://api.github.com/repos/lfc1402046/rh-intel/issues', {
     method: 'POST',
     headers: {
       'Authorization': 'token GITHUB_TOKEN',
@@ -188,13 +188,13 @@ jobs:
     steps:
       - name: Ping main site
         run: |
-          STATUS=$(curl -o /dev/null -s -w "%{http_code}" https://username.github.io/rh-intel/)
+          STATUS=$(curl -o /dev/null -s -w "%{http_code}" https://lfc1402046.github.io/rh-intel/)
           if [ $STATUS -ne 200 ]; then
             echo "Site down! Status: $STATUS"
             # 触发 GitHub Issue
             curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               -d '{"title":"[Auto] Site down","body":"Status: '"$STATUS"'"}' \
-              https://api.github.com/repos/username/rh-intel/issues
+              https://api.github.com/repos/lfc1402046/rh-intel/issues
           fi
 ```
 
@@ -538,7 +538,7 @@ git push origin v0.1.0
 | 角色 | 联系 |
 |---|---|
 | 主要开发者 | hi@example.com |
-| GitHub Issues | https://github.com/username/rh-intel/issues |
+| GitHub Issues | https://github.com/lfc1402046/rh-intel/issues |
 | Status Page | status.rh.example.com |
 
 ---
