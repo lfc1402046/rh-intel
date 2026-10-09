@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>联系 · RH Intel</title>
+  <meta name="description" content="通过表单、GitHub Issues、邮件多种渠道联系 RH Intel 团队。">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230071E3'/%3E%3Ctext x='50' y='68' font-size='56' font-weight='700' fill='white' text-anchor='middle' font-family='-apple-system'%3ER%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+  <a href="#main" class="skip-link">跳到主内容</a>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo"><span class="logo-mark">R</span><span>RH Intel</span></a>
+      <nav class="nav">
+        <a href="/">首页</a>
+        <a href="features.html">功能</a>
+        <a href="architecture.html">架构</a>
+        <a href="guide.html">指南</a>
+        <a href="download.html">下载</a>
+        <a href="contact.html" class="active">联系</a>
+      </nav>
+      <div class="header-actions">
+        <a href="#" class="github-link" title="GitHub 仓库即将上线" rel="noopener" target="_blank">⭐ <span>Star</span></a>
+        <button class="menu-toggle" aria-label="打开菜单">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" style="padding: 120px 0 60px;">
+      <div class="container">
+        <span class="hero-eyebrow">联系我们</span>
+        <h1 style="font-size: 64px;">有什么想说的<br>我们都在听</h1>
+        <p class="hero-subtitle">反馈、建议、合作——任何声音都会收到回复。</p>
+      </div>
+    </section>
+
+    <section class="section section-divider" style="padding-top: 40px;">
+      <div class="container-wide">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px;">
+
+          <div>
+            <h2 style="font-size: 32px; margin-bottom: 24px; letter-spacing: -0.022em;">给我们留言</h2>
+            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" style="background: white; border-radius: 18px; padding: 32px; box-shadow: var(--shadow-sm);" id="contact-form">
+              <div class="form-group">
+                <label class="form-label" for="name">姓名</label>
+                <input class="form-input" type="text" id="name" name="name" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="email">邮箱</label>
+                <input class="form-input" type="email" id="email" name="email" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="topic">主题</label>
+                <select class="form-input" id="topic" name="topic" required>
+                  <option value="">请选择</option>
+                  <option value="suggestion">功能建议</option>
+                  <option value="bug">Bug 反馈</option>
+                  <option value="partnership">合作洽谈</option>
+                  <option value="other">其他</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="message">消息</label>
+                <textarea class="form-textarea" id="message" name="message" required placeholder="把你想说的告诉我们..."></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">提交</button>
+              <p class="form-help" id="form-status" style="margin-top: 12px; text-align: center;">我们会在 24 小时内回复</p>
+            </form>
+
+            <script>
+              // 检测 Formspree 是否已配置
+              (function() {
+                var form = document.getElementById('contact-form');
+                var status = document.getElementById('form-status');
+                if (form && form.action.indexOf('YOUR_FORM_ID') > -1) {
+                  status.innerHTML = '<span style="color:#E8919C;">⏳ 表单后端未配置，请通过 GitHub Issues 或邮箱联系我们</span>';
+                  form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('表单后端尚未配置。请使用下方"其他方式"联系我们。');
+                  });
+                }
+              })();
+            </script>
+          </div>
+
+          <div>
+            <h2 style="font-size: 32px; margin-bottom: 24px; letter-spacing: -0.022em;">其他方式</h2>
+
+            <div style="background: white; border-radius: 18px; padding: 32px; box-shadow: var(--shadow-sm);">
+              <div style="margin-bottom: 24px;">
+                <div style="font-size: 14px; color: var(--color-text-tertiary); margin-bottom: 6px; letter-spacing: 0.05em; text-transform: uppercase;">GitHub</div>
+                <a href="#" title="GitHub 仓库即将上线" style="font-size: 17px;">github.com/yourname/rh-intel/issues</a>
+                <p style="font-size: 14px; color: var(--color-text-secondary); margin-top: 4px;">提交 Issue · 最适合 Bug 反馈和功能请求</p>
+              </div>
+              <hr style="border: none; border-top: 1px solid var(--color-border-light); margin: 24px 0;">
+
+              <div style="margin-bottom: 24px;">
+                <div style="font-size: 14px; color: var(--color-text-tertiary); margin-bottom: 6px; letter-spacing: 0.05em; text-transform: uppercase;">邮箱</div>
+                <a href="mailto:hi@example.com" style="font-size: 17px;">hi@example.com</a>
+                <p style="font-size: 14px; color: var(--color-text-secondary); margin-top: 4px;">适合合作洽谈和媒体询问</p>
+              </div>
+              <hr style="border: none; border-top: 1px solid var(--color-border-light); margin: 24px 0;">
+
+              <div>
+                <div style="font-size: 14px; color: var(--color-text-tertiary); margin-bottom: 6px; letter-spacing: 0.05em; text-transform: uppercase;">微信群</div>
+                <p style="font-size: 17px; color: var(--color-text-secondary);">扫码加入用户交流群</p>
+                <div style="width: 140px; height: 140px; background: var(--color-bg-section); border-radius: 12px; margin-top: 12px; display: grid; place-items: center; color: var(--color-text-tertiary); font-size: 13px;">二维码占位</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container-wide">
+      <div class="footer-grid">
+        <div class="footer-brand"><a href="/" class="logo"><span class="logo-mark">R</span><span>RH Intel</span></a><p>人际关系 · 情报中心</p></div>
+        <div class="footer-col"><h4>产品</h4><ul><li><a href="features.html">功能</a></li><li><a href="architecture.html">架构</a></li><li><a href="guide.html">指南</a></li><li><a href="download.html">下载</a></li></ul></div>
+        <div class="footer-col"><h4>资源</h4><ul><li><a href="#" title="GitHub 仓库即将上线">GitHub</a></li></ul></div>
+        <div class="footer-col"><h4>法律</h4><ul><li><a href="privacy.html">隐私</a></li><li><a href="contact.html">联系</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><p>© 2026 RH Intel</p></div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

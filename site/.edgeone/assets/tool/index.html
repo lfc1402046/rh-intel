@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>人际关系侦探 · 情报中心</title>
+<style>
+/* ===== 侦探暗黑主题 ===== */
+:root {
+  --bg-deep: #07070a;
+  --bg-card: #0f0f15;
+  --bg-card-hover: #15151e;
+  --bg-elevated: #14141c;
+  --border: #1e1e2a;
+  --border-light: #2a2a3a;
+  --gold: #c9a84c;
+  --gold-dim: #8a7a3a;
+  --gold-glow: rgba(201,168,76,0.15);
+  --green: #2d7a3a;
+  --green-dim: #1d5a28;
+  --text: #d4d4dc;
+  --text-dim: #7a7a8a;
+  --text-muted: #4a4a5a;
+  --danger: #c0392b;
+  --danger-glow: rgba(192,57,43,0.2);
+  --safe: #27ae60;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 20px var(--gold-glow);
+  --font: "PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  background:var(--bg-deep);
+  color:var(--text);
+  font-family:var(--font);
+  font-size:14px;
+  line-height:1.5;
+  overflow:hidden;
+}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:var(--bg-deep);}
+::-webkit-scrollbar-thumb{background:var(--border-light);border-radius:2px;}
+::-webkit-scrollbar-thumb:hover{background:var(--gold-dim);}
+
+/* ===== Layout ===== */
+#app{
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  max-width:100vw;
+}
+/* Header */
+.header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 16px;
+  background:var(--bg-card);
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+  position:relative;
+  z-index:10;
+}
+.header-logo{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:18px;
+  font-weight:700;
+  color:var(--gold);
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+.header-logo .icon{font-size:22px;}
+.header-tabs{
+  display:flex;
+  gap:4px;
+  margin-left:12px;
+}
+.header-tabs .tab-btn{
+  padding:6px 14px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--text-dim);
+  border-radius:var(--radius);
+  cursor:pointer;
+  font-size:13px;
+  transition:all .2s;
+  font-family:var(--font);
+}
+.header-tabs .tab-btn:hover{color:var(--text);border-color:var(--text-muted);}
+.header-tabs .tab-btn.active{
+  background:var(--gold-glow);
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.header-actions{
+  margin-left:auto;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.search-box{
+  display:flex;
+  align-items:center;
+  background:var(--bg-deep);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:0 10px;
+  transition:border-color .2s;
+}
+.search-box:focus-within{border-color:var(--gold-dim);}
+.search-box input{
+  background:none;
+  border:none;
+  outline:none;
+  color:var(--text);
+  padding:6px 4px;
+  width:160px;
+  font-size:13px;
+  font-family:var(--font);
+}
+.search-box .search-icon{color:var(--text-muted);font-size:14px;}
+.btn{
+  padding:7px 16px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  cursor:pointer;
+  font-size:13px;
+  transition:all .2s;
+  font-family:var(--font);
+  background:transparent;
+  color:var(--text);
+  white-space:nowrap;
+}
+.btn:hover{background:var(--bg-card-hover);border-color:var(--text-muted);}
+.btn-gold{
+  background:linear-gradient(135deg,#c9a84c,#b8942e);
+  color:#000;
+  border-color:var(--gold);
+  font-weight:600;
+}
+.btn-gold:hover{background:linear-gradient(135deg,#d4b85a,#c9a84c);box-shadow:var(--shadow-glow);}
+.btn-sm{padding:4px 10px;font-size:12px;}
+.btn-icon{
+  width:32px;height:32px;padding:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
+}
+.btn-danger{color:var(--danger);border-color:rgba(192,57,43,0.3);}
+.btn-danger:hover{background:var(--danger-glow);border-color:var(--danger);}
+/* Main Content */
+.main{
+  flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:16px;
+  position:relative;
+}
+
+/* ===== Filter bar ===== */
+.filter-bar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:16px;
+  align-items:center;
+}
+.filter-bar .filter-label{
+  color:var(--text-dim);
+  font-size:12px;
+  margin-right:4px;
+}
+.tag-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:3px 10px;
+  border-radius:20px;
+  font-size:12px;
+  cursor:pointer;
+  transition:all .2s;
+  border:1px solid var(--border);
+  color:var(--text-dim);
+  background:transparent;
+  font-family:var(--font);
+}
+.tag-chip:hover{border-color:var(--text-muted);color:var(--text);}
+.tag-chip.active{
+  background:var(--gold-glow);
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.tag-chip .count{
+  font-size:11px;
+  opacity:0.7;
+}
+
+/* ===== Contact Grid ===== */
+.contact-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:12px;
+}
+.contact-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:14px;
+  cursor:pointer;
+  transition:all .25s;
+  position:relative;
+  overflow:hidden;
+}
+.contact-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);
+  opacity:0;
+  transition:opacity .3s;
+}
+.contact-card:hover{
+  background:var(--bg-card-hover);
+  border-color:var(--border-light);
+  transform:translateY(-1px);
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+.contact-card:hover::before{opacity:1;}
+.contact-card .card-header{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:8px;
+}
+.contact-card .avatar{
+  width:40px;height:40px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--gold-dim),var(--gold));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  font-weight:700;
+  color:#000;
+  flex-shrink:0;
+}
+.contact-card .card-info{flex:1;min-width:0;}
+.contact-card .card-name{
+  font-size:15px;
+  font-weight:600;
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.contact-card .card-name .wechat-tag{
+  font-size:11px;
+  color:var(--text-dim);
+  font-weight:400;
+}
+.contact-card .card-meta{
+  font-size:12px;
+  color:var(--text-dim);
+  margin-top:2px;
+}
+.contact-card .card-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px;
+  margin:6px 0;
+}
+.contact-card .card-tags .mini-tag{
+  font-size:10px;
+  padding:1px 7px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  color:var(--text-dim);
+  background:rgba(255,255,255,0.02);
+}
+.contact-card .card-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:6px;
+  padding-top:6px;
+  border-top:1px solid var(--border);
+  font-size:11px;
+  color:var(--text-muted);
+}
+.contact-card .card-footer .last-active{color:var(--green);}
+.stars{
+  color:var(--gold);
+  font-size:13px;
+  letter-spacing:1px;
+}
+.stars .dim{color:var(--text-muted);}
+
+/* ===== Empty State ===== */
+.empty-state{
+  text-align:center;
+  padding:60px 20px;
+  color:var(--text-muted);
+}
+.empty-state .empty-icon{font-size:48px;margin-bottom:12px;opacity:0.4;}
+.empty-state p{font-size:14px;line-height:1.8;}
+.empty-state .btn{margin-top:12px;}
+
+/* ===== Modal/Overlay ===== */
+.overlay{
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,0.75);
+  z-index:100;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:20px;
+  overflow-y:auto;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .25s;
+}
+.overlay.open{opacity:1;pointer-events:auto;}
+.modal{
+  background:var(--bg-elevated);
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  width:100%;
+  max-width:520px;
+  margin:20px auto;
+  box-shadow:0 8px 40px rgba(0,0,0,0.6);
+  overflow:hidden;
+}
+.modal-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 18px;
+  border-bottom:1px solid var(--border);
+  background:var(--bg-card);
+}
+.modal-header h3{font-size:15px;color:var(--gold);font-weight:600;}
+.modal-close{
+  width:28px;height:28px;
+  border:none;background:none;
+  color:var(--text-muted);
+  font-size:18px;
+  cursor:pointer;
+  border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.modal-close:hover{background:var(--border);color:var(--text);}
+.modal-body{padding:18px;}
+.modal-footer{
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+  padding:12px 18px;
+  border-top:1px solid var(--border);
+}
+/* Form */
+.form-group{margin-bottom:14px;}
+.form-group label{
+  display:block;
+  font-size:12px;
+  color:var(--text-dim);
+  margin-bottom:4px;
+  font-weight:500;
+}
+.form-group input,.form-group textarea,.form-group select{
+  width:100%;
+  padding:8px 10px;
+  background:var(--bg-deep);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  color:var(--text);
+  font-size:13px;
+  font-family:var(--font);
+  outline:none;
+  transition:border-color .2s;
+}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{
+  border-color:var(--gold-dim);
+}
+.form-group textarea{min-height:60px;resize:vertical;}
+.form-group .tag-select{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:4px;
+}
+.form-group .tag-option{
+  padding:4px 12px;
+  border:1px solid var(--border);
+  border-radius:20px;
+  font-size:12px;
+  cursor:pointer;
+  transition:all .2s;
+  color:var(--text-dim);
+  background:transparent;
+  font-family:var(--font);
+}
+.form-group .tag-option.selected{
+  background:var(--gold-glow);
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.form-group .star-select{
+  display:flex;
+  gap:4px;
+  font-size:20px;
+}
+.form-group .star-select .star-btn{
+  cursor:pointer;
+  color:var(--text-muted);
+  transition:color .2s;
+  background:none;border:none;font-size:22px;padding:0 2px;
+}
+.form-group .star-select .star-btn.active{color:var(--gold);}
+.form-group .star-select .star-btn:hover{color:var(--gold-dim);}
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+/* ===== Detail Panel ===== */
+.detail-panel{
+  max-width:700px;
+  margin:0 auto;
+}
+.detail-header{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:20px;
+}
+.detail-header .avatar.large{
+  width:56px;height:56px;
+  font-size:24px;
+}
+.detail-header .detail-title{flex:1;}
+.detail-header .detail-title h2{font-size:20px;font-weight:700;color:var(--text);}
+.detail-header .detail-title .subtitle{font-size:13px;color:var(--text-dim);}
+.detail-actions{
+  display:flex;
+  gap:6px;
+}
+.info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:20px;
+}
+.info-item{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:10px 12px;
+}
+.info-item .info-label{font-size:11px;color:var(--text-muted);margin-bottom:2px;}
+.info-item .info-value{font-size:14px;color:var(--text);}
+
+/* ===== Interaction Timeline ===== */
+.section-title{
+  font-size:14px;
+  font-weight:600;
+  color:var(--gold);
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.section-title .badge{
+  font-size:11px;
+  background:var(--gold-glow);
+  color:var(--gold);
+  padding:1px 8px;
+  border-radius:10px;
+  font-weight:400;
+}
+.interaction-timeline{
+  position:relative;
+  padding-left:24px;
+  margin-bottom:20px;
+}
+.interaction-timeline::before{
+  content:'';
+  position:absolute;
+  left:8px;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:var(--border-light);
+}
+.timeline-item{
+  position:relative;
+  padding-bottom:14px;
+}
+.timeline-item:last-child{padding-bottom:0;}
+.timeline-item::before{
+  content:'';
+  position:absolute;
+  left:-16px;
+  top:4px;
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--gold-dim);
+  border:2px solid var(--bg-deep);
+}
+.timeline-item.hot::before{background:var(--gold);box-shadow:0 0 6px var(--gold-glow);}
+.timeline-item .tl-method{
+  display:inline-block;
+  padding:1px 8px;
+  border-radius:4px;
+  font-size:11px;
+  background:var(--gold-glow);
+  color:var(--gold);
+  margin-bottom:2px;
+}
+.timeline-item .tl-time{
+  font-size:11px;
+  color:var(--text-muted);
+  margin-left:6px;
+}
+.timeline-item .tl-summary{
+  font-size:13px;
+  color:var(--text-dim);
+  margin-top:2px;
+}
+
+/* ===== Stats Bar ===== */
+.stats-bar{
+  display:flex;
+  gap:12px;
+  margin-bottom:16px;
+  flex-wrap:wrap;
+}
+.stat-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:10px 14px;
+  flex:1;
+  min-width:100px;
+}
+.stat-card .stat-label{font-size:11px;color:var(--text-muted);}
+.stat-card .stat-value{font-size:18px;font-weight:700;color:var(--gold);}
+
+/* ===== Graph View ===== */
+.graph-container{
+  width:100%;
+  height:100%;
+  min-height:500px;
+  position:relative;
+  background:radial-gradient(ellipse at center,#0a0a12 0%,var(--bg-deep) 100%);
+  border-radius:var(--radius-lg);
+  border:1px solid var(--border);
+  overflow:hidden;
+}
+.graph-container canvas{
+  display:block;
+  width:100%;
+  height:100%;
+  cursor:grab;
+}
+.graph-container canvas:active{cursor:grabbing;}
+.graph-tooltip{
+  position:absolute;
+  background:var(--bg-elevated);
+  border:1px solid var(--gold-dim);
+  border-radius:var(--radius);
+  padding:8px 12px;
+  font-size:12px;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .2s;
+  z-index:10;
+  max-width:200px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.5);
+}
+.graph-tooltip.visible{opacity:1;}
+.graph-legend{
+  position:absolute;
+  bottom:12px;
+  left:12px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  z-index:5;
+}
+.graph-legend .legend-item{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  font-size:11px;
+  color:var(--text-dim);
+}
+.graph-legend .legend-dot{
+  width:8px;height:8px;
+  border-radius:50%;
+}
+
+/* ===== Responsive ===== */
+@media(max-width:768px){
+  .header{padding:10px 12px;flex-wrap:wrap;}
+  .header-logo{font-size:16px;}
+  .header-tabs .tab-btn{padding:5px 10px;font-size:12px;}
+  .search-box input{width:100px;}
+  .contact-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;}
+  .form-row{grid-template-columns:1fr;}
+  .info-grid{grid-template-columns:1fr;}
+  .main{padding:12px;}
+  .header-actions{gap:4px;}
+  .stats-bar{flex-direction:column;}
+  .stats-bar .stat-card{min-width:auto;}
+  .modal{margin:10px auto;}
+}
+@media(max-width:480px){
+  .contact-grid{grid-template-columns:1fr;}
+  .header{flex-direction:column;align-items:stretch;gap:6px;}
+  .header-actions{justify-content:flex-start;}
+  .search-box{flex:1;}
+  .search-box input{width:100%;}
+  .graph-container{min-height:350px;}
+}
+
+/* ===== Toast ===== */
+.toast-container{
+  position:fixed;
+  top:16px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:200;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  pointer-events:none;
+}
+.toast{
+  background:var(--bg-elevated);
+  border:1px solid var(--border-light);
+  border-radius:var(--radius);
+  padding:10px 18px;
+  font-size:13px;
+  color:var(--text);
+  box-shadow:0 4px 20px rgba(0,0,0,0.5);
+  pointer-events:auto;
+  animation:toastIn .3s ease;
+  max-width:360px;
+  text-align:center;
+}
+.toast.success{border-color:var(--safe);}
+.toast.error{border-color:var(--danger);}
+.toast.info{border-color:var(--gold-dim);}
+@keyframes toastIn{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-logo">
+      <span class="icon">🔍</span>
+      <span>人际关系侦探</span>
+    </div>
+    <div class="header-tabs">
+      <button class="tab-btn active" data-tab="grid">📋 通讯录</button>
+      <button class="tab-btn" data-tab="graph">🕸️ 关系图谱</button>
+    </div>
+    <div class="header-actions">
+      <div class="search-box">
+        <span class="search-icon">🔎</span>
+        <input type="text" id="searchInput" placeholder="搜索姓名/微信/标签..." autocomplete="off">
+      </div>
+      <button class="btn btn-gold" id="addContactBtn">+ 添加联系人</button>
+      <button class="btn btn-icon" id="importBtn" title="导入数据">📥</button>
+      <button class="btn btn-icon" id="exportBtn" title="导出备份">📤</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main" id="mainContent">
+    <!-- Grid View -->
+    <div id="gridView">
+      <div class="filter-bar">
+        <span class="filter-label">标签筛选：</span>
+        <button class="tag-chip active" data-tag="__all">全部</button>
+        <span id="tagFilterContainer"></span>
+        <span style="flex:1"></span>
+        <span id="contactCount" style="font-size:12px;color:var(--text-muted);"></span>
+      </div>
+      <div class="contact-grid" id="contactGrid"></div>
+    </div>
+
+    <!-- Graph View -->
+    <div id="graphView" style="display:none;">
+      <div class="graph-container" id="graphContainer">
+        <canvas id="graphCanvas"></canvas>
+        <div class="graph-tooltip" id="graphTooltip"></div>
+        <div class="graph-legend" id="graphLegend"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Overlay -->
+<div class="overlay" id="modalOverlay">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<!-- Toast -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// =========================================================================
+// 人际关系侦探 - 数据层
+// =========================================================================
+const STORAGE_KEY = 'relationship_detective_data';
+const TAG_OPTIONS = ['工作','朋友','跑团','家人','投资','同学','邻居','兴趣','客户'];
+const CONNECTION_TYPES = ['同事','朋友','家人','投资','跑团','同学','客户','其他'];
+const INTERACTION_METHODS = ['微信','电话','见面','吃饭','跑步','聚会','会议','其他'];
+
+function uuid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8);}
+
+function loadData(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){/*ignore*/}
+  return {contacts:[],nextId:1};
+}
+
+function saveData(data){
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+}
+
+function getAllContacts(){
+  const data=loadData();
+  return data.contacts||[];
+}
+
+function getContact(id){
+  return getAllContacts().find(c=>c.id===id)||null;
+}
+
+function saveContact(contact){
+  const data=loadData();
+  const idx=data.contacts.findIndex(c=>c.id===contact.id);
+  if(idx>=0) data.contacts[idx]=contact;
+  else data.contacts.push(contact);
+  saveData(data);
+  return contact;
+}
+
+function deleteContact(id){
+  const data=loadData();
+  // Remove connections to this contact
+  data.contacts.forEach(c=>{
+    if(c.connections) c.connections=c.connections.filter(conn=>conn!==id);
+    if(c.connectionTypes&&c.connectionTypes[id]) delete c.connectionTypes[id];
+  });
+  data.contacts=data.contacts.filter(c=>c.id!==id);
+  saveData(data);
+}
+
+function addInteraction(contactId,interaction){
+  const c=getContact(contactId);
+  if(!c) return null;
+  if(!c.interactions) c.interactions=[];
+  interaction.id=uuid();
+  c.interactions.push(interaction);
+  // Sort by time descending
+  c.interactions.sort((a,b)=>new Date(b.time)-new Date(a.time));
+  return saveContact(c);
+}
+
+function deleteInteraction(contactId,interactionId){
+  const c=getContact(contactId);
+  if(!c||!c.interactions) return null;
+  c.interactions=c.interactions.filter(i=>i.id!==interactionId);
+  return saveContact(c);
+}
+
+function addConnection(contactId,targetId,type){
+  const c=getContact(contactId);
+  if(!c) return null;
+  if(!c.connections) c.connections=[];
+  if(!c.connectionTypes) c.connectionTypes={};
+  if(!c.connections.includes(targetId)){
+    c.connections.push(targetId);
+    c.connectionTypes[targetId]=type||'其他';
+  }
+  return saveContact(c);
+}
+
+function removeConnection(contactId,targetId){
+  const c=getContact(contactId);
+  if(!c) return null;
+  if(c.connections) c.connections=c.connections.filter(id=>id!==targetId);
+  if(c.connectionTypes&&c.connectionTypes[targetId]) delete c.connectionTypes[targetId];
+  return saveContact(c);
+}
+
+function getDefaultContact(){
+  return {
+    id:uuid(),
+    name:'',
+    wechat:'',
+    phone:'',
+    tags:[],
+    strength:3,
+    notes:'',
+    interactions:[],
+    connections:[],
+    connectionTypes:{},
+    createdAt:new Date().toISOString()
+  };
+}
+
+// Analytics helpers
+function getLastInteraction(contact){
+  if(!contact.interactions||contact.interactions.length===0) return null;
+  return contact.interactions[0];
+}
+
+function getInteractionFrequency(contact){
+  if(!contact.interactions||contact.interactions.length<2) return null;
+  const times=contact.interactions.map(i=>new Date(i.time).getTime()).sort((a,b)=>a-b);
+  const range=times[times.length-1]-times[0];
+  const months=range/(30*24*3600*1000);
+  if(months<0.5) return {count:contact.interactions.length,perMonth:contact.interactions.length};
+  return {count:contact.interactions.length,perMonth:Math.round(contact.interactions.length/months*10)/10};
+}
+
+function getTrend(contact){
+  if(!contact.interactions||contact.interactions.length<2) return 'stable';
+  const all=contact.interactions.sort((a,b)=>new Date(a.time)-new Date(b.time));
+  const mid=Math.floor(all.length/2);
+  const firstHalf=all.slice(0,mid);
+  const secondHalf=all.slice(mid);
+  if(secondHalf.length>firstHalf.length) return 'up';
+  if(secondHalf.length<firstHalf.length) return 'down';
+  return 'stable';
+}
+
+function formatDate(iso){
+  if(!iso) return '';
+  const d=new Date(iso);
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const day=String(d.getDate()).padStart(2,'0');
+  const h=String(d.getHours()).padStart(2,'0');
+  const min=String(d.getMinutes()).padStart(2,'0');
+  return `${y}-${m}-${day} ${h}:${min}`;
+}
+
+function formatDateShort(iso){
+  if(!iso) return '';
+  const d=new Date(iso);
+  const now=new Date();
+  const diff=now-d;
+  if(diff<3600000) return `${Math.floor(diff/60000)}分钟前`;
+  if(diff<86400000) return `${Math.floor(diff/3600000)}小时前`;
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const day=String(d.getDate()).padStart(2,'0');
+  return `${m}-${day}`;
+}
+
+function daysSince(iso){
+  if(!iso) return Infinity;
+  return Math.floor((Date.now()-new Date(iso).getTime())/86400000);
+}
+
+// =========================================================================
+// UI 层
+// =========================================================================
+let currentTab='grid';
+let selectedTag='__all';
+let searchQuery='';
+let detailContactId=null;
+
+function toast(msg,type='info'){
+  const el=document.createElement('div');
+  el.className='toast '+type;
+  el.textContent=msg;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),300)},2500);
+}
+
+function showModal(html){
+  const overlay=document.getElementById('modalOverlay');
+  const content=document.getElementById('modalContent');
+  content.innerHTML=html;
+  overlay.classList.add('open');
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// Close modal on overlay click
+document.getElementById('modalOverlay').addEventListener('click',function(e){
+  if(e.target===this) closeModal();
+});
+
+function renderAll(){
+  renderContactGrid();
+  renderGraph();
+  updateCounts();
+}
+
+function updateCounts(){
+  const contacts=getAllContacts();
+  document.getElementById('contactCount').textContent=`共 ${contacts.length} 位联系人`;
+}
+
+// ===== Tag Filter =====
+function renderTagFilters(){
+  const container=document.getElementById('tagFilterContainer');
+  const contacts=getAllContacts();
+  const tagCounts={};
+  contacts.forEach(c=>{(c.tags||[]).forEach(t=>{tagCounts[t]=(tagCounts[t]||0)+1})});
+  container.innerHTML=TAG_OPTIONS.map(t=>{
+    const count=tagCounts[t]||0;
+    const active=selectedTag===t?'active':'';
+    return `<button class="tag-chip ${active}" data-tag="${t}">${t} <span class="count">${count}</span></button>`;
+  }).join('');
+  // Re-bind click
+  container.querySelectorAll('.tag-chip').forEach(el=>{
+    el.addEventListener('click',function(){
+      document.querySelectorAll('#tagFilterContainer .tag-chip,#gridView .filter-bar>.tag-chip').forEach(btn=>btn.classList.remove('active'));
+      this.classList.add('active');
+      selectedTag=this.dataset.tag;
+      renderContactGrid();
+    });
+  });
+  document.querySelector('#gridView .filter-bar>.tag-chip')?.addEventListener('click',function(){
+    document.querySelectorAll('#tagFilterContainer .tag-chip,#gridView .filter-bar>.tag-chip').forEach(btn=>btn.classList.remove('active'));
+    this.classList.add('active');
+    selectedTag='__all';
+    renderContactGrid();
+  });
+}
+
+function getFilteredContacts(){
+  let contacts=getAllContacts();
+  if(selectedTag!=='__all'){
+    contacts=contacts.filter(c=>(c.tags||[]).includes(selectedTag));
+  }
+  if(searchQuery){
+    const q=searchQuery.toLowerCase();
+    contacts=contacts.filter(c=>
+      (c.name||'').toLowerCase().includes(q)||
+      (c.wechat||'').toLowerCase().includes(q)||
+      (c.tags||[]).some(t=>t.toLowerCase().includes(q))||
+      (c.notes||'').toLowerCase().includes(q)
+    );
+  }
+  return contacts;
+}
+
+// ===== Contact Grid =====
+function renderContactGrid(){
+  const container=document.getElementById('contactGrid');
+  const contacts=getFilteredContacts();
+  renderTagFilters();
+
+  if(contacts.length===0){
+    container.innerHTML=`<div class="empty-state">
+      <div class="empty-icon">🕵️</div>
+      <p>${searchQuery?'没有匹配的联系人':'情报库为空，开始添加你的联系人吧'}</p>
+      ${!searchQuery?'<button class="btn btn-gold" onclick="openAddContact()">+ 添加首位联系人</button>':''}
+    </div>`;
+    return;
+  }
+
+  container.innerHTML=contacts.map(c=>{
+    const avatarChar=(c.name||'?')[0];
+    const stars='★'.repeat(c.strength)+'☆'.repeat(5-c.strength);
+    const last=getLastInteraction(c);
+    const days=last?daysSince(last.time):null;
+    const lastStr=days!==null
+      ?(days===0?'今天':`${days}天前`)
+      :'暂无互动';
+    const tags=(c.tags||[]).map(t=>`<span class="mini-tag">${t}</span>`).join('');
+    return `<div class="contact-card" data-id="${c.id}">
+      <div class="card-header">
+        <div class="avatar">${avatarChar}</div>
+        <div class="card-info">
+          <div class="card-name">
+            ${c.name||'未命名'}
+            ${c.wechat?`<span class="wechat-tag">📱 ${c.wechat}</span>`:''}
+          </div>
+          <div class="card-meta">
+            <span class="stars">${stars}</span>
+          </div>
+        </div>
+      </div>
+      ${tags?`<div class="card-tags">${tags}</div>`:''}
+      <div class="card-footer">
+        <span class="last-active">${lastStr}</span>
+        <span>${(c.interactions||[]).length} 次互动</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Click events
+  container.querySelectorAll('.contact-card').forEach(el=>{
+    el.addEventListener('click',()=>openDetail(el.dataset.id));
+  });
+}
+
+// ===== Add/Edit Contact Form =====
+function openAddContact(){
+  showModal(renderContactForm(null));
+}
+
+function openEditContact(id){
+  const c=getContact(id);
+  if(!c){toast('联系人不存在','error');return;}
+  showModal(renderContactForm(c));
+}
+
+function renderContactForm(contact){
+  const isEdit=!!contact;
+  const c=contact||getDefaultContact();
+  const tagHtml=TAG_OPTIONS.map(t=>{
+    const sel=(c.tags||[]).includes(t)?'selected':'';
+    return `<button class="tag-option ${sel}" data-tag="${t}">${t}</button>`;
+  }).join('');
+  const starHtml=Array.from({length:5},(_,i)=>`<button class="star-btn ${i<c.strength?'active':''}" data-val="${i+1}">★</button>`).join('');
+
+  return `<div class="modal">
+    <div class="modal-header">
+      <h3>${isEdit?'编辑情报':'新建情报档案'}</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>姓名 *</label>
+          <input type="text" id="cf_name" value="${c.name||''}" placeholder="真实姓名或代号">
+        </div>
+        <div class="form-group">
+          <label>微信昵称</label>
+          <input type="text" id="cf_wechat" value="${c.wechat||''}" placeholder="微信昵称">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>手机号</label>
+          <input type="text" id="cf_phone" value="${c.phone||''}" placeholder="手机号码">
+        </div>
+        <div class="form-group">
+          <label>关系强度</label>
+          <div class="star-select" id="cf_stars">${starHtml}</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>标签（可多选）</label>
+        <div class="tag-select" id="cf_tags">${tagHtml}</div>
+      </div>
+      <div class="form-group">
+        <label>情报备注</label>
+        <textarea id="cf_notes" placeholder="记录关键信息、特征、共同经历…">${c.notes||''}</textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">取消</button>
+      <button class="btn btn-gold" onclick="saveContactForm('${c.id}')">${isEdit?'保存修改':'创建档案'}</button>
+    </div>
+  </div>`;
+}
+
+// Bind star select after form render
+function bindStarSelect(){
+  const container=document.getElementById('cf_stars');
+  if(!container) return;
+  let val=container.querySelector('.star-btn.active');
+  const cur=val?parseInt(val.dataset.val):3;
+  container.querySelectorAll('.star-btn').forEach(btn=>{
+    btn.addEventListener('click',function(){
+      const v=parseInt(this.dataset.val);
+      container.querySelectorAll('.star-btn').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.val)<=v));
+    });
+  });
+  // Set initial
+  container.querySelectorAll('.star-btn').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.val)<=cur));
+}
+
+// Bind tag select after form render
+function bindTagSelect(){
+  const container=document.getElementById('cf_tags');
+  if(!container) return;
+  container.querySelectorAll('.tag-option').forEach(el=>{
+    el.addEventListener('click',function(){
+      this.classList.toggle('selected');
+    });
+  });
+}
+
+// Save contact form
+function saveContactForm(id){
+  const name=document.getElementById('cf_name').value.trim();
+  if(!name){toast('请输入姓名','error');return;}
+  const wechat=document.getElementById('cf_wechat').value.trim();
+  const phone=document.getElementById('cf_phone').value.trim();
+  const notes=document.getElementById('cf_notes').value.trim();
+
+  const tags=[];
+  document.querySelectorAll('#cf_tags .tag-option.selected').forEach(el=>tags.push(el.dataset.tag));
+
+  let strength=3;
+  const activeStar=document.querySelector('#cf_stars .star-btn.active:last-child');
+  if(activeStar) strength=parseInt(activeStar.dataset.val);
+
+  let contact=getContact(id);
+  if(!contact){
+    contact=getDefaultContact();
+    contact.id=id;
+  }
+  contact.name=name;
+  contact.wechat=wechat;
+  contact.phone=phone;
+  contact.tags=tags;
+  contact.strength=strength;
+  contact.notes=notes;
+
+  saveContact(contact);
+  closeModal();
+  renderAll();
+  toast(contact.interactions&&contact.interactions.length>0?'情报已更新':'档案已建立','success');
+}
+
+// ===== Detail View =====
+function openDetail(id){
+  const c=getContact(id);
+  if(!c){toast('联系人不存在','error');return;}
+  detailContactId=id;
+
+  const last=getLastInteraction(c);
+  const freq=getInteractionFrequency(c);
+  const trend=getTrend(c);
+  const trendIcon={up:'📈 升温',down:'📉 降温',stable:'➡️ 平稳'}[trend]||'➡️ 平稳';
+
+  const connections=(c.connections||[]).map(connId=>{
+    const conn=getContact(connId);
+    if(!conn) return null;
+    const type=c.connectionTypes&&c.connectionTypes[connId]?c.connectionTypes[connId]:'有关联';
+    return `<div class="info-item" style="cursor:pointer" onclick="openDetail('${conn.id}')">
+      <div class="info-label">${type}</div>
+      <div class="info-value">${conn.name||'未知'}</div>
+    </div>`;
+  }).filter(Boolean).join('');
+
+  const allContacts=getAllContacts().filter(x=>x.id!==c.id&&!(c.connections||[]).includes(x.id));
+
+  const interactionsHtml=(c.interactions||[]).map(i=>{
+    const isRecent=daysSince(i.time)<=7;
+    return `<div class="timeline-item ${isRecent?'hot':''}">
+      <span class="tl-method">${i.method}</span>
+      <span class="tl-time">${formatDate(i.time)}</span>
+      <div class="tl-summary">${i.summary||'无记录'}</div>
+      <button class="btn btn-sm btn-danger" style="margin-top:4px" onclick="deleteInteractionHandler('${c.id}','${i.id}')">删除</button>
+    </div>`;
+  }).join('');
+
+  // Add connection section
+  const connectionOptions=allContacts.map(x=>`<option value="${x.id}">${x.name}</option>`).join('');
+
+  const html=`<div class="modal" style="max-width:640px">
+    <div class="modal-header">
+      <h3>🔍 情报档案</h3>
+      <div style="display:flex;gap:4px">
+        <button class="btn btn-sm" onclick="openEditContact('${c.id}')">✏️ 编辑</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteContactHandler('${c.id}')">🗑️ 删除</button>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="detail-header">
+        <div class="avatar large">${(c.name||'?')[0]}</div>
+        <div class="detail-title">
+          <h2>${c.name}</h2>
+          <div class="subtitle">
+            ${c.wechat?`📱 ${c.wechat} `:''}${c.phone?`📞 ${c.phone}`:''}
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-bar">
+        <div class="stat-card">
+          <div class="stat-label">关系强度</div>
+          <div class="stat-value" style="font-size:16px">${'★'.repeat(c.strength)}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">总互动</div>
+          <div class="stat-value">${(c.interactions||[]).length}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">${last?'最近互动':'暂无互动'}</div>
+          <div class="stat-value" style="font-size:13px;color:var(--green)">${last?formatDateShort(last.time):'—'}</div>
+        </div>
+        ${freq?`<div class="stat-card"><div class="stat-label">互动频率</div><div class="stat-value" style="font-size:14px">${freq.perMonth}/月</div></div>`:''}
+        <div class="stat-card">
+          <div class="stat-label">趋势</div>
+          <div class="stat-value" style="font-size:13px">${trendIcon}</div>
+        </div>
+      </div>
+
+      <div class="info-grid">
+        ${(c.tags||[]).map(t=>`<div class="info-item"><div class="info-label">标签</div><div class="info-value" style="color:var(--gold)">${t}</div></div>`).join('')||''}
+        <div class="info-item">
+          <div class="info-label">情报备注</div>
+          <div class="info-value" style="font-size:13px;color:var(--text-dim)">${c.notes||'无'}</div>
+        </div>
+      </div>
+
+      ${connections?`<div class="section-title">🔗 关联人脉 (${(c.connections||[]).length})</div>
+      <div class="info-grid">${connections}</div>
+      <div style="margin-bottom:16px">
+        ${allContacts.length>0?`
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+          <select id="connTarget" style="padding:6px 8px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:12px;font-family:var(--font)">
+            <option value="">选择联系人建立关联...</option>
+            ${connectionOptions}
+          </select>
+          <select id="connType" style="padding:6px 8px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:12px;font-family:var(--font)">
+            ${CONNECTION_TYPES.map(t=>`<option value="${t}">${t}</option>`).join('')}
+          </select>
+          <button class="btn btn-sm btn-gold" onclick="addConnectionHandler('${c.id}')">关联</button>
+        </div>
+        `:'<div style="font-size:12px;color:var(--text-muted)">没有更多可关联的联系人</div>'}
+      </div>`:''}
+
+      <div class="section-title">
+        🕵️ 关系时间线
+        <span class="badge">${(c.interactions||[]).length} 条记录</span>
+      </div>
+
+      <div style="margin-bottom:12px;display:flex;gap:6px;flex-wrap:wrap">
+        <select id="intMethod" style="padding:6px 8px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:12px;font-family:var(--font)">
+          ${INTERACTION_METHODS.map(m=>`<option value="${m}">${m}</option>`).join('')}
+        </select>
+        <input type="datetime-local" id="intTime" style="padding:6px 8px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:12px;font-family:var(--font)" value="${new Date().toISOString().slice(0,16)}">
+        <input type="text" id="intSummary" placeholder="互动内容摘要…" style="flex:1;min-width:120px;padding:6px 8px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:12px;font-family:var(--font)">
+        <button class="btn btn-sm btn-gold" onclick="addInteractionHandler('${c.id}')">记录</button>
+      </div>
+
+      ${(c.interactions||[]).length>0
+        ?`<div class="interaction-timeline">${interactionsHtml}</div>`
+        :`<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px">暂无互动记录，开始建立时间线</div>`
+      }
+    </div>
+  </div>`;
+
+  showModal(html);
+}
+
+// ===== Handlers =====
+function deleteContactHandler(id){
+  if(!confirm('确认永久删除该情报档案？此操作不可撤销。')) return;
+  deleteContact(id);
+  closeModal();
+  detailContactId=null;
+  renderAll();
+  toast('档案已销毁','success');
+}
+
+function addInteractionHandler(contactId){
+  const method=document.getElementById('intMethod').value;
+  const time=document.getElementById('intTime').value;
+  const summary=document.getElementById('intSummary').value.trim();
+  if(!summary){toast('请输入互动内容','error');return;}
+  if(!time){toast('请选择时间','error');return;}
+  addInteraction(contactId,{method,time:new Date(time).toISOString(),summary});
+  renderAll();
+  openDetail(contactId);
+  toast('互动记录已添加','success');
+}
+
+function deleteInteractionHandler(contactId,intId){
+  if(!confirm('删除这条互动记录？')) return;
+  deleteInteraction(contactId,intId);
+  renderAll();
+  openDetail(contactId);
+}
+
+function addConnectionHandler(contactId){
+  const target=document.getElementById('connTarget').value;
+  const type=document.getElementById('connType').value;
+  if(!target){toast('请选择要关联的联系人','error');return;}
+  addConnection(contactId,target,type);
+  renderAll();
+  openDetail(contactId);
+  toast('关联已建立','success');
+}
+
+// ===== Search =====
+document.getElementById('searchInput').addEventListener('input',function(){
+  searchQuery=this.value;
+  renderContactGrid();
+});
+
+// ===== Tabs =====
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    currentTab=this.dataset.tab;
+    document.getElementById('gridView').style.display=currentTab==='grid'?'':'none';
+    document.getElementById('graphView').style.display=currentTab==='graph'?'':'none';
+    if(currentTab==='graph') renderGraph();
+  });
+});
+
+// ===== Add Contact Button =====
+document.getElementById('addContactBtn').addEventListener('click',openAddContact);
+
+// ===== Export/Import =====
+document.getElementById('exportBtn').addEventListener('click',function(){
+  const data=loadData();
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`人际关系侦探_备份_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('数据已导出','success');
+});
+
+document.getElementById('importBtn').addEventListener('click',function(){
+  const input=document.createElement('input');
+  input.type='file';
+  input.accept='.json';
+  input.onchange=function(e){
+    const reader=new FileReader();
+    reader.onload=function(ev){
+      try{
+        const data=JSON.parse(ev.target.result);
+        if(!data.contacts||!Array.isArray(data.contacts)) throw new Error('无效格式');
+        if(!confirm(`将导入 ${data.contacts.length} 位联系人数据，覆盖当前数据？`)) return;
+        saveData(data);
+        renderAll();
+        toast('数据导入成功','success');
+      }catch(err){
+        toast('文件格式无效','error');
+      }
+    };
+    reader.readAsText(e.target.files[0]);
+  };
+  input.click();
+});
+
+// Edge color lookup
+function getEdgeColor(type){
+  const colors={'同事':'#3498db','朋友':'#e67e22','家人':'#e74c3c','投资':'#2ecc71','跑团':'#9b59b6','同学':'#1abc9c','客户':'#f1c40f','其他':'#7f8c8d'};
+  return colors[type]||'#7f8c8d';
+}
+
+// =========================================================================
+// 关系图谱 - Canvas
+// =========================================================================
+let graphAnimationId=null;
+const graphState={
+  nodes:[],
+  edges:[],
+  dragging:null,
+  dragOffset:{x:0,y:0},
+  scale:1,
+  offsetX:0,
+  offsetY:0
+};
+
+function renderGraph(){
+  const container=document.getElementById('graphContainer');
+  let canvas=document.getElementById('graphCanvas');
+  const tooltip=document.getElementById('graphTooltip');
+  const legend=document.getElementById('graphLegend');
+
+  const rect=container.getBoundingClientRect();
+  const dpr=window.devicePixelRatio||1;
+  canvas.width=rect.width*dpr;
+  canvas.height=rect.height*dpr;
+  canvas.style.width=rect.width+'px';
+  canvas.style.height=rect.height+'px';
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+
+  const contacts=getAllContacts();
+  if(contacts.length===0){
+    ctx.fillStyle='#4a4a5a';
+    ctx.font='16px sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText('暂无联系人数据，先去添加联系人吧',rect.width/2,rect.height/2);
+    legend.innerHTML='';
+    tooltip.classList.remove('visible');
+    if(graphAnimationId){cancelAnimationFrame(graphAnimationId);graphAnimationId=null;}
+    return;
+  }
+
+  // Build graph nodes & edges
+  const nodes=contacts.map((c,i)=>{
+    const angle=(2*Math.PI*i)/contacts.length+Math.random()*0.2;
+    const radius=Math.min(rect.width,rect.height)*0.3;
+    return {
+      id:c.id,
+      name:c.name||'未命名',
+      strength:c.strength,
+      tags:c.tags||[],
+      x:rect.width/2+Math.cos(angle)*radius+Math.random()*20-10,
+      y:rect.height/2+Math.sin(angle)*radius+Math.random()*20-10,
+      vx:0,vy:0,
+      radius:12+c.strength*4
+    };
+  });
+
+  // Build edges from connections
+  const edges=[];
+  const edgeSet=new Set();
+  contacts.forEach(c=>{
+    (c.connections||[]).forEach(targetId=>{
+      const key=[c.id,targetId].sort().join('|');
+      if(!edgeSet.has(key)){
+        edgeSet.add(key);
+        const from=nodes.find(n=>n.id===c.id);
+        const to=nodes.find(n=>n.id===targetId);
+        if(from&&to){
+          const type=c.connectionTypes&&c.connectionTypes[targetId]||'有关联';
+          edges.push({from:c.id,to:targetId,type,color:getEdgeColor(type)});
+        }
+      }
+    });
+  });
+
+  graphState.nodes=nodes;
+  graphState.edges=edges;
+
+  // Legend
+  const edgeTypes=[...new Set(edges.map(e=>e.type))];
+  legend.innerHTML=edgeTypes.map(t=>`<span class="legend-item"><span class="legend-dot" style="background:${getEdgeColor(t)}"></span>${t}</span>`).join('')+
+    (edges.length===0?'<span class="legend-item" style="color:var(--text-muted)">未建立关联</span>':'');
+
+  // Re-attach listeners to fresh canvas
+  canvas.onmousedown=null; canvas.onmousemove=null;
+  canvas.onmouseup=null; canvas.onmouseleave=null;
+  canvas.ontouchstart=null; canvas.ontouchmove=null; canvas.ontouchcancel=null; canvas.ontouchend=null;
+
+  // Force simulation
+  let running=true;
+  let iterations=0;
+  const maxIter=120;
+
+  function simulate(){
+    if(!running) return;
+    const repulsion=8000;
+    const attraction=0.005;
+    const damping=0.85;
+    const centerForce=0.01;
+
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const a=nodes[i],b=nodes[j];
+        let dx=a.x-b.x;
+        let dy=a.y-b.y;
+        const dist=Math.max(Math.sqrt(dx*dx+dy*dy),10);
+        const force=repulsion/(dist*dist);
+        const fx=dx/dist*force;
+        const fy=dy/dist*force;
+        a.vx+=fx; a.vy+=fy;
+        b.vx-=fx; b.vy-=fy;
+      }
+    }
+
+    edges.forEach(e=>{
+      const a=nodes.find(n=>n.id===e.from);
+      const b=nodes.find(n=>n.id===e.to);
+      if(!a||!b) return;
+      const dx=b.x-a.x, dy=b.y-a.y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      const force=dist*attraction;
+      const fx=dx/dist*force, fy=dy/dist*force;
+      a.vx+=fx; a.vy+=fy;
+      b.vx-=fx; b.vy-=fy;
+    });
+
+    const cx=rect.width/2, cy=rect.height/2;
+    nodes.forEach(n=>{
+      n.vx+=(cx-n.x)*centerForce;
+      n.vy+=(cy-n.y)*centerForce;
+      n.vx*=damping; n.vy*=damping;
+      n.x+=n.vx; n.y+=n.vy;
+      n.x=Math.max(30,Math.min(rect.width-30,n.x));
+      n.y=Math.max(30,Math.min(rect.height-30,n.y));
+    });
+
+    drawGraph(ctx,rect,nodes,edges,tooltip,canvas);
+    iterations++;
+    if(iterations<maxIter) graphAnimationId=requestAnimationFrame(simulate);
+    else graphAnimationId=null;
+  }
+
+  if(graphAnimationId){cancelAnimationFrame(graphAnimationId);}
+
+  // Draw edges once instead of simulation for first paint, then start sim
+  drawGraph(ctx,rect,nodes,edges,tooltip,canvas);
+  graphAnimationId=requestAnimationFrame(simulate);
+
+  // Mouse interaction
+  function setListeners(cvs){
+    function getNodeAt(x,y){
+      for(let i=nodes.length-1;i>=0;i--){
+        const n=nodes[i];
+        const dx=x-n.x, dy=y-n.y;
+        if(dx*dx+dy*dy<=n.radius*n.radius+5) return n;
+      }
+      return null;
+    }
+
+    let dragNode=null;
+
+    cvs.onmousedown=function(e){
+      const br=cvs.getBoundingClientRect();
+      const x=e.clientX-br.left, y=e.clientY-br.top;
+      const node=getNodeAt(x,y);
+      if(node){
+        dragNode=node;
+        node._dragOffX=node.x-x;
+        node._dragOffY=node.y-y;
+        cvs.style.cursor='grabbing';
+      }
+    };
+
+    cvs.onmousemove=function(e){
+      if(graphAnimationId){cancelAnimationFrame(graphAnimationId);graphAnimationId=null;}
+      const br=cvs.getBoundingClientRect();
+      const x=e.clientX-br.left, y=e.clientY-br.top;
+
+      if(dragNode){
+        dragNode.x=x+dragNode._dragOffX;
+        dragNode.y=y+dragNode._dragOffY;
+        dragNode.vx=0; dragNode.vy=0;
+        drawGraph(ctx,rect,nodes,edges,tooltip,canvas);
+        return;
+      }
+
+      const node=getNodeAt(x,y);
+      if(node){
+        cvs.style.cursor='pointer';
+        tooltip.innerHTML=`<strong>${node.name}</strong><br>强度: ${'★'.repeat(node.strength)}${node.tags.length?'<br>标签: '+node.tags.join(', '):''}`;
+        tooltip.style.left=(x+14)+'px';
+        tooltip.style.top=(y-10)+'px';
+        tooltip.classList.add('visible');
+      }else{
+        cvs.style.cursor='grab';
+        tooltip.classList.remove('visible');
+      }
+    };
+
+    cvs.onmouseup=function(e){
+      if(dragNode){
+        const br=cvs.getBoundingClientRect();
+        const x=e.clientX-br.left, y=e.clientY-br.top;
+        dragNode=null;
+        cvs.style.cursor='grab';
+        tooltip.classList.remove('visible');
+        const node=getNodeAt(x,y);
+        if(node) openDetail(node.id);
+      }
+    };
+
+    cvs.onmouseleave=function(){dragNode=null;tooltip.classList.remove('visible');};
+
+    cvs.ontouchstart=function(e){
+      e.preventDefault();
+      const t=e.touches[0];
+      const br=cvs.getBoundingClientRect();
+      const x=t.clientX-br.left, y=t.clientY-br.top;
+      const node=getNodeAt(x,y);
+      if(node){dragNode=node;node._dragOffX=node.x-x;node._dragOffY=node.y-y;}
+    };
+
+    cvs.ontouchmove=function(e){
+      e.preventDefault();
+      if(graphAnimationId){cancelAnimationFrame(graphAnimationId);graphAnimationId=null;}
+      const t=e.touches[0];
+      const br=cvs.getBoundingClientRect();
+      const x=t.clientX-br.left, y=t.clientY-br.top;
+      if(dragNode){dragNode.x=x+dragNode._dragOffX;dragNode.y=y+dragNode._dragOffY;dragNode.vx=0;dragNode.vy=0;drawGraph(ctx,rect,nodes,edges,tooltip,canvas);}
+    };
+
+    cvs.ontouchend=function(e){
+      if(dragNode){const id=dragNode.id;dragNode=null;if(id) openDetail(id);}
+    };
+
+    cvs.ontouchcancel=function(){dragNode=null;};
+  }
+
+  setListeners(canvas);
+}
+
+let lastDrawCanvas=null;
+
+function drawGraph(ctx,rect,nodes,edges,tooltip,canvas){
+  lastDrawCanvas=canvas;
+  ctx.clearRect(0,0,rect.width,rect.height);
+
+  // Draw edges
+  edges.forEach(e=>{
+    const from=nodes.find(n=>n.id===e.from);
+    const to=nodes.find(n=>n.id===e.to);
+    if(!from||!to) return;
+    ctx.beginPath();
+    ctx.moveTo(from.x,from.y);
+    ctx.lineTo(to.x,to.y);
+    ctx.strokeStyle=e.color+'80';
+    ctx.lineWidth=1.5;
+    ctx.stroke();
+
+    // Draw label at midpoint
+    const mx=(from.x+to.x)/2;
+    const my=(from.y+to.y)/2;
+    ctx.font='9px sans-serif';
+    ctx.fillStyle=e.color+'cc';
+    ctx.textAlign='center';
+    ctx.fillText(e.type,mx,my-4);
+  });
+
+  // Draw nodes
+  nodes.forEach(n=>{
+    // Glow
+    const grad=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.radius*2.5);
+    grad.addColorStop(0,`rgba(201,168,76,${n.strength*0.05})`);
+    grad.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=grad;
+    ctx.beginPath();
+    ctx.arc(n.x,n.y,n.radius*2.5,0,Math.PI*2);
+    ctx.fill();
+
+    // Node circle
+    ctx.beginPath();
+    ctx.arc(n.x,n.y,n.radius,0,Math.PI*2);
+    ctx.fillStyle=n.strength>=4?'#c9a84c':n.strength>=3?'#2d7a3a':'#1e1e2a';
+    ctx.fill();
+    ctx.strokeStyle=n.strength>=4?'#d4af37':'#2a2a3a';
+    ctx.lineWidth=2;
+    ctx.stroke();
+
+    // Name label
+    ctx.font='11px sans-serif';
+    ctx.fillStyle='#d4d4dc';
+    ctx.textAlign='center';
+    ctx.fillText(n.name,n.x,n.y+n.radius+14);
+  });
+}
+
+// =========================================================================
+// Init
+// =========================================================================
+// Modal mutation observer for binding form events
+const modalObserver=new MutationObserver(()=>{
+  const overlay=document.getElementById('modalOverlay');
+  if(overlay.classList.contains('open')){
+    bindStarSelect();
+    bindTagSelect();
+  }
+});
+modalObserver.observe(document.getElementById('modalContent'),{childList:true,subtree:true});
+
+// Initial render
+renderAll();
+
+// Handle window resize for graph
+let resizeTimer;
+window.addEventListener('resize',()=>{
+  clearTimeout(resizeTimer);
+  resizeTimer=setTimeout(()=>{
+    if(currentTab==='graph') renderGraph();
+  },300);
+});
+
+console.log('🕵️ 人际关系侦探已启动 — 情报中心随时待命');
+</script>
+</body>
+</html>

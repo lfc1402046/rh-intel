@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800" preserveAspectRatio="xMidYMid slice">
+  <rect width="1280" height="800" fill="#FBFBFD"/>
+
+  <!-- Header -->
+  <rect width="1280" height="56" fill="#FFFFFF"/>
+  <line x1="0" y1="56" x2="1280" y2="56" stroke="#E5E5EA"/>
+  <rect x="32" y="16" width="24" height="24" rx="6" fill="#8B7FE8"/>
+  <text x="68" y="33" font-family="-apple-system" font-size="14" font-weight="600" fill="#1D1D1F">RH Intel</text>
+  <text x="340" y="33" font-family="-apple-system" font-size="13" font-weight="600" fill="#FFB088">关键信息</text>
+
+  <!-- 4 大类切换 -->
+  <g transform="translate(40, 100)">
+    <rect width="160" height="40" rx="20" fill="#FFB088"/>
+    <text x="80" y="26" font-family="-apple-system" font-size="13" font-weight="600" fill="white" text-anchor="middle">📅 重要日期</text>
+  </g>
+  <g transform="translate(220, 100)">
+    <rect width="160" height="40" rx="20" fill="white" stroke="#E5E5EA"/>
+    <text x="80" y="26" font-family="-apple-system" font-size="13" fill="#6E6E73" text-anchor="middle">✅ 待办</text>
+  </g>
+  <g transform="translate(400, 100)">
+    <rect width="160" height="40" rx="20" fill="white" stroke="#E5E5EA"/>
+    <text x="80" y="26" font-family="-apple-system" font-size="13" fill="#6E6E73" text-anchor="middle">🚫 敏感</text>
+  </g>
+  <g transform="translate(580, 100)">
+    <rect width="160" height="40" rx="20" fill="white" stroke="#E5E5EA"/>
+    <text x="80" y="26" font-family="-apple-system" font-size="13" fill="#6E6E73" text-anchor="middle">🎁 偏好</text>
+  </g>
+
+  <!-- 重要日期 -->
+  <g transform="translate(40, 180)">
+    <rect width="1200" height="280" rx="14" fill="#FFFFFF" stroke="#E5E5EA"/>
+    <text x="20" y="30" font-family="-apple-system" font-size="14" font-weight="600" fill="#1D1D1F">📅 未来 30 天 · 5 项</text>
+
+    <!-- 日期卡片 -->
+    <g transform="translate(20, 60)">
+      <rect width="280" height="100" rx="12" fill="linear-gradient(135deg, #FFE5D0 0%, #FFCAB0 100%)"/>
+      <text x="20" y="32" font-family="-apple-system" font-size="11" fill="#FF6B35">3 天后</text>
+      <text x="20" y="58" font-family="-apple-system" font-size="22" font-weight="700" fill="#1D1D1F">李四 生日</text>
+      <text x="20" y="82" font-family="-apple-system" font-size="12" fill="#6E6E73">11月15日 · 周日</text>
+    </g>
+
+    <g transform="translate(320, 60)">
+      <rect width="280" height="100" rx="12" fill="#FBFBFD"/>
+      <text x="20" y="32" font-family="-apple-system" font-size="11" fill="#86868B">7 天后</text>
+      <text x="20" y="58" font-family="-apple-system" font-size="20" font-weight="700" fill="#1D1D1F">赵六 入职 3 年</text>
+      <text x="20" y="82" font-family="-apple-system" font-size="12" fill="#6E6E73">2023-11-19</text>
+    </g>
+
+    <g transform="translate(620, 60)">
+      <rect width="280" height="100" rx="12" fill="#FBFBFD"/>
+      <text x="20" y="32" font-family="-apple-system" font-size="11" fill="#86868B">14 天后</text>
+      <text x="20" y="58" font-family="-apple-system" font-size="20" font-weight="700" fill="#1D1D1F">爸 生日</text>
+      <text x="20" y="82" font-family="-apple-system" font-size="12" fill="#6E6E73">家人 · 第 2 圈</text>
+    </g>
+
+    <g transform="translate(920, 60)">
+      <rect width="280" height="100" rx="12" fill="#FBFBFD"/>
+      <text x="20" y="32" font-family="-apple-system" font-size="11" fill="#86868B">28 天后</text>
+      <text x="20" y="58" font-family="-apple-system" font-size="20" font-weight="700" fill="#1D1D1F">王五 结婚纪念</text>
+      <text x="20" y="82" font-family="-apple-system" font-size="12" fill="#6E6E73">每年循环</text>
+    </g>
+
+    <text x="20" y="200" font-family="-apple-system" font-size="12" fill="#86868B">💡 提前 7 天提醒 · 可在"设置"调整提前天数</text>
+  </g>
+
+  <!-- 待办列表 -->
+  <g transform="translate(40, 490)">
+    <rect width="780" height="270" rx="14" fill="#FFFFFF" stroke="#E5E5EA"/>
+    <text x="20" y="30" font-family="-apple-system" font-size="14" font-weight="600" fill="#1D1D1F">✅ 待办承诺 · 12 项</text>
+
+    <g transform="translate(20, 55)">
+      <rect width="740" height="42" rx="8" fill="#FBFBFD"/>
+      <circle cx="22" cy="21" r="9" fill="#FFB088" opacity="0.3"/>
+      <circle cx="22" cy="21" r="9" fill="none" stroke="#E8919C" stroke-width="1.5"/>
+      <path d="M 18 21 L 21 24 L 26 18" stroke="#E8919C" stroke-width="1.5" fill="none"/>
+      <text x="44" y="20" font-family="-apple-system" font-size="13" font-weight="600" fill="#1D1D1F">回李四电话</text>
+      <text x="44" y="36" font-family="-apple-system" font-size="11" fill="#FFB088">今天到期 · 与上次见面聊到的话题</text>
+      <text x="700" y="20" font-family="-apple-system" font-size="11" fill="#86868B" text-anchor="end">⏰ 紧急</text>
+    </g>
+
+    <g transform="translate(20, 105)">
+      <rect width="740" height="42" rx="8" fill="#FBFBFD"/>
+      <circle cx="22" cy="21" r="9" fill="none" stroke="#86868B" stroke-width="1.5"/>
+      <text x="44" y="20" font-family="-apple-system" font-size="13" font-weight="600" fill="#1D1D1F">发方案给张三</text>
+      <text x="44" y="36" font-family="-apple-system" font-size="11" fill="#86868B">还有 2 天 · 商务合作</text>
+      <text x="700" y="20" font-family="-apple-system" font-size="11" fill="#86868B" text-anchor="end">📅 即将</text>
+    </g>
+
+    <g transform="translate(20, 155)">
+      <rect width="740" height="42" rx="8" fill="#FBFBFD"/>
+      <circle cx="22" cy="21" r="9" fill="none" stroke="#86868B" stroke-width="1.5"/>
+      <text x="44" y="20" font-family="-apple-system" font-size="13" font-weight="600" fill="#1D1D1F">约王五周末跑步</text>
+      <text x="44" y="36" font-family="-apple-system" font-size="11" fill="#86868B">明天 · 周末健身</text>
+      <text x="700" y="20" font-family="-apple-system" font-size="11" fill="#86868B" text-anchor="end">📅 即将</text>
+    </g>
+
+    <g transform="translate(20, 205)">
+      <rect width="740" height="42" rx="8" fill="#FBFBFD"/>
+      <circle cx="22" cy="21" r="9" fill="none" stroke="#86868B" stroke-width="1.5"/>
+      <text x="44" y="20" font-family="-apple-system" font-size="13" font-weight="600" fill="#1D1D1F">买赵六生日礼物</text>
+      <text x="44" y="36" font-family="-apple-system" font-size="11" fill="#86868B">还有 14 天 · 喜好：跑步装备</text>
+      <text x="700" y="20" font-family="-apple-system" font-size="11" fill="#86868B" text-anchor="end">📅 计划中</text>
+    </g>
+  </g>
+
+  <!-- 偏好面板 -->
+  <g transform="translate(840, 490)">
+    <rect width="400" height="270" rx="14" fill="#FFFFFF" stroke="#E5E5EA"/>
+    <text x="20" y="30" font-family="-apple-system" font-size="14" font-weight="600" fill="#1D1D1F">🎁 王五 · 偏好记录</text>
+
+    <text x="20" y="65" font-family="-apple-system" font-size="11" fill="#86868B">喜欢</text>
+    <g transform="translate(20, 75)">
+      <rect width="70" height="26" rx="13" fill="rgba(126,212,160,0.2)"/>
+      <text x="35" y="17" font-family="-apple-system" font-size="11" fill="#5DA975" text-anchor="middle">跑步</text>
+    </g>
+    <g transform="translate(98, 75)">
+      <rect width="86" height="26" rx="13" fill="rgba(126,212,160,0.2)"/>
+      <text x="43" y="17" font-family="-apple-system" font-size="11" fill="#5DA975" text-anchor="middle">咖啡</text>
+    </g>
+    <g transform="translate(192, 75)">
+      <rect width="100" height="26" rx="13" fill="rgba(126,212,160,0.2)"/>
+      <text x="50" y="17" font-family="-apple-system" font-size="11" fill="#5DA975" text-anchor="middle">科技书</text>
+    </g>
+
+    <text x="20" y="125" font-family="-apple-system" font-size="11" fill="#86868B">避免</text>
+    <g transform="translate(20, 135)">
+      <rect width="78" height="26" rx="13" fill="rgba(232,137,137,0.2)"/>
+      <text x="39" y="17" font-family="-apple-system" font-size="11" fill="#C26868" text-anchor="middle">甜食</text>
+    </g>
+    <g transform="translate(106, 135)">
+      <rect width="100" height="26" rx="13" fill="rgba(232,137,137,0.2)"/>
+      <text x="50" y="17" font-family="-apple-system" font-size="11" fill="#C26868" text-anchor="middle">聊家庭</text>
+    </g>
+
+    <text x="20" y="190" font-family="-apple-system" font-size="11" fill="#86868B">家庭</text>
+    <g transform="translate(20, 200)">
+      <rect width="80" height="26" rx="13" fill="rgba(139,127,232,0.2)"/>
+      <text x="40" y="17" font-family="-apple-system" font-size="11" fill="#6B5FCC" text-anchor="middle">妻子·林</text>
+    </g>
+    <g transform="translate(108, 200)">
+      <rect width="74" height="26" rx="13" fill="rgba(139,127,232,0.2)"/>
+      <text x="37" y="17" font-family="-apple-system" font-size="11" fill="#6B5FCC" text-anchor="middle">女儿·8岁</text>
+    </g>
+  </g>
+</svg>

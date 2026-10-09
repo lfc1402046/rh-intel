@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800" preserveAspectRatio="xMidYMid slice">
+  <rect width="1280" height="800" fill="#1D1D1F"/>
+
+  <!-- Header -->
+  <rect width="1280" height="56" fill="#2C2C2E"/>
+  <line x1="0" y1="56" x2="1280" y2="56" stroke="#3A3A3C"/>
+  <rect x="32" y="16" width="24" height="24" rx="6" fill="#A89BF0"/>
+  <text x="68" y="33" font-family="-apple-system" font-size="14" font-weight="600" fill="white">RH Intel</text>
+  <text x="340" y="33" font-family="-apple-system" font-size="13" font-weight="600" fill="#A89BF0">🤖 AI 话术建议</text>
+
+  <!-- 上下文 -->
+  <g transform="translate(40, 90)">
+    <rect width="1200" height="100" rx="14" fill="#2C2C2E" stroke="#3A3A3C"/>
+    <circle cx="40" cy="40" r="22" fill="#FFD66B"/>
+    <text x="40" y="47" font-family="-apple-system" font-size="18" fill="white" text-anchor="middle">王</text>
+    <text x="80" y="35" font-family="-apple-system" font-size="16" font-weight="600" fill="white">王五</text>
+    <text x="80" y="55" font-family="-apple-system" font-size="12" fill="rgba(255,255,255,0.6)">核心 5★ · 已 45 天未联系 · 挚友</text>
+
+    <text x="80" y="80" font-family="-apple-system" font-size="13" fill="rgba(255,255,255,0.8)">场景：主动问候，重新激活关系</text>
+  </g>
+
+  <!-- 3 个版本 -->
+  <g transform="translate(40, 220)">
+    <rect width="380" height="440" rx="14" fill="#2C2C2E" stroke="#3A3A3C"/>
+    <rect width="380" height="40" rx="14" fill="#3A3A3C"/>
+    <text x="20" y="26" font-family="-apple-system" font-size="13" font-weight="600" fill="#A89BF0">保守版</text>
+    <text x="360" y="26" font-family="-apple-system" font-size="11" fill="rgba(255,255,255,0.5)" text-anchor="end">最安全</text>
+
+    <text x="20" y="80" font-family="-apple-system" font-size="13" fill="rgba(255,255,255,0.5)">语气：轻松友好</text>
+
+    <rect x="20" y="100" width="340" height="160" rx="10" fill="#1D1D1F"/>
+    <text x="36" y="135" font-family="-apple-system" font-size="14" fill="white">"王五，好久没见你了 👋</text>
+    <text x="36" y="160" font-family="-apple-system" font-size="14" fill="white">最近怎么样？上次看你朋友圈在忙</text>
+    <text x="36" y="185" font-family="-apple-system" font-size="14" fill="white">新项目，现在进展如何了？"</text>
+
+    <text x="20" y="300" font-family="-apple-system" font-size="12" font-weight="600" fill="#A89BF0">预期反应</text>
+    <text x="20" y="324" font-family="-apple-system" font-size="12" fill="rgba(255,255,255,0.7)">✓ 大概率热情回应</text>
+    <text x="20" y="346" font-family="-apple-system" font-size="12" fill="rgba(255,255,255,0.7)">✓ 顺势深聊</text>
+    <text x="20" y="368" font-family="-apple-system" font-size="12" fill="rgba(255,255,255,0.7)">⚠ 可能说"最近很忙" → 转轻松</text>
+
+    <rect x="20" y="390" width="160" height="34" rx="17" fill="#0071E3"/>
+    <text x="100" y="412" font-family="-apple-system" font-size="13" fill="white" text-anchor="middle">📋 复制</text>
+  </g>
+
+  <g transform="translate(440, 220)">
+    <rect width="380" height="440" rx="14" fill="#2C2C2E" stroke="#0071E3" stroke-width="2"/>
+    <rect width="380" height="40" rx="14" fill="#0071E3"/>
+    <text x="20" y="26" font-family="-apple-system" font-size="13" font-weight="600" fill="white">标准版 ⭐ 推荐</text>
+    <text x="360" y="26" font-family="-apple-system" font-size="11" fill="rgba(255,255,255,0.7)" text-anchor="end">推荐</text>
+
+    <text x="20" y="80" font-family="-apple-system" font-size="13" fill="rgba(255,255,255,0.5)">语气：亲切自然</text>
+
+    <rect x="20" y="100" width="340" height="160" rx="10" fill="#1D1D1F"/>
+    <text x="36" y="135" font-family="-apple-system" font-size="14" fill="white">"王五！最近朋友圈的更新少了，</text>
+    <text x="36" y="160" font-family="-apple-system" font-size="14" fill="white">是在憋什么大招吗？要不要周末</text>
+    <text x="36" y="185" font-family="-apple-system" font-size="14" fill="white">一起跑个步，顺便聊聊？"</text>
+
+    <text x="20" y="300" font-family="-apple-system" font-size="12" font-weight="600" fill="#A89BF0">预期反应</text>
+    <text x="20" y="324" font-family="-apple-system" font-size="12" fill="rgba(255,255,255,0.7)">✓ 70% 概率见面邀请</text>
+    <text x="20" y="346" font-family="-apple-system" font-size="12" fill="rgba(255,255,255,0.7)">✓ 深度对话</text>
+    <text x="20" y="368" font-family="-apple-system" font-size="12" fill="rgba(255,255,255,0.7)">⚠ 需协调时间</text>
+
+    <rect x="20" y="390" width="160" height="34" rx="17" fill="white"/>
+    <text x="100" y="412" font-family="-apple-system" font-size="13" font-weight="600" fill="#0071E3" text-anchor="middle">📋 复制</text>
+  </g>
+
+  <g transform="translate(840, 220)">
+    <rect width="380" height="440" rx="14" fill="#2C2C2E" stroke="#3A3A3C"/>
+    <rect width="380" height="40" rx="14" fill="#3A3A3C"/>
+    <text x="20" y="26" font-family="-apple-system" font-size="13" font-weight="600" fill="#FFB088">直接版</text>
+    <text x="360" y="26" font-family="-apple-system" font-size="11" fill="rgba(255,255,255,0.5)" text-anchor="end">最有效</text>
+
+    <text x="20" y="80" font-family="-apple-system" font-size="13" fill="rgba(255,255,255,0.5)">语气：坦诚直接</text>
+
+    <rect x="20" y="100" width="340" height="160" rx="10" fill="#1D1D1F"/>
+    <text x="36" y="135" font-family="-apple-system" font-size="14" fill="white">"王五，我得承认最近联系少了，</text>
+    <text x="36" y="160" font-family="-apple-system" font-size="14" fill="white">但想到你之前那个 AI 项目就兴奋。</text>
+    <text x="36" y="185" font-family="-apple-system" font-size="14" fill="white">周末有空吃个饭？"</text>
+
+    <text x="20" y="300" font-family="-apple-system" font-size="12" font-weight="600" fill="#A89BF0">预期反应</text>
+    <text x="20" y="324" font-family="-apple-system" font-size="12" fill="rgba(255,255,255,0.7)">✓ 85% 概率高效推进</text>
+    <text x="20" y="346" font-family="-apple-system" font-size="12" fill="rgba(255,255,255,0.7)">✓ 适合长期密友</text>
+    <text x="20" y="368" font-family="-apple-system" font-size="12" fill="rgba(255,255,255,0.7)">⚠ 不适合浅关系</text>
+
+    <rect x="20" y="390" width="160" height="34" rx="17" fill="#0071E3"/>
+    <text x="100" y="412" font-family="-apple-system" font-size="13" fill="white" text-anchor="middle">📋 复制</text>
+  </g>
+
+  <!-- 底部元数据 -->
+  <g transform="translate(40, 690)">
+    <text x="0" y="0" font-family="-apple-system" font-size="11" fill="rgba(255,255,255,0.5)">置信度：0.87 · 信息共享层：L3-L4 · 模型：MiniMax-M3 · 客户端直调</text>
+  </g>
+</svg>
