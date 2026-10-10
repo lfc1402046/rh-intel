@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>人脉资源池 · RH Intel</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230071E3'/%3E%3Ctext x='50' y='68' font-size='56' font-weight='700' fill='white' text-anchor='middle' font-family='-apple-system'%3ER%3C/text%3E%3C/svg%3E">
+  <style>
+    .pool-layout { display: grid; grid-template-columns: 280px 1fr 320px; gap: 24px; }
+    @media (max-width: 1100px) { .pool-layout { grid-template-columns: 1fr; } }
+    .pool-sidebar, .pool-aside { background: white; border-radius: 16px; padding: 20px; border: 1px solid #E5E5EA; height: fit-content; position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto; }
+    .pool-main { background: white; border-radius: 16px; padding: 24px; border: 1px solid #E5E5EA; min-height: 600px; }
+    .member-item { padding: 12px; border-radius: 12px; cursor: pointer; transition: all 150ms; margin-bottom: 8px; border: 2px solid transparent; }
+    .member-item:hover { background: #FBFBFD; }
+    .member-item.active { border-color: #0071E3; background: rgba(0, 113, 227, 0.05); }
+    .member-item .avatar { width: 36px; height: 36px; border-radius: 10px; display: inline-grid; place-items: center; color: white; font-weight: 700; font-size: 14px; margin-right: 8px; vertical-align: middle; }
+    .member-item .info { display: inline-block; vertical-align: middle; }
+    .member-item .name { font-weight: 600; font-size: 14px; }
+    .member-item .role { font-size: 11px; color: #6E6E73; }
+    .resource-section { margin-bottom: 24px; }
+    .resource-section-title { font-size: 13px; font-weight: 600; color: #6E6E73; margin-bottom: 10px; }
+    .resource-tag { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 999px; font-size: 12px; margin: 0 6px 6px 0; }
+    .resource-tag.provide { background: rgba(127, 212, 160, 0.15); color: #2D7A3A; border: 1px solid #7FD4A0; }
+    .resource-tag.need { background: rgba(91, 181, 224, 0.15); color: #2A6E9E; border: 1px solid #5BB5E0; }
+    .network-canvas { width: 100%; height: 400px; background: linear-gradient(135deg, #FBFBFD 0%, #F5F5F7 100%); border-radius: 12px; position: relative; overflow: hidden; }
+    .network-node { position: absolute; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; color: white; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94); box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translate(-50%, -50%); }
+    .network-node:hover { transform: translate(-50%, -50%) scale(1.15); box-shadow: 0 8px 24px rgba(0,0,0,0.15); z-index: 10; }
+    .network-node.active { transform: translate(-50%, -50%) scale(1.25); z-index: 20; }
+    .network-node.me { width: 72px; height: 72px; font-size: 20px; box-shadow: 0 6px 20px rgba(0, 113, 227, 0.4); }
+    .network-node-label { position: absolute; top: 110%; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.95); padding: 2px 8px; border-radius: 6px; font-size: 11px; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.06); pointer-events: none; }
+    .network-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+    .match-card { padding: 14px; background: #FBFBFD; border-radius: 12px; margin-bottom: 10px; border-left: 3px solid #0071E3; transition: all 150ms; cursor: pointer; }
+    .match-card:hover { background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transform: translateX(2px); }
+    .match-reason { font-size: 12px; color: #0071E3; font-weight: 600; margin-bottom: 4px; }
+    .match-suggestion { font-size: 13px; color: #1D1D1F; line-height: 1.5; margin-bottom: 8px; }
+    .match-meta { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #6E6E73; }
+    .match-avatar { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; color: white; font-size: 10px; font-weight: 700; }
+    .filter-chip { display: inline-flex; align-items: center; padding: 6px 12px; background: #FBFBFD; border: 1px solid #E5E5EA; border-radius: 999px; font-size: 12px; cursor: pointer; transition: all 150ms; margin: 0 4px 8px 0; user-select: none; }
+    .filter-chip.active { background: #0071E3; color: white; border-color: #0071E3; }
+    .filter-chip:hover:not(.active) { border-color: #0071E3; }
+    .auto-tag { display: inline-block; padding: 2px 8px; background: rgba(0, 113, 227, 0.1); color: #0071E3; border-radius: 4px; font-size: 11px; margin: 2px; }
+    .auto-tag::before { content: '\1F916 '; }
+    .empty-hint { text-align: center; color: #86868B; padding: 20px; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">跳到主内容</a>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="./" class="logo"><span class="logo-mark">R</span><span>RH Intel</span></a>
+      <nav class="nav">
+        <a href="./">首页</a>
+        <a href="features.html">功能</a>
+        <a href="architecture.html">架构</a>
+        <a href="guide.html">指南</a>
+        <a href="download.html">下载</a>
+        <a href="contact.html">联系</a>
+      </nav>
+      <div class="header-actions">
+        <a href="#" class="github-link" title="GitHub">⭐ <span>Star</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" style="padding: 60px 0 30px;">
+      <div class="container">
+        <span class="hero-eyebrow">v1.2 预览 · 人脉资源池</span>
+        <h1 style="font-size: 48px;">把每一个人<br>变成可调用的资源</h1>
+        <p class="hero-subtitle">基于多维标签 + 智能匹配，把分散的人脉、知识、能力<br>编织成一张属于你的资源网</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding: 0 0 60px;">
+      <div class="container">
+        <div style="background: white; border-radius: 16px; padding: 16px 20px; margin-bottom: 24px; border: 1px solid #E5E5EA;">
+          <div style="font-size: 12px; color: #6E6E73; margin-bottom: 8px;">按标签筛选（点击多选）</div>
+          <div id="tag-filter-area"></div>
+        </div>
+
+        <div class="pool-layout">
+          <aside class="pool-sidebar">
+            <h3 style="font-size: 16px; margin-bottom: 12px;">👥 资源池成员（6）</h3>
+            <div id="member-list"></div>
+            <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #E5E5EA; font-size: 12px; color: #6E6E73; line-height: 1.5;">
+              <strong>资源池说明：</strong><br>每个成员维护「我能提供」和「我需要」两个标签池。系统自动基于共享标签建立连接。
+            </div>
+          </aside>
+
+          <div class="pool-main">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+              <h2 style="font-size: 22px;">🌐 资源网络</h2>
+              <div style="font-size: 12px; color: #6E6E73;">点击节点查看详情</div>
+            </div>
+
+            <div class="network-canvas" id="network-canvas">
+              <svg class="network-svg" id="network-svg"></svg>
+              <div id="network-nodes"></div>
+            </div>
+
+            <div style="margin-top: 20px;">
+              <h3 style="font-size: 16px; margin-bottom: 12px;">📦 当前选中：<span id="current-member-name">我（中心节点）</span></h3>
+
+              <div class="resource-section">
+                <div class="resource-section-title">💚 我能提供（资源）</div>
+                <div id="provide-tags"></div>
+              </div>
+
+              <div class="resource-section">
+                <div class="resource-section-title">💙 我需要（资源）</div>
+                <div id="need-tags"></div>
+              </div>
+
+              <div style="background: #FBFBFD; border-radius: 12px; padding: 16px; margin-top: 16px;">
+                <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">🤖 智能标签建议（基于互动历史）</div>
+                <div id="auto-tag-suggestions" style="display: flex; flex-wrap: wrap; gap: 4px;"></div>
+                <button onclick="applyAutoTags()" class="btn btn-secondary btn-sm" style="margin-top: 12px;">一键应用到「我能提供」</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="pool-aside">
+            <h3 style="font-size: 16px; margin-bottom: 12px;">🎯 智能匹配</h3>
+            <div id="match-recommendations"></div>
+          </aside>
+        </div>
+
+        <div style="margin-top: 48px; background: white; border-radius: 16px; padding: 32px; border: 1px solid #E5E5EA;">
+          <h2 style="font-size: 24px; margin-bottom: 16px;">💡 资源池的 5 大能力</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+            <div><div style="font-size: 24px; margin-bottom: 8px;">🏷️</div><h3 style="font-size: 16px; margin-bottom: 6px;">多维标签</h3><p style="font-size: 14px; color: #6E6E73; line-height: 1.6;">行业 / 技能 / 职位 / 地区 / 关系类型 — 5 个维度。</p></div>
+            <div><div style="font-size: 24px; margin-bottom: 8px;">🤖</div><h3 style="font-size: 16px; margin-bottom: 6px;">智能标签</h3><p style="font-size: 14px; color: #6E6E73; line-height: 1.6;">基于互动历史、备注、职位自动生成分类标签。</p></div>
+            <div><div style="font-size: 24px; margin-bottom: 8px;">🕸️</div><h3 style="font-size: 16px; margin-bottom: 6px;">可视化网络</h3><p style="font-size: 14px; color: #6E6E73; line-height: 1.6;">基于共享标签自动关联，边粗细代表匹配度。</p></div>
+            <div><div style="font-size: 24px; margin-bottom: 8px;">🎯</div><h3 style="font-size: 16px; margin-bottom: 6px;">智能推荐</h3><p style="font-size: 14px; color: #6E6E73; line-height: 1.6;">双向匹配："你能给谁"+"谁需要你"。</p></div>
+            <div><div style="font-size: 24px; margin-bottom: 8px;">🔗</div><h3 style="font-size: 16px; margin-bottom: 6px;">连接建立</h3><p style="font-size: 14px; color: #6E6E73; line-height: 1.6;">基于共享标签自动建连接。</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container-wide">
+      <div class="footer-grid">
+        <div class="footer-brand"><a href="./" class="logo"><span class="logo-mark">R</span><span>RH Intel</span></a><p>人际关系 · 情报中心</p></div>
+        <div class="footer-col"><h4>工具</h4><ul><li><a href="ai-test.html">AI 话术测试</a></li><li><a href="feature-demo.html">功能演示</a></li><li><a href="resource-pool.html">资源池</a></li></ul></div>
+        <div class="footer-col"><h4>产品</h4><ul><li><a href="features.html">功能</a></li><li><a href="architecture.html">架构</a></li></ul></div>
+        <div class="footer-col"><h4>资源</h4><ul><li><a href="https://github.com/lfc1402046/rh-intel" target="_blank" rel="noopener">GitHub</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><p>© 2026 RH Intel · v1.2 预览功能</p></div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+  const MEMBERS = [
+    {
+      id: 'me', name: '我', avatar: 'R', color: '#0071E3',
+      role: '产品经理 / AI 创业者', isMe: true,
+      provide: ['AI Agent 开发', '产品设计', '跑团社交', '建筑转行经验', '厦门本地资源'],
+      need: ['投资人脉', '技术合伙人', '制造业数字化案例', 'SOXL 期权策略', '医生朋友'],
+      autoTags: ['AI', '厦门', '建筑', '期权', '健康关注']
+    },
+    {
+      id: 'wangwu', name: '王五', avatar: 'W', color: '#FFD66B',
+      role: 'AI 创业 CTO',
+      provide: ['AI 技术方案', '技术顾问', '融资经验', '环岛路跑友'],
+      need: ['产品经理', '设计师', '制造业场景'],
+      autoTags: ['AI', '技术', '创业', '融资', '厦门']
+    },
+    {
+      id: 'sunba', name: '孙八', avatar: 'S', color: '#FF8C5A',
+      role: '投资经理',
+      provide: ['期权策略', '投资分析', '上海资本圈'],
+      need: ['AI 项目源', '技术人脉', '制造业转型案例'],
+      autoTags: ['投资', '期权', '上海', '半导体', '私募']
+    },
+    {
+      id: 'wushi', name: '吴十', avatar: 'W', color: '#5BB5E0',
+      role: '制造业副总',
+      provide: ['工厂场景', '传统企业转型', '资金资源'],
+      need: ['AI 技术方案', '数字化顾问', '同行案例'],
+      autoTags: ['制造业', '传统行业', '厦门', '管理']
+    },
+    {
+      id: 'atao', name: '阿涛', avatar: 'A', color: '#4ECDC4',
+      role: '天使投资人',
+      provide: ['天使投资', '早期项目源', '投后服务'],
+      need: ['好项目', '行业专家', 'FA 资源'],
+      autoTags: ['投资', '早期', 'FA', '顾问']
+    },
+    {
+      id: 'lindoc', name: '林医生', avatar: 'L', color: '#FFB088',
+      role: '内分泌科医生',
+      provide: ['糖尿病管理', '健康咨询', '医院资源'],
+      need: ['健康管理社群', '运动康复师', '营养师'],
+      autoTags: ['医疗', '健康', '糖尿病', '医院']
+    }
+  ];
+
+  const tagColor = (tag) => {
+    const colors = ['#8B7FE8', '#5BB5E0', '#FF8C5A', '#4ECDC4', '#FFB088', '#E8919C', '#FFD66B', '#95D5A8', '#92B8D8', '#C8B8DB'];
+    let hash = 0;
+    for (let i = 0; i < tag.length; i++) hash = (hash * 31 + tag.charCodeAt(i)) & 0x7fffffff;
+    return colors[hash % colors.length];
+  };
+
+  const allTags = new Set();
+  MEMBERS.forEach(m => {
+    m.provide.forEach(t => allTags.add(t));
+    m.need.forEach(t => allTags.add(t));
+    m.autoTags.forEach(t => allTags.add(t));
+  });
+
+  let currentMemberId = 'me';
+  let activeFilters = new Set();
+
+  function renderMemberList() {
+    const list = document.getElementById('member-list');
+    list.innerHTML = '';
+    MEMBERS.forEach(m => {
+      const div = document.createElement('div');
+      div.className = 'member-item' + (m.id === currentMemberId ? ' active' : '');
+      div.innerHTML = '<div class="avatar" style="background: ' + m.color + ';">' + m.avatar + '</div><div class="info"><div class="name">' + m.name + (m.isMe ? ' <span style="font-size:10px;color:#0071E3;">(我)</span>' : '') + '</div><div class="role">' + m.role + '</div></div>';
+      div.onclick = () => selectMember(m.id);
+      list.appendChild(div);
+    });
+  }
+
+  function renderTagFilters() {
+    const area = document.getElementById('tag-filter-area');
+    area.innerHTML = '';
+    Array.from(allTags).sort().forEach(tag => {
+      const chip = document.createElement('span');
+      chip.className = 'filter-chip' + (activeFilters.has(tag) ? ' active' : '');
+      chip.textContent = tag;
+      chip.onclick = () => {
+        if (activeFilters.has(tag)) activeFilters.delete(tag);
+        else activeFilters.add(tag);
+        renderTagFilters();
+        renderNetwork();
+        renderMatches();
+      };
+      area.appendChild(chip);
+    });
+  }
+
+  function renderResourceSection() {
+    const member = MEMBERS.find(m => m.id === currentMemberId);
+    document.getElementById('current-member-name').textContent = member.name + (member.isMe ? '（我）' : '（' + member.role + '）');
+
+    const provideDiv = document.getElementById('provide-tags');
+    provideDiv.innerHTML = '';
+    member.provide.forEach(tag => {
+      const span = document.createElement('span');
+      span.className = 'resource-tag provide';
+      span.textContent = tag;
+      provideDiv.appendChild(span);
+    });
+
+    const needDiv = document.getElementById('need-tags');
+    needDiv.innerHTML = '';
+    member.need.forEach(tag => {
+      const span = document.createElement('span');
+      span.className = 'resource-tag need';
+      span.textContent = tag;
+      needDiv.appendChild(span);
+    });
+
+    const autoDiv = document.getElementById('auto-tag-suggestions');
+    autoDiv.innerHTML = '';
+    member.autoTags.forEach(tag => {
+      const span = document.createElement('span');
+      span.className = 'auto-tag';
+      span.textContent = tag;
+      autoDiv.appendChild(span);
+    });
+  }
+
+  function renderNetwork() {
+    const canvas = document.getElementById('network-canvas');
+    const svg = document.getElementById('network-svg');
+    const nodes = document.getElementById('network-nodes');
+    nodes.innerHTML = '';
+    svg.innerHTML = '';
+
+    if (!canvas.offsetWidth) return;
+    const w = canvas.offsetWidth;
+    const h = canvas.offsetHeight;
+    const cx = w / 2;
+    const cy = h / 2;
+
+    const positions = {};
+    positions['me'] = { x: cx, y: cy };
+    const others = MEMBERS.filter(m => m.id !== 'me');
+    others.forEach((m, i) => {
+      const angle = (i / others.length) * Math.PI * 2 - Math.PI / 2;
+      const r = Math.min(w, h) * 0.35;
+      positions[m.id] = { x: cx + Math.cos(angle) * r, y: cy + Math.sin(angle) * r };
+    });
+
+    const edges = [];
+    for (let i = 0; i < MEMBERS.length; i++) {
+      for (let j = i + 1; j < MEMBERS.length; j++) {
+        const a = MEMBERS[i], b = MEMBERS[j];
+        const shared = [...a.provide, ...a.need, ...a.autoTags].filter(t => [...b.provide, ...b.need, ...b.autoTags].includes(t));
+        if (shared.length > 0) {
+          edges.push({ from: a.id, to: b.id, weight: shared.length, shared });
+        }
+      }
+    }
+
+    edges.forEach(e => {
+      const from = positions[e.from];
+      const to = positions[e.to];
+      if (activeFilters.size > 0) {
+        const matchFilter = e.shared.some(t => activeFilters.has(t));
+        if (!matchFilter) return;
+      }
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', from.x); line.setAttribute('y1', from.y);
+      line.setAttribute('x2', to.x); line.setAttribute('y2', to.y);
+      line.setAttribute('stroke', e.weight >= 3 ? '#0071E3' : e.weight >= 2 ? '#5BB5E0' : '#C8C8CD');
+      line.setAttribute('stroke-width', Math.min(1 + e.weight, 5));
+      line.setAttribute('opacity', 0.5);
+      svg.appendChild(line);
+    });
+
+    MEMBERS.forEach(m => {
+      const pos = positions[m.id];
+      const node = document.createElement('div');
+      node.className = 'network-node' + (m.id === 'me' ? ' me' : '') + (m.id === currentMemberId ? ' active' : '');
+      node.style.left = pos.x + 'px';
+      node.style.top = pos.y + 'px';
+      node.style.background = m.color;
+      node.textContent = m.avatar;
+      node.title = m.name + ' - ' + m.role;
+      node.onclick = () => selectMember(m.id);
+      nodes.appendChild(node);
+
+      const label = document.createElement('div');
+      label.className = 'network-node-label';
+      label.style.left = pos.x + 'px';
+      label.style.top = pos.y + 'px';
+      label.textContent = m.name;
+      nodes.appendChild(label);
+    });
+  }
+
+  function renderMatches() {
+    const member = MEMBERS.find(m => m.id === currentMemberId);
+    const area = document.getElementById('match-recommendations');
+    area.innerHTML = '';
+
+    const matches = [];
+    MEMBERS.forEach(other => {
+      if (other.id === member.id) return;
+      member.provide.forEach(myTag => {
+        if (other.need.includes(myTag)) {
+          matches.push({ from: member, to: other, tag: myTag, type: 'give' });
+        }
+      });
+      other.provide.forEach(otherTag => {
+        if (member.need.includes(otherTag)) {
+          matches.push({ from: other, to: member, tag: otherTag, type: 'receive' });
+        }
+      });
+    });
+
+    let filtered = matches;
+    if (activeFilters.size > 0) {
+      filtered = matches.filter(m => activeFilters.has(m.tag));
+    }
+
+    if (filtered.length === 0) {
+      area.innerHTML = '<div class="empty-hint">暂无匹配<br>试试添加更多标签</div>';
+      return;
+    }
+
+    const seen = new Set();
+    const unique = filtered.filter(m => {
+      const key = m.from.id + '-' + m.to.id + '-' + m.tag;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }).slice(0, 8);
+
+    unique.forEach(m => {
+      const div = document.createElement('div');
+      div.className = 'match-card';
+      const reason = m.type === 'give' ? '你「' + m.tag + '」能帮到 ta' : 'ta「' + m.tag + '」是你需要的';
+      const suggestion = m.type === 'give' ? '建议：你' + m.from.name + '可以联系 ' + m.to.name + '，' + m.tag + '是 ta 想要的。' : '建议：' + m.from.name + '的「' + m.tag + '」值得你主动了解。';
+      div.innerHTML = '<div class="match-reason">' + reason + '</div><div class="match-suggestion">' + suggestion + '</div><div class="match-meta"><div class="match-avatar" style="background:' + m.to.color + ';">' + m.to.avatar + '</div><span>' + m.to.name + ' · ' + m.to.role + '</span></div>';
+      div.onclick = () => selectMember(m.to.id);
+      area.appendChild(div);
+    });
+  }
+
+  function selectMember(id) {
+    currentMemberId = id;
+    renderMemberList();
+    renderResourceSection();
+    renderNetwork();
+    renderMatches();
+  }
+
+  function applyAutoTags() {
+    const member = MEMBERS.find(m => m.id === currentMemberId);
+    if (!member) return;
+    member.provide = Array.from(new Set([...member.provide, ...member.autoTags]));
+    renderResourceSection();
+    renderNetwork();
+    renderMatches();
+    alert('智能标签已应用');
+  }
+
+  renderMemberList();
+  renderTagFilters();
+  renderResourceSection();
+  setTimeout(renderNetwork, 100);
+  renderMatches();
+
+  let resizeT;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeT);
+    resizeT = setTimeout(renderNetwork, 200);
+  });
+  </script>
+</body>
+</html>
