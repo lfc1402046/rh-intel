@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>智能健康监控 · 核心权益 · RH Intel</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230071E3'/%3E%3Ctext x='50' y='68' font-size='56' font-weight='700' fill='white' text-anchor='middle' font-family='-apple-system'%3ER%3C/text%3E%3C/svg%3E">
+  <style>
+    .health-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 900px) { .health-layout { grid-template-columns: 1fr; } }
+    .health-card { background: white; border-radius: 16px; padding: 20px; border: 1px solid #E5E5EA; }
+    .health-card h2 { font-size: 20px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    .health-card .subtitle { font-size: 13px; color: #6E6E73; margin-bottom: 16px; }
+    .score-circle { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 16px; color: white; flex-shrink: 0; }
+    .score-good { background: linear-gradient(135deg, #7FD4A0, #4ECDC4); }
+    .score-warn { background: linear-gradient(135deg, #FFD66B, #FFA47C); }
+    .score-bad { background: linear-gradient(135deg, #E88989, #C26868); }
+    .contact-row { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; margin-bottom: 8px; transition: all 150ms; cursor: pointer; }
+    .contact-row:hover { background: #FBFBFD; }
+    .alert-badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 600; margin-left: 6px; }
+    .alert-urgent { background: rgba(232, 137, 137, 0.15); color: #C26868; }
+    .alert-soon { background: rgba(255, 159, 10, 0.15); color: #8B5A0E; }
+    .alert-calm { background: rgba(127, 212, 160, 0.15); color: #2D7A3A; }
+    .alert-list { max-height: 420px; overflow-y: auto; }
+    .countdown-item { display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 10px; margin-bottom: 6px; background: #FBFBFD; }
+    .countdown-num { font-size: 22px; font-weight: 700; line-height: 1; min-width: 50px; text-align: center; color: #0071E3; }
+    .countdown-num.zero { color: #C26868; font-size: 14px; }
+    .countdown-info { flex: 1; }
+    .countdown-name { font-weight: 600; font-size: 13px; }
+    .countdown-meta { font-size: 11px; color: #6E6E73; }
+    .ai-suggestion { background: linear-gradient(135deg, rgba(91, 181, 224, 0.05) 0%, rgba(139, 127, 232, 0.05) 100%); border: 1px solid rgba(0, 113, 227, 0.15); border-radius: 12px; padding: 16px; margin-top: 12px; }
+    .ai-suggestion-title { font-size: 12px; color: #0071E3; font-weight: 600; margin-bottom: 6px; }
+    .ai-suggestion-content { font-size: 14px; line-height: 1.6; color: #1D1D1F; margin-top: 6px; }
+    .ai-tag-pill { display: inline-block; padding: 2px 8px; background: rgba(0, 113, 227, 0.1); color: #0071E3; border-radius: 4px; font-size: 10px; margin-left: 4px; }
+    .paywall-hint { background: linear-gradient(135deg, #FFD66B22 0%, #FFA47C22 100%); border: 1px solid #FFD66B; border-radius: 12px; padding: 12px 16px; margin-top: 16px; display: flex; align-items: center; gap: 12px; font-size: 13px; }
+    .select-row { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+    .form-input { padding: 8px 12px; border: 1px solid #E5E5EA; border-radius: 8px; font-size: 14px; font-family: inherit; background: white; }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">跳到主内容</a>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="./" class="logo"><span class="logo-mark">R</span><span>RH Intel</span></a>
+      <nav class="nav">
+        <a href="./">首页</a>
+        <a href="features.html">功能</a>
+        <a href="architecture.html">架构</a>
+        <a href="guide.html">指南</a>
+        <a href="download.html">下载</a>
+        <a href="contact.html">联系</a>
+      </nav>
+      <div class="header-actions">
+        <a href="#" class="github-link" title="GitHub">⭐ <span>Star</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" style="padding: 60px 0 30px;">
+      <div class="container">
+        <span class="hero-eyebrow">⭐ 核心权益 · v1.5 即将发布</span>
+        <h1 style="font-size: 48px;">智能健康关系监控<br>与维护提醒</h1>
+        <p class="hero-subtitle">让 AI 替你惦记每段关系<br>新机会、礼物、生日、纪念日——一个都不漏</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding: 0 0 60px;">
+      <div class="container">
+
+        <div class="health-layout">
+          <!-- 卡片 1：关系健康度监控 -->
+          <div class="health-card">
+            <h2>💗 1. 关系健康度监控</h2>
+            <div class="subtitle">基于互动频率 + 情感状态 + 关系阶段，实时评估 + 异常预警</div>
+            <div class="alert-list" id="health-list"></div>
+            <div class="paywall-hint">
+              <span style="font-size: 20px;">💎</span>
+              <div><strong>付费权益：</strong>基础版看评分；付费版查看 7 指标雷达图 + 衰减预测 + 自动维护建议</div>
+            </div>
+          </div>
+
+          <!-- 卡片 2：关键节点提醒 -->
+          <div class="health-card">
+            <h2>🎂 2. 关键节点智能提醒</h2>
+            <div class="subtitle">未来 30 天的生日 / 纪念日 / 待办 / 活动邀请</div>
+            <div class="alert-list" id="countdown-list"></div>
+          </div>
+        </div>
+
+        <!-- 卡片 3：AI 主动聊天 -->
+        <div style="margin-top: 24px;">
+          <div class="health-card" style="background: linear-gradient(135deg, #FBFBFD 0%, #FFFFFF 100%);">
+            <h2>💬 3. AI 主动式专属聊天问候</h2>
+            <div class="subtitle">基于关系档案自动生成开场白 / 问候语 / 互动话题</div>
+
+            <div class="select-row">
+              <select class="form-input" id="ai-target" style="max-width: 240px;">
+                <option value="王五">王五（核心挚友）</option>
+                <option value="张老师">张老师（冷淡大学老师）</option>
+                <option value="小敏">小敏（前女友，敏感）</option>
+                <option value="张总">张总（重要客户）</option>
+                <option value="Vivian">Vivian（新朋友，边界）</option>
+                <option value="妈">妈（家人）</option>
+              </select>
+              <select class="form-input" id="ai-scenario" style="max-width: 240px;">
+                <option value="cold_restart">冷淡后重启（5 月未联系）</option>
+                <option value="birthday">生日祝福</option>
+                <option value="weekly">周报（客户）</option>
+                <option value="emotional">情绪关心（融资压力）</option>
+                <option value="first">首次问候</option>
+              </select>
+              <button class="btn btn-primary" onclick="generateAISuggestion()">🤖 生成</button>
+            </div>
+
+            <div id="ai-result"></div>
+
+            <div class="paywall-hint">
+              <span style="font-size: 20px;">💎</span>
+              <div><strong>付费权益：</strong>免费版每天 5 次 AI 生成；付费版无限生成 + 反馈学习 + 长期记忆</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 价值主张 -->
+        <div style="margin-top: 48px; background: white; border-radius: 16px; padding: 32px; border: 1px solid #E5E5EA;">
+          <h2 style="font-size: 24px; margin-bottom: 16px; text-align: center;">💎 为什么这是核心权益？</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+            <div>
+              <div style="font-size: 32px; margin-bottom: 8px;">⏰</div>
+              <h3 style="font-size: 16px; margin-bottom: 6px;">省时间</h3>
+              <p style="font-size: 13px; color: #6E6E73; line-height: 1.6;">不用手动记 100 个朋友的生日/纪念日，AI 主动提醒</p>
+            </div>
+            <div>
+              <div style="font-size: 32px; margin-bottom: 8px;">💗</div>
+              <h3 style="font-size: 16px; margin-bottom: 6px;">不冷落</h3>
+              <p style="font-size: 13px; color: #6E6E73; line-height: 1.6;">每个重要的人都被 AI 惦记，关系自然升温</p>
+            </div>
+            <div>
+              <div style="font-size: 32px; margin-bottom: 8px;">🎁</div>
+              <h3 style="font-size: 16px; margin-bottom: 6px;">不错过机会</h3>
+              <p style="font-size: 13px; color: #6E6E73; line-height: 1.6;">新机会、礼物推荐、撮合匹配自动推送</p>
+            </div>
+            <div>
+              <div style="font-size: 32px; margin-bottom: 8px;">🧠</div>
+              <h3 style="font-size: 16px; margin-bottom: 6px;">不焦虑</h3>
+              <p style="font-size: 13px; color: #6E6E73; line-height: 1.6;">"不知说什么"——AI 给 3 种开场白</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container-wide">
+      <div class="footer-grid">
+        <div class="footer-brand"><a href="./" class="logo"><span class="logo-mark">R</span><span>RH Intel</span></a><p>人际关系 · 情报中心</p></div>
+        <div class="footer-col"><h4>工具</h4><ul><li><a href="ai-test.html">AI 话术测试</a></li><li><a href="feature-demo.html">功能演示</a></li><li><a href="resource-pool.html">资源池</a></li><li><a href="health-monitor.html">健康监控</a></li></ul></div>
+        <div class="footer-col"><h4>产品</h4><ul><li><a href="features.html">功能</a></li><li><a href="architecture.html">架构</a></li></ul></div>
+        <div class="footer-col"><h4>资源</h4><ul><li><a href="https://github.com/lfc1402046/rh-intel" target="_blank" rel="noopener">GitHub</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><p>© 2026 RH Intel · 核心权益预览</p></div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+  const CONTACTS = [
+    { id: 1, name: '王五', avatar: 'W', color: '#FFD66B', role: '核心挚友', lastContact: 4, strength: 5, frequency: 7, note: '最近融资压力' },
+    { id: 2, name: '李四', avatar: 'L', color: '#FFA47C', role: '朋友', lastContact: 7, strength: 4, frequency: 14, note: '想换工作' },
+    { id: 3, name: '妈', avatar: '👩', color: '#FFD66B', role: '家人', lastContact: 2, strength: 5, frequency: 4, note: '关心健康' },
+    { id: 4, name: '爸', avatar: '👨', color: '#5BB5E0', role: '家人', lastContact: 5, strength: 5, frequency: 5, note: '担心我工作' },
+    { id: 5, name: '张总', avatar: 'Z', color: '#92B8D8', role: '客户', lastContact: 2, strength: 2, frequency: 7, note: '80 万项目' },
+    { id: 6, name: '周教练', avatar: 'Z', color: '#4ECDC4', role: '跑团', lastContact: 5, strength: 4, frequency: 3, note: '' },
+    { id: 7, name: '孙八', avatar: 'S', color: '#FF8C5A', role: '投资', lastContact: 15, strength: 3, frequency: 14, note: '' },
+    { id: 8, name: '小敏', avatar: 'X', color: '#C8B8DB', role: '前任', lastContact: 90, strength: 2, frequency: 90, note: '⚠️ 敏感' },
+    { id: 9, name: '林医生', avatar: 'L', color: '#FFB088', role: '医生', lastContact: 42, strength: 3, frequency: 60, note: '' },
+    { id: 10, name: '张老师', avatar: 'Z', color: '#92B8D8', role: '大学老师', lastContact: 720, strength: 1, frequency: 365, note: '已 2 年' }
+  ];
+
+  const KEY_DATES = [
+    { name: '爸生日', daysUntil: 5, type: 'birthday', avatar: '👨', note: '提前买礼物' },
+    { name: '糖尿病复查', daysUntil: 22, type: 'todo', avatar: '👨‍⚕️' },
+    { name: 'AI 周报张总', daysUntil: 1, type: 'todo', avatar: '💼' },
+    { name: '王五周末跑', daysUntil: 3, type: 'event', avatar: '🏃' },
+    { name: '约阿涛咖啡', daysUntil: 5, type: 'event', avatar: '☕' },
+    { name: '李四生日', daysUntil: 36, type: 'birthday', avatar: '🎂' },
+    { name: '妈生日', daysUntil: 220, type: 'birthday', avatar: '👩' },
+    { name: '王五生日', daysUntil: 178, type: 'birthday', avatar: '🎉' },
+    { name: '相识纪念日', daysUntil: 240, type: 'anniversary', avatar: '💍' }
+  ];
+
+  function calcHealthScore(c) {
+    const strengthScore = (c.strength / 5) * 100;
+    const freqScore = c.frequency <= 7 ? 100 : c.frequency <= 30 ? 80 : c.frequency <= 90 ? 50 : 20;
+    const recentScore = c.lastContact <= 7 ? 100 : c.lastContact <= 30 ? 80 : c.lastContact <= 90 ? 50 : 20;
+    return Math.round(strengthScore * 0.4 + freqScore * 0.4 + recentScore * 0.2);
+  }
+
+  function healthLevel(score) {
+    if (score >= 80) return { label: '健康', cls: 'score-good', alert: 'alert-calm' };
+    if (score >= 50) return { label: '需关注', cls: 'score-warn', alert: 'alert-soon' };
+    return { label: '警告', cls: 'score-bad', alert: 'alert-urgent' };
+  }
+
+  function renderHealthList() {
+    const list = document.getElementById('health-list');
+    list.innerHTML = '';
+    const sorted = [...CONTACTS].map(c => ({ ...c, score: calcHealthScore(c) })).sort((a, b) => a.score - b.score);
+    sorted.forEach(c => {
+      const lv = healthLevel(c.score);
+      const row = document.createElement('div');
+      row.className = 'contact-row';
+      row.innerHTML = '<div class="avatar" style="width:40px;height:40px;border-radius:12px;background:' + c.color + ';display:grid;place-items:center;color:white;font-weight:700;font-size:14px;flex-shrink:0;">' + c.avatar + '</div><div style="flex:1;"><div style="font-weight:600;font-size:14px;">' + c.name + '<span class="alert-badge ' + lv.alert + '">' + lv.label + '</span></div><div style="font-size:12px;color:#6E6E73;">' + c.role + ' · ' + c.lastContact + ' 天前联系 · 平均 ' + c.frequency + ' 天/次</div></div><div class="score-circle ' + lv.cls + '">' + c.score + '</div>';
+      row.onclick = () => showHealthDetail(c, lv);
+      list.appendChild(row);
+    });
+  }
+
+  function showHealthDetail(c, lv) {
+    if (rhToast) {
+      const messages = { '警告': '关系已疏远，建议立即主动维护', '需关注': '关系温度下降，建议安排互动', '健康': '关系良好' };
+      rhToast(c.name + ' · ' + c.score + ' 分 · ' + messages[lv.label], lv.label === '警告' ? 'warn' : 'success');
+    }
+  }
+
+  function renderCountdownList() {
+    const list = document.getElementById('countdown-list');
+    list.innerHTML = '';
+    const sorted = [...KEY_DATES].sort((a, b) => a.daysUntil - b.daysUntil);
+    sorted.forEach(d => {
+      const isUrgent = d.daysUntil <= 7;
+      const typeColor = { birthday: '#FF8C5A', anniversary: '#5BB5E0', todo: '#FFD66B', event: '#4ECDC4' }[d.type] || '#86868B';
+      const typeLabel = { birthday: '🎂 生日', anniversary: '💍 纪念日', todo: '✅ 待办', event: '📅 活动' }[d.type] || d.type;
+      const div = document.createElement('div');
+      div.className = 'countdown-item';
+      div.innerHTML = '<div class="countdown-num' + (d.daysUntil === 0 ? ' zero' : '') + '">' + (d.daysUntil === 0 ? '今天' : d.daysUntil) + '</div><div class="countdown-info"><div class="countdown-name">' + d.avatar + ' ' + d.name + '</div><div class="countdown-meta">' + typeLabel + (d.note ? ' · ' + d.note : '') + '</div></div>' + (isUrgent ? '<span class="alert-badge alert-urgent">紧急</span>' : '');
+      list.appendChild(div);
+    });
+  }
+
+  const AI_PROFILES = {
+    '王五': { safeTopics: ['AI Agent 研究', '环岛路训练', '女儿新技能'], doNotMention: ['岳父', '指责陪家人少'] },
+    '张老师': { safeTopics: ['建筑学理论', '古典音乐', '校园新建设施'], doNotMention: ['AI 收入对比', '转行失败'] },
+    '小敏': { safeTopics: ['她喜欢的书', '咖啡店展览'], doNotMention: ['复合', '李四', '新恋情'] },
+    '张总': { safeTopics: ['业务指标', '行业最佳实践'], doNotMention: ['模糊词', '技术 jargon'] },
+    'Vivian': { safeTopics: ['舞蹈', '咖啡馆', '团队活动'], doNotMention: ['暧昧暗示', '单独约'] },
+    '妈': { safeTopics: ['健康', '工作近况', '新闻'], doNotMention: ['婚事', '加班抱怨'] }
+  };
+
+  const AI_SCENARIOS = {
+    'cold_restart': (name, p) => ({ standard: name + '，' + p.safeTopics[0] + '最近有新动态吗？', direct: '上次聊的' + p.safeTopics[0] + '有进展了，分享给你看看？', reason: '使用安全话题切入，不触发敏感话题' }),
+    'birthday': (name, p) => ({ standard: '🎂 ' + name + '，生日快乐！' + p.safeTopics[1] + '还在继续吗？', direct: '今天你的日子，专属祝福，希望' + p.safeTopics[0] + '也能带给你快乐 🎉', reason: '结合对方兴趣，温暖而不套路' }),
+    'weekly': (name, p) => ({ standard: '本周交付达成率 65%，关键风险已识别。下周二前完成方案 v2.0。', direct: '本周进展：核心功能 100% 完成，剩余边缘 case 处理。详情见附件。', reason: '数据说话，避免模糊词' }),
+    'emotional': (name, p) => ({ standard: '上次你说压力大，这周末要不要出来跑一圈？边跑边聊。', direct: '看朋友圈你最近状态不太好，' + p.safeTopics[0] + '有进展吗？', reason: '从对方近期关注点切入' }),
+    'first': (name, p) => ({ standard: name + '你好，我是' + p.safeTopics[0] + '的爱好者，' + p.safeTopics[1] + '也是你擅长的？', direct: '看到你在' + p.safeTopics[0] + '领域的动态，' + p.safeTopics[1] + '也想交流一下', reason: '快速建立共同话题' })
+  };
+
+  function generateAISuggestion() {
+    const target = document.getElementById('ai-target').value;
+    const scenario = document.getElementById('ai-scenario').value;
+    const profile = AI_PROFILES[target];
+    const generator = AI_SCENARIOS[scenario];
+    if (!profile || !generator) return;
+    const result = generator(target, profile);
+    document.getElementById('ai-result').innerHTML = '<div class="ai-suggestion"><div class="ai-suggestion-title">🤖 AI 智能分析</div><div class="ai-suggestion-content"><strong>' + target + '</strong> · <span class="ai-tag-pill">' + scenario + '</span></div><div class="ai-suggestion-content" style="margin-top: 8px;"><strong>标准版：</strong>' + result.standard + '</div><div class="ai-suggestion-content" style="margin-top: 6px;"><strong>直接版：</strong>' + result.direct + '</div><div class="ai-suggestion-content" style="margin-top: 8px; color: #6E6E73; font-size: 13px;">💡 ' + result.reason + '</div><div style="margin-top: 8px; font-size: 11px; color: #86868B;">安全话题: ' + profile.safeTopics.join(' / ') + '<br>已规避: ' + profile.doNotMention.join(' / ') + '</div></div>';
+  }
+
+  renderHealthList();
+  renderCountdownList();
+  generateAISuggestion();
+  </script>
+</body>
+</html>
