@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新功能演示 · RH Intel</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230071E3'/%3E%3Ctext x='50' y='68' font-size='56' font-weight='700' fill='white' text-anchor='middle' font-family='-apple-system'%3ER%3C/text%3E%3C/svg%3E">
+  <style>
+    .demo-tabs { display: flex; gap: 12px; margin-bottom: 32px; border-bottom: 1px solid #E5E5EA; }
+    .demo-tab { padding: 12px 20px; cursor: pointer; border-bottom: 2px solid transparent; transition: all 150ms; font-weight: 500; }
+    .demo-tab:hover { color: #0071E3; }
+    .demo-tab.active { color: #0071E3; border-bottom-color: #0071E3; }
+    .demo-panel { display: none; }
+    .demo-panel.active { display: block; }
+    .step { background: white; border-radius: 16px; padding: 24px; margin-bottom: 16px; border: 1px solid #E5E5EA; }
+    .step-num { display: inline-block; width: 32px; height: 32px; border-radius: 50%; background: #0071E3; color: white; text-align: center; line-height: 32px; font-weight: 700; margin-right: 12px; }
+    .step.completed .step-num { background: #7FD4A0; }
+    .step-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .step-desc { color: #6E6E73; font-size: 14px; margin-bottom: 16px; }
+    .step-action { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .chat-container { background: #FBFBFD; border-radius: 16px; padding: 24px; min-height: 400px; max-height: 500px; overflow-y: auto; }
+    .chat-msg { display: flex; margin-bottom: 16px; align-items: flex-start; gap: 12px; }
+    .chat-msg.user { flex-direction: row-reverse; }
+    .chat-avatar { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-size: 18px; flex-shrink: 0; }
+    .chat-msg.bot .chat-avatar { background: rgba(0, 113, 227, 0.1); color: #0071E3; }
+    .chat-msg.user .chat-avatar { background: rgba(78, 205, 196, 0.15); color: #4ECDC4; }
+    .chat-bubble { max-width: 70%; padding: 12px 16px; border-radius: 16px; font-size: 15px; line-height: 1.5; }
+    .chat-msg.bot .chat-bubble { background: white; border: 1px solid #E5E5EA; }
+    .chat-msg.user .chat-bubble { background: #0071E3; color: white; }
+    .chat-input-area { display: flex; gap: 8px; margin-top: 16px; }
+    .chat-input { flex: 1; padding: 12px 16px; border: 1px solid #E5E5EA; border-radius: 999px; font-size: 15px; font-family: inherit; }
+    .chat-input:focus { outline: none; border-color: #0071E3; }
+    .quick-choices { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .quick-choice { padding: 6px 14px; background: white; border: 1px solid #E5E5EA; border-radius: 999px; font-size: 13px; cursor: pointer; transition: all 150ms; }
+    .quick-choice:hover { border-color: #0071E3; color: #0071E3; background: rgba(0, 113, 227, 0.05); }
+    .import-zone { border: 2px dashed #E5E5EA; border-radius: 16px; padding: 48px 24px; text-align: center; transition: all 200ms; cursor: pointer; background: #FBFBFD; }
+    .import-zone:hover, .import-zone.dragover { border-color: #0071E3; background: rgba(0, 113, 227, 0.05); }
+    .import-zone-icon { font-size: 48px; margin-bottom: 16px; }
+    .import-zone-text { font-size: 16px; font-weight: 500; margin-bottom: 8px; }
+    .import-zone-hint { font-size: 13px; color: #6E6E73; }
+    .preview-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 16px; }
+    .preview-table th, .preview-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #E5E5EA; }
+    .preview-table th { background: #FBFBFD; font-weight: 600; }
+    .preview-table .dup { background: rgba(255, 159, 10, 0.1); }
+    .field-mapping { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: center; padding: 8px 0; }
+    .field-source { padding: 8px 12px; background: #FBFBFD; border-radius: 8px; font-family: monospace; font-size: 13px; }
+    .field-target select { width: 100%; padding: 8px 12px; border: 1px solid #E5E5EA; border-radius: 8px; font-size: 14px; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+    .badge-warn { background: rgba(255, 159, 10, 0.15); color: #8B5A0E; }
+    .badge-new { background: rgba(127, 212, 160, 0.15); color: #2D7A3A; }
+    .badge-dup { background: rgba(232, 137, 137, 0.15); color: #C26868; }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">跳到主内容</a>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="./" class="logo">
+        <span class="logo-mark">R</span>
+        <span>RH Intel</span>
+      </a>
+      <nav class="nav">
+        <a href="./">首页</a>
+        <a href="features.html">功能</a>
+        <a href="architecture.html">架构</a>
+        <a href="guide.html">指南</a>
+        <a href="download.html">下载</a>
+        <a href="contact.html">联系</a>
+      </nav>
+      <div class="header-actions">
+        <a href="#" class="github-link" title="GitHub">⭐ <span>Star</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" style="padding: 60px 0 30px;">
+      <div class="container">
+        <span class="hero-eyebrow">新功能演示 · v1.1 Preview</span>
+        <h1 style="font-size: 48px;">快速导入 + 新手引导</h1>
+        <p class="hero-subtitle">两个新功能原型——让 RH Intel 更易上手</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding: 0 0 60px;">
+      <div class="container">
+        <div class="demo-tabs">
+          <div class="demo-tab active" data-tab="import">📥 快速批量导入</div>
+          <div class="demo-tab" data-tab="onboarding">🚀 新手引导</div>
+        </div>
+
+        <!-- ===== 功能 1：快速批量导入 ===== -->
+        <div class="demo-panel active" id="panel-import">
+          <div class="step" id="step-upload">
+            <div>
+              <span class="step-num">1</span>
+              <span class="step-title">上传数据文件</span>
+              <div class="step-desc">支持 CSV / vCard / 微信导出 / 通讯录 App 备份。系统会自动识别格式。</div>
+            </div>
+            <div class="step-action">
+              <div class="import-zone" id="import-zone">
+                <div class="import-zone-icon">📁</div>
+                <div class="import-zone-text">拖拽文件到此处，或点击选择</div>
+                <div class="import-zone-hint">支持 .csv / .vcf / .json · 最大 5MB · 数据仅在浏览器内处理</div>
+                <input type="file" id="file-input" accept=".csv,.vcf,.json" style="display:none">
+              </div>
+            </div>
+            <div class="step-action" style="margin-top: 12px;">
+              <button class="btn btn-secondary btn-sm" onclick="loadDemoCSV()">📝 加载示例 CSV（10 个联系人）</button>
+              <button class="btn btn-secondary btn-sm" onclick="downloadCSVTemplate()">⬇️ 下载 CSV 模板</button>
+            </div>
+          </div>
+
+          <div class="step" id="step-preview" style="display:none">
+            <div>
+              <span class="step-num">2</span>
+              <span class="step-title">数据预览 & 字段映射</span>
+              <div class="step-desc">系统已识别 <strong id="row-count">0</strong> 条记录。请确认字段映射（左侧是文件字段，右侧是工具字段）。</div>
+            </div>
+            <div class="step-action" id="field-mapping-area"></div>
+            <div style="overflow-x: auto; margin-top: 16px;">
+              <table class="preview-table" id="preview-table"></table>
+            </div>
+          </div>
+
+          <div class="step" id="step-dedupe" style="display:none">
+            <div>
+              <span class="step-num">3</span>
+              <span class="step-title">重复检测</span>
+              <div class="step-desc">检测到 <strong id="dup-count">0</strong> 个可能的重复（基于姓名 + 电话）。</div>
+            </div>
+            <div class="step-action" id="dup-actions"></div>
+          </div>
+
+          <div class="step" id="step-import-final" style="display:none">
+            <div>
+              <span class="step-num">4</span>
+              <span class="step-title">完成导入</span>
+              <div class="step-desc">✅ 成功导入 <strong id="success-count">0</strong> 个联系人到你的关系网。</div>
+            </div>
+            <div class="step-action">
+              <button class="btn btn-primary" onclick="resetImport()">再次导入</button>
+              <a href="feature-demo.html#onboarding" class="btn btn-secondary" onclick="switchTab('onboarding')">继续：新手引导 →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== 功能 2：新手引导 ===== -->
+        <div class="demo-panel" id="panel-onboarding">
+          <div class="step">
+            <div>
+              <span class="step-num">1</span>
+              <span class="step-title">欢迎使用 RH Intel</span>
+              <div class="step-desc">让我们花 2 分钟，带你建立第一个关系网。</div>
+            </div>
+            <div class="step-action">
+              <button class="btn btn-primary" id="start-onboarding-btn" onclick="startOnboarding()">开始引导</button>
+            </div>
+          </div>
+
+          <div class="step" id="chat-card" style="display:none">
+            <div>
+              <span class="step-num">2</span>
+              <span class="step-title">对话式引导</span>
+              <div class="step-desc">回答问题，建立你的关系网</div>
+            </div>
+            <div class="chat-container" id="chat-container"></div>
+            <div class="chat-input-area" id="chat-input-area" style="display:none">
+              <input class="chat-input" id="chat-input" placeholder="输入回复..." onkeypress="if(event.key==='Enter')sendMessage()">
+              <button class="btn btn-primary" onclick="sendMessage()">发送</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container-wide">
+      <div class="footer-grid">
+        <div class="footer-brand"><a href="./" class="logo"><span class="logo-mark">R</span><span>RH Intel</span></a><p>人际关系 · 情报中心</p></div>
+        <div class="footer-col"><h4>产品</h4><ul><li><a href="features.html">功能</a></li><li><a href="architecture.html">架构</a></li><li><a href="guide.html">指南</a></li></ul></div>
+        <div class="footer-col"><h4>工具</h4><ul><li><a href="ai-test.html">AI 话术测试</a></li><li><a href="feature-demo.html">功能演示</a></li></ul></div>
+        <div class="footer-col"><h4>资源</h4><ul><li><a href="https://github.com/lfc1402046/rh-intel" target="_blank" rel="noopener">GitHub</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><p>© 2026 RH Intel · v1.1 预览功能</p></div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    // ===== Tab 切换 =====
+    document.querySelectorAll('.demo-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        document.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // ===== 功能 1：快速导入 =====
+    const importZone = document.getElementById('import-zone');
+    const fileInput = document.getElementById('file-input');
+    importZone.addEventListener('click', () => fileInput.click());
+    importZone.addEventListener('dragover', (e) => { e.preventDefault(); importZone.classList.add('dragover'); });
+    importZone.addEventListener('dragleave', () => importZone.classList.remove('dragover'));
+    importZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      importZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', (e) => { if (e.target.files.length) handleFile(e.target.files[0]); });
+
+    let parsedData = [];
+    let fieldMap = {};
+
+    function handleFile(file) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const text = ev.target.result;
+        if (file.name.endsWith('.json')) {
+          try {
+            const json = JSON.parse(text);
+            parsedData = (json.contacts || json || []).map(c => ({
+              name: c.name || '',
+              phone: c.phone || c.wechat || '',
+              email: c.email || '',
+              tags: Array.isArray(c.tags) ? c.tags.join(',') : (c.tags || ''),
+              notes: c.notes || ''
+            }));
+          } catch (e) { alert('JSON 解析失败'); return; }
+        } else {
+          // CSV
+          const lines = text.split(/\r?\n/).filter(l => l.trim());
+          if (lines.length < 2) { alert('CSV 文件至少需要标题行 + 1 行数据'); return; }
+          const headers = parseCSVLine(lines[0]);
+          parsedData = lines.slice(1).map(line => {
+            const cells = parseCSVLine(line);
+            const row = {};
+            headers.forEach((h, i) => row[h.trim()] = (cells[i] || '').trim());
+            return row;
+          });
+        }
+        showPreview();
+      };
+      reader.readAsText(file, 'UTF-8');
+    }
+
+    function parseCSVLine(line) {
+      const result = []; let cur = ''; let inQuote = false;
+      for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+        if (c === '"') inQuote = !inQuote;
+        else if (c === ',' && !inQuote) { result.push(cur); cur = ''; }
+        else cur += c;
+      }
+      result.push(cur);
+      return result;
+    }
+
+    function showPreview() {
+      if (!parsedData.length) return;
+      document.getElementById('step-preview').style.display = 'block';
+      document.getElementById('row-count').textContent = parsedData.length;
+      const sources = Object.keys(parsedData[0]);
+      const targets = ['name', 'phone', 'email', 'tags', 'notes', '— 跳过 —'];
+      const area = document.getElementById('field-mapping-area');
+      area.innerHTML = '';
+      sources.forEach(src => {
+        fieldMap[src] = (src === 'name' || src === '姓名') ? 'name' :
+                         (src === 'phone' || src === '电话' || src === '手机') ? 'phone' :
+                         (src === 'email' || src === '邮箱') ? 'email' :
+                         (src === 'tags' || src === 'tag' || src === '标签') ? 'tags' :
+                         (src === 'notes' || src === '备注' || src === 'note') ? 'notes' : '— 跳过 —';
+        const row = document.createElement('div');
+        row.className = 'field-mapping';
+        row.innerHTML = `<div class="field-source">${src}</div><div style="text-align: center; color: #86868B;">→</div><div class="field-target"><select data-src="${src}">${targets.map(t => `<option value="${t}" ${t === fieldMap[src] ? 'selected' : ''}>${t}</option>`).join('')}</select></div>`;
+        area.appendChild(row);
+      });
+      area.querySelectorAll('select').forEach(sel => {
+        sel.addEventListener('change', (e) => { fieldMap[e.target.dataset.src] = e.target.value; });
+      });
+      renderTable();
+    }
+
+    function renderTable() {
+      const tbl = document.getElementById('preview-table');
+      const sources = Object.keys(parsedData[0]);
+      const sample = parsedData.slice(0, 10);
+      const dup = detectDuplicates();
+      tbl.innerHTML = `<thead><tr>${sources.map(s => `<th>${s}</th>`).join('')}<th>状态</th></tr></thead><tbody>${sample.map((row, i) => `<tr class="${dup.has(i) ? 'dup' : ''}">${sources.map(s => `<td>${row[s] || ''}</td>`).join('')}<td>${dup.has(i) ? '<span class="badge badge-dup">重复</span>' : '<span class="badge badge-new">新增</span>'}</td></tr>`).join('')}</tbody>`;
+      if (sample.length < parsedData.length) {
+        tbl.innerHTML += `<tfoot><tr><td colspan="${sources.length + 1}" style="text-align: center; color: #86868B; padding: 16px;">... 还有 ${parsedData.length - sample.length} 条记录</td></tr></tfoot>`;
+      }
+      setTimeout(() => {
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-primary';
+        btn.style.marginTop = '16px';
+        btn.textContent = '下一步：去重检测 →';
+        btn.onclick = showDedupe;
+        if (!area.querySelector('.next-btn')) {
+          btn.classList.add('next-btn');
+          area.parentElement.appendChild(btn);
+        }
+      }, 100);
+    }
+
+    function detectDuplicates() {
+      const dups = new Set();
+      const map = new Map();
+      parsedData.forEach((row, i) => {
+        const mapped = applyMapping(row);
+        if (!mapped.name) return;
+        const key = (mapped.name + (mapped.phone || '')).replace(/\s/g, '');
+        if (map.has(key)) dups.add(i).add ? null : (dups.add(i), dups.add(map.get(key)));
+        else map.set(key, i);
+      });
+      return dups;
+    }
+
+    function applyMapping(row) {
+      const result = {};
+      Object.entries(fieldMap).forEach(([src, target]) => {
+        if (target === '— 跳过 —') return;
+        result[target] = row[src] || '';
+      });
+      return result;
+    }
+
+    function showDedupe() {
+      document.getElementById('step-dedupe').style.display = 'block';
+      const dups = detectDuplicates();
+      document.getElementById('dup-count').textContent = dups.size;
+      const actions = document.getElementById('dup-actions');
+      actions.innerHTML = `
+        <button class="btn btn-primary" onclick="doImport()">✅ 跳过重复，导入 ${parsedData.length - dups.size} 个新联系人</button>
+        <button class="btn btn-secondary" onclick="doImport(true)">⚠️ 强制导入全部 ${parsedData.length} 个（包含重复）</button>
+      `;
+    }
+
+    function doImport(forceAll = false) {
+      let count = 0;
+      const stored = JSON.parse(localStorage.getItem('rh-intel-imported') || '[]');
+      const dups = forceAll ? new Set() : detectDuplicates();
+      parsedData.forEach((row, i) => {
+        if (dups.has(i)) return;
+        const mapped = applyMapping(row);
+        if (!mapped.name) return;
+        stored.push({ ...mapped, id: 'imp_' + Date.now() + '_' + i, importedAt: new Date().toISOString() });
+        count++;
+      });
+      localStorage.setItem('rh-intel-imported', JSON.stringify(stored));
+      document.getElementById('step-import-final').style.display = 'block';
+      document.getElementById('success-count').textContent = count;
+      document.getElementById('step-import-final').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetImport() {
+      ['step-preview', 'step-dedupe', 'step-import-final'].forEach(id => {
+        document.getElementById(id).style.display = 'none';
+      });
+      parsedData = [];
+      fieldMap = {};
+    }
+
+    function loadDemoCSV() {
+      const demo = `name,phone,email,tags,notes
+王五,138-0001-1001,wangwu@example.com,跑团;创业;AI,5年老友
+李四,139-0002-2002,lisi@example.com,跑团;互联网,大学同学
+张总,133-0019-9019,zhang@bizcorp.com,客户,80万项目
+周教练,138-0009-9009,zhou.coach@xx.com,跑团;教练,15年执教
+妈,0598-222-3333,,家人,每周通话
+爸,0598-222-3334,,家人,关心健康
+小敏,139-0011-1011,,前女友,敏感话题
+赵六,137-0003-3003,zhaoliu@xx.com,设计师,AI转型
+钱七,136-0004-4004,qianqi@xx.com,同事,可能跳槽
+Vivian,139-0018-8018,,新朋友,舞蹈老师`;
+      handleFile(new File([demo], 'demo.csv', { type: 'text/csv' }));
+    }
+
+    function downloadCSVTemplate() {
+      const tmpl = `name,phone,email,tags,notes\n张三,138-0000-0000,zhangsan@xx.com,朋友,备注内容`;
+      const blob = new Blob([tmpl], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'rh-intel-template.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // ===== 功能 2：新手引导 =====
+    const chatHistory = [];
+    let onboardingStep = 0;
+
+    const onboardingScript = [
+      {
+        bot: "你好！我是你的关系管理助手 👋 准备好建立你的第一个关系网了吗？",
+        choices: ['准备好了', '我想先看看']
+      },
+      {
+        bot: "很好！让我们从第一个联系人开始。请告诉我一个你生活中重要的人——比如家人、挚友、或同事的名字。",
+        input: true,
+        placeholder: '例如：王五 / 妈妈 / 张总...'
+      },
+      {
+        bot: (name) => `好的，${name}。他/她和你的关系是什么？`,
+        choices: ['家人', '朋友', '同事', '同学', '客户', '其他']
+      },
+      {
+        bot: (name) => `明白了。${name} 还有哪些信息你想记下来？\n\n（可输入如：手机号、生日、职业、备注等，也可直接跳过）`,
+        input: true,
+        placeholder: '例如：138-0000-0000 / 1990-05-20 / 设计师 / 喜欢咖啡...'
+      },
+      {
+        bot: (name) => `太棒了！${name} 已经加入你的关系网 🎉\n\n现在，让我推荐 3 个可能也值得记录的人：\n\n💡 **爸爸/妈妈** — 家人圈（邓巴第 1 圈）\n💡 **一个最好的朋友** — 挚友圈\n💡 **一个最近的同事** — 工作圈\n\n你想添加谁？`,
+        choices: ['全部添加', '稍后再说', '让我自己挑']
+      },
+      {
+        bot: "🎉 恭喜！你已经成功建立了第一批 4-5 个核心关系。\n\n接下来你可以：\n\n📊 **打开看板** — 查看今天的提醒\n🕸️ **查看图谱** — 看见你的关系网\n🤖 **启用 AI 增强** — 让 AI 帮你管理\n\n需要我再帮你做什么？",
+        choices: ['查看看板', '查看图谱', '启用 AI', '结束引导']
+      }
+    ];
+
+    function startOnboarding() {
+      document.getElementById('start-onboarding-btn').parentElement.parentElement.style.display = 'none';
+      document.getElementById('chat-card').style.display = 'block';
+      onboardingStep = 0;
+      botSay(onboardingScript[0]);
+    }
+
+    function botSay(step) {
+      const text = typeof step.bot === 'function' ? step.bot(getUserInput()) : step.bot;
+      addMessage('bot', text);
+      if (step.choices) showChoices(step.choices);
+      if (step.input) showInput(step.placeholder);
+      chatHistory.push({ role: 'bot', text });
+    }
+
+    function addMessage(role, text) {
+      const container = document.getElementById('chat-container');
+      const div = document.createElement('div');
+      div.className = 'chat-msg ' + role;
+      div.innerHTML = `<div class="chat-avatar">${role === 'bot' ? '🤖' : '🧑'}</div><div class="chat-bubble">${text.replace(/\n/g, '<br>')}</div>`;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function showChoices(choices) {
+      const container = document.getElementById('chat-container');
+      const area = document.createElement('div');
+      area.className = 'quick-choices';
+      area.style.marginLeft = '48px';
+      area.style.marginBottom = '16px';
+      choices.forEach(c => {
+        const btn = document.createElement('div');
+        btn.className = 'quick-choice';
+        btn.textContent = c;
+        btn.onclick = () => { area.remove(); addMessage('user', c); handleUserChoice(c); };
+        area.appendChild(btn);
+      });
+      container.appendChild(area);
+    }
+
+    function showInput(placeholder) {
+      document.getElementById('chat-input-area').style.display = 'flex';
+      const input = document.getElementById('chat-input');
+      input.placeholder = placeholder || '输入回复...';
+      input.value = '';
+      input.focus();
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const value = input.value.trim();
+      if (!value) return;
+      input.value = '';
+      addMessage('user', value);
+      chatHistory.push({ role: 'user', text: value });
+      document.getElementById('chat-input-area').style.display = 'none';
+      handleUserInput(value);
+    }
+
+    let collectedName = '';
+    function getUserInput() { return collectedName; }
+
+    function handleUserInput(value) {
+      if (onboardingStep === 1) { collectedName = value; }
+      if (onboardingStep === 3) {
+        // 解析附加信息
+        const tags = value.split(/[,，;；\s]+/).filter(Boolean).slice(0, 5);
+        if (tags.length) {
+          console.log('提取标签:', tags);
+        }
+      }
+      onboardingStep++;
+      if (onboardingStep < onboardingScript.length) {
+        setTimeout(() => botSay(onboardingScript[onboardingStep]), 600);
+      } else {
+        setTimeout(() => {
+          addMessage('bot', '🎊 引导完成！欢迎使用 RH Intel。\n\n现在去探索你的关系网吧！');
+        }, 600);
+      }
+    }
+
+    function handleUserChoice(choice) {
+      if (choice === '结束引导') {
+        addMessage('bot', '👋 引导完成！\n\n你随时可以回来点击导航菜单的"指南"复习。');
+        document.getElementById('chat-input-area').style.display = 'none';
+        return;
+      }
+      onboardingStep++;
+      if (onboardingStep < onboardingScript.length) {
+        setTimeout(() => botSay(onboardingScript[onboardingStep]), 400);
+      } else {
+        setTimeout(() => {
+          addMessage('bot', '🎊 引导完成！欢迎使用 RH Intel。\n\n现在去探索你的关系网吧！');
+        }, 400);
+      }
+    }
+  </script>
+</body>
+</html>
