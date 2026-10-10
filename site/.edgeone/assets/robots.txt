@@ -1,7 +1,0 @@
-User-agent: *
-Allow: /
-
-# 工具本体不参与搜索引擎索引（用户本地打开的）
-Disallow: /tool/
-
-Sitemap: https://rh-intel-fjbpwr6z.edgeone.cool/sitemap.xml
