@@ -1689,6 +1689,111 @@ window.addEventListener('resize',()=>{
 });
 
 console.log('🕵️ 人际关系侦探已启动 — 情报中心随时待命');
+
+// ============================================================
+// 开箱即用：首次启动自动预装示例数据
+// ============================================================
+(function() {
+  const STORAGE_KEY = 'relationship_detective_data';
+  try {
+    const existing = localStorage.getItem(STORAGE_KEY);
+    if (existing) {
+      console.log('✓ 已检测到本地数据，跳过预装');
+      return;
+    }
+
+    // 8 个示例联系人（精简版，匹配工具 v0.1 schema）
+    const SAMPLE = {
+      contacts: [
+        {
+          id: 'demo_001', name: '王五', wechat: 'wuwu_paobu', phone: '138-0001-1001',
+          tags: ['跑团', '挚友', 'AI'], strength: 5,
+          notes: '8 年老友，跑团认识。每周一起跑步，最近在忙融资。',
+          interactions: [
+            { id: 'i1', time: '2026-10-08', method: '微信', topics: ['新项目'], mood: '😊', summary: '聊了他新项目的方向' },
+            { id: 'i2', time: '2026-10-03', method: '跑步', location: '环岛路', topics: ['跑步'], mood: '😐', summary: '环岛路 10km' }
+          ],
+          connections: [{ targetId: 'demo_006', type: '跑团' }],
+          createdAt: '2024-01-15T10:00:00Z'
+        },
+        {
+          id: 'demo_002', name: '李四', wechat: 'lisixin2026', phone: '139-0002-2002',
+          tags: ['跑团', '互联网'], strength: 4,
+          notes: '大学同学，6 次马拉松战友。INTJ，最近想换工作。',
+          interactions: [
+            { id: 'i3', time: '2026-10-05', method: '微信', topics: ['AI 创业'], mood: '🤝', summary: '聊 AI 创业机会' }
+          ],
+          connections: [],
+          createdAt: '2024-02-10T14:00:00Z'
+        },
+        {
+          id: 'demo_003', name: '妈', wechat: 'mama_family', phone: '0598-222-3333',
+          tags: ['家人', '重要'], strength: 5,
+          notes: '妈妈。每周至少通话 1-2 次。健康重要。',
+          interactions: [
+            { id: 'i4', time: '2026-10-07', method: '电话', location: '家中', topics: ['健康'], mood: '😊', summary: '妈说血压稳定' }
+          ],
+          connections: [{ targetId: 'demo_004', type: '家人' }],
+          createdAt: '2023-01-01T00:00:00Z'
+        },
+        {
+          id: 'demo_004', name: '爸', wechat: 'baba_family', phone: '0598-222-3334',
+          tags: ['家人', '重要'], strength: 5,
+          notes: '爸爸。性格稳重，话不多。对我转行有些担心。',
+          interactions: [
+            { id: 'i5', time: '2026-10-05', method: '微信', topics: ['新闻'], mood: '😐', summary: '转发经济新闻' }
+          ],
+          connections: [{ targetId: 'demo_003', type: '家人' }],
+          createdAt: '2023-01-01T00:00:00Z'
+        },
+        {
+          id: 'demo_005', name: '张总', wechat: 'zhang_zong', phone: '133-0019-9019',
+          tags: ['客户'], strength: 2,
+          notes: '客户。80 万 AI 项目，定期汇报。',
+          interactions: [
+            { id: 'i6', time: '2026-10-08', method: '微信', topics: ['项目'], mood: '😐', summary: '问项目进度' }
+          ],
+          connections: [{ targetId: 'demo_001', type: '引荐' }],
+          createdAt: '2026-05-15T14:00:00Z'
+        },
+        {
+          id: 'demo_006', name: '孙八', wechat: 'sunba_options', phone: '135-0005-5005',
+          tags: ['投资', '期权'], strength: 3,
+          notes: '投资经理。SOXL 行情专家。',
+          interactions: [],
+          connections: [],
+          createdAt: '2024-10-20T16:00:00Z'
+        },
+        {
+          id: 'demo_007', name: '周教练', wechat: 'coach_zhou', phone: '138-0009-9009',
+          tags: ['跑团', '教练'], strength: 4,
+          notes: '跑团团长 / 跑步教练。',
+          interactions: [
+            { id: 'i7', time: '2026-10-05', method: '跑步', location: '环岛路', topics: ['训练'], mood: '😊', summary: '周教练给了 11 月训练计划' }
+          ],
+          connections: [{ targetId: 'demo_001', type: '跑团' }],
+          createdAt: '2024-03-15T16:00:00Z'
+        },
+        {
+          id: 'demo_008', name: '林医生', wechat: 'lin_doctor', phone: '0592-1234-5678',
+          tags: ['医生'], strength: 3,
+          notes: '体检医生。糖尿病管理随访。',
+          interactions: [],
+          connections: [],
+          createdAt: '2022-03-10T14:30:00Z'
+        }
+      ]
+    };
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(SAMPLE));
+    console.log('🎁 已预装 8 位示例联系人 — 立即开始体验！');
+
+    // 触发工具本体的重渲染
+    setTimeout(() => location.reload(), 100);
+  } catch (e) {
+    console.warn('示例数据预装失败（localStorage 不可用？）:', e.message);
+  }
+})();
 </script>
 </body>
 </html>

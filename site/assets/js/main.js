@@ -99,3 +99,30 @@
     }
   });
 })();
+
+// ===== 全局错误处理 =====
+(function() {
+  // 捕获未处理错误
+  window.addEventListener('error', (e) => {
+    console.warn('[RH Intel] 错误:', e.message, e.filename, e.lineno);
+    showToast('页面出现小问题，已自动恢复', 'warn');
+  });
+  // 捕获 Promise 拒绝
+  window.addEventListener('unhandledrejection', (e) => {
+    console.warn('[RH Intel] Promise 错误:', e.reason);
+    showToast('操作未完成，请重试', 'warn');
+  });
+  // 简易 toast
+  function showToast(msg, type) {
+    const existing = document.getElementById('rh-toast');
+    if (existing) existing.remove();
+    const t = document.createElement('div');
+    t.id = 'rh-toast';
+    t.textContent = msg;
+    t.style.cssText = 'position:fixed;bottom:96px;right:32px;padding:12px 20px;background:' + (type === 'warn' ? 'rgba(255,159,10,0.95)' : 'rgba(0,0,0,0.85)') + ';color:white;border-radius:12px;font-size:14px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.15);backdrop-filter:blur(10px);animation:slideIn 0.3s ease;';
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(() => t.remove(), 300); }, 3000);
+  }
+  // 暴露给其他脚本
+  window.rhToast = showToast;
+})();
