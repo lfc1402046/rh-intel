@@ -811,6 +811,7 @@ function removeConnection(contactId,targetId){
 
 function getDefaultContact(){
   return {
+    // v0.1 基础字段
     id:uuid(),
     name:'',
     wechat:'',
@@ -821,8 +822,104 @@ function getDefaultContact(){
     interactions:[],
     connections:[],
     connectionTypes:{},
-    createdAt:new Date().toISOString()
+    createdAt:new Date().toISOString(),
+
+    // v3.0 升级字段（v31 第一轮新增，向后兼容）
+    nickname:'',           // 昵称
+    avatar:'',             // 头像
+    gender:'',             // 性别
+    ageRange:'',           // 年龄段
+    email:'',              // 邮箱
+    company:'',            // 公司
+    position:'',           // 职位
+    hometown:'',           // 籍贯
+    currentCity:'',        // 现居地
+    metAt:'',              // 初次见面时间
+    metScene:'',           // 初次见面场景
+    introducedBy:'',       // 引荐人 ID
+    dunbarTier:null,       // 邓巴圈层 1-4
+    valueTier:'maintain',  // 价值层级
+    familiarity:'familiar',// 熟悉程度
+    trustLevel:3,          // 信任度
+    emotionalTendency:'',  // 情感倾向
+    customAttrs:[],        // 自定义键值
+    lastInteractionAt:'',  // 最后互动时间
+    interactionCount:0,    // 互动次数
+    avgIntervalDays:0,     // 平均互动间隔
+    keyDates:[],           // 重要日期
+    todos:[],              // 待办事项
+    preferences:{          // 偏好
+      likes:[], dislikes:[], gifts:[]
+    },
+    sensitivityTopics:[]  // 敏感话题
   };
+}
+
+// ===== v31 新增：v0.1 → v3.0 数据迁移 =====
+// 用于读取旧数据时自动升级
+function migrateV1toV3(contact) {
+  if (!contact) return null;
+  // 已迁移过的数据（有 dunbarTier 字段）跳过
+  if (contact.dunbarTier !== undefined && contact.dunbarTier !== null) return contact;
+
+  // 自动计算 lastInteractionAt
+  let lastInteractionAt = '';
+  let interactionCount = 0;
+  if (contact.interactions && contact.interactions.length > 0) {
+    interactionCount = contact.interactions.length;
+    const sorted = [...contact.interactions].sort((a, b) => new Date(b.time || b.date || 0) - new Date(a.time || a.date || 0));
+    lastInteractionAt = sorted[0].time || sorted[0].date || '';
+  }
+
+  // 自动推断 dunbarTier（基于 strength 强度）
+  const dunbarTier = contact.strength >= 5 ? 1 : contact.strength >= 4 ? 2 : contact.strength >= 2 ? 3 : 4;
+
+  return {
+    ...contact,
+    nickname: contact.nickname || '',
+    avatar: contact.avatar || '',
+    gender: contact.gender || '',
+    ageRange: contact.ageRange || '',
+    email: contact.email || '',
+    company: contact.company || '',
+    position: contact.position || '',
+    hometown: contact.hometown || '',
+    currentCity: contact.currentCity || '',
+    metAt: contact.metAt || '',
+    metScene: contact.metScene || '',
+    introducedBy: contact.introducedBy || '',
+    dunbarTier: dunbarTier,
+    valueTier: contact.valueTier || 'maintain',
+    familiarity: contact.familiarity || 'familiar',
+    trustLevel: contact.trustLevel || contact.strength || 3,
+    emotionalTendency: contact.emotionalTendency || '',
+    customAttrs: contact.customAttrs || [],
+    lastInteractionAt: contact.lastInteractionAt || lastInteractionAt,
+    interactionCount: contact.interactionCount || interactionCount,
+    avgIntervalDays: contact.avgIntervalDays || 0,
+    keyDates: contact.keyDates || [],
+    todos: contact.todos || [],
+    preferences: contact.preferences || { likes: [], dislikes: [], gifts: [] },
+    sensitivityTopics: contact.sensitivityTopics || []
+  };
+}
+
+// ===== v31 升级：loadData 自动迁移所有联系人 =====
+function loadData(){
+  const raw=localStorage.getItem(STORAGE_KEY);
+  if(!raw) return {contacts:[]};
+  try{
+    const data=JSON.parse(raw);
+    if(!data.contacts) return {contacts:[]};
+    // 迁移：每个联系人都升级到 v3.0 schema
+    data.contacts = data.contacts.map(c => migrateV1toV3(c));
+    // 自动持久化升级结果
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    return data;
+  }catch(e){
+    console.error('loadData error:',e);
+    return {contacts:[]};
+  }
 }
 
 // Analytics helpers
