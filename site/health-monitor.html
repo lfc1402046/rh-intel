@@ -252,21 +252,56 @@
   };
 
   const AI_SCENARIOS = {
-    'cold_restart': (name, p) => ({ standard: name + '，' + p.safeTopics[0] + '最近有新动态吗？', direct: '上次聊的' + p.safeTopics[0] + '有进展了，分享给你看看？', reason: '使用安全话题切入，不触发敏感话题' }),
-    'birthday': (name, p) => ({ standard: '🎂 ' + name + '，生日快乐！' + p.safeTopics[1] + '还在继续吗？', direct: '今天你的日子，专属祝福，希望' + p.safeTopics[0] + '也能带给你快乐 🎉', reason: '结合对方兴趣，温暖而不套路' }),
-    'weekly': (name, p) => ({ standard: '本周交付达成率 65%，关键风险已识别。下周二前完成方案 v2.0。', direct: '本周进展：核心功能 100% 完成，剩余边缘 case 处理。详情见附件。', reason: '数据说话，避免模糊词' }),
-    'emotional': (name, p) => ({ standard: '上次你说压力大，这周末要不要出来跑一圈？边跑边聊。', direct: '看朋友圈你最近状态不太好，' + p.safeTopics[0] + '有进展吗？', reason: '从对方近期关注点切入' }),
-    'first': (name, p) => ({ standard: name + '你好，我是' + p.safeTopics[0] + '的爱好者，' + p.safeTopics[1] + '也是你擅长的？', direct: '看到你在' + p.safeTopics[0] + '领域的动态，' + p.safeTopics[1] + '也想交流一下', reason: '快速建立共同话题' })
+    'cold_restart': (name, p) => ({ standard: name + '，' + p.safeTopics[0] + '最近有新动态吗？', direct: '上次聊的' + p.safeTopics[0] + '有进展了，分享给你看看？', reason: '使用安全话题切入，不触发敏感话题（情感策略：先验证，再问细节）' }),
+    'birthday': (name, p) => ({ standard: '🎂 ' + name + '，生日快乐！' + p.safeTopics[1] + '还在继续吗？', direct: '今天你的日子，专属祝福，希望' + p.safeTopics[0] + '也能带给你快乐 🎉', reason: '结合对方兴趣，温暖而不套路（情感策略：具体祝福而非通用套话）' }),
+    'weekly': (name, p) => ({ standard: '本周交付达成率 65%，关键风险已识别。下周二前完成方案 v2.0。', direct: '本周进展：核心功能 100% 完成，剩余边缘 case 处理。详情见附件。', reason: '数据说话，避免模糊词（情感策略：先解决信任，再谈具体）' }),
+    'emotional': (name, p) => ({ standard: '上次你说压力大，这周末要不要出来跑一圈？边跑边聊。', direct: '看朋友圈你最近状态不太好，' + p.safeTopics[0] + '有进展吗？', reason: '从对方近期关注点切入（情感策略：先验证情绪，再给具体行动）' }),
+    'first': (name, p) => ({ standard: name + '你好，我是' + p.safeTopics[0] + '的爱好者，' + p.safeTopics[1] + '也是你擅长的？', direct: '看到你在' + p.safeTopics[0] + '领域的动态，' + p.safeTopics[1] + '也想交流一下', reason: '快速建立共同话题（情感策略：先找共鸣，再拉近距离）' })
   };
+
+  // ===== 5 类越界检测（情感安全机制） =====
+  const CRISIS_PATTERNS = [
+    { regex: /撑不下去|没意思|不想活|自杀|了结/, severity: 'urgent', type: '自伤/自杀倾向', resource: '全国心理援助热线：12356 · 紧急：120 / 110' },
+    { regex: /打了我|家暴|虐待/, severity: 'urgent', type: '暴力/虐待', resource: '法律援助 / 妇联 12338' },
+    { regex: /每天睡不着|崩溃|抑郁|焦虑症/, severity: 'professional', type: '严重心理问题', resource: '建议精神科 / 心理咨询：简单心理' },
+    { regex: /离婚|分手.*该不该|辞职.*该不该/, severity: 'pause', type: '重大人生决策', resource: '建议婚姻咨询师 / 律师 / 信任的朋友' }
+  ];
+
+  function detectCrisis(text) {
+    const issues = [];
+    CRISIS_PATTERNS.forEach(p => {
+      if (p.regex.test(text)) {
+        issues.push(p);
+      }
+    });
+    return issues;
+  }
 
   function generateAISuggestion() {
     const target = document.getElementById('ai-target').value;
     const scenario = document.getElementById('ai-scenario').value;
+    const customText = document.getElementById('custom-scenario') ? document.getElementById('custom-scenario').value : '';
     const profile = AI_PROFILES[target];
     const generator = AI_SCENARIOS[scenario];
     if (!profile || !generator) return;
+
+    // 情感安全检测
+    const crisisCheck = detectCrisis(customText || '');
+
     const result = generator(target, profile);
-    document.getElementById('ai-result').innerHTML = '<div class="ai-suggestion"><div class="ai-suggestion-title">🤖 AI 智能分析</div><div class="ai-suggestion-content"><strong>' + target + '</strong> · <span class="ai-tag-pill">' + scenario + '</span></div><div class="ai-suggestion-content" style="margin-top: 8px;"><strong>标准版：</strong>' + result.standard + '</div><div class="ai-suggestion-content" style="margin-top: 6px;"><strong>直接版：</strong>' + result.direct + '</div><div class="ai-suggestion-content" style="margin-top: 8px; color: #6E6E73; font-size: 13px;">💡 ' + result.reason + '</div><div style="margin-top: 8px; font-size: 11px; color: #86868B;">安全话题: ' + profile.safeTopics.join(' / ') + '<br>已规避: ' + profile.doNotMention.join(' / ') + '</div></div>';
+
+    // 构建输出
+    let crisisHTML = '';
+    if (crisisCheck.length > 0) {
+      crisisHTML = '<div style="margin-top: 16px; padding: 16px; background: rgba(232, 137, 137, 0.1); border: 1px solid #E88989; border-radius: 12px;"><div style="font-size: 13px; font-weight: 600; color: #C26868; margin-bottom: 8px;">⚠️ 检测到情感安全信号</div>';
+      crisisCheck.forEach(c => {
+        const sevLabel = c.severity === 'urgent' ? '🚨 紧急' : c.severity === 'professional' ? '💚 专业' : '⏸️ 暂停';
+        crisisHTML += '<div style="font-size: 12px; color: #1D1D1F; margin-top: 6px;"><strong>' + sevLabel + ' ' + c.type + '</strong> · ' + c.resource + '</div>';
+      });
+      crisisHTML += '</div>';
+    }
+
+    document.getElementById('ai-result').innerHTML = '<div class="ai-suggestion"><div class="ai-suggestion-title">🤖 AI 智能分析</div><div class="ai-suggestion-content"><strong>' + target + '</strong> · <span class="ai-tag-pill">' + scenario + '</span></div><div class="ai-suggestion-content" style="margin-top: 8px;"><strong>标准版：</strong>' + result.standard + '</div><div class="ai-suggestion-content" style="margin-top: 6px;"><strong>直接版：</strong>' + result.direct + '</div><div class="ai-suggestion-content" style="margin-top: 8px; color: #6E6E73; font-size: 13px;">💡 ' + result.reason + '</div><div style="margin-top: 8px; font-size: 11px; color: #86868B;">安全话题: ' + profile.safeTopics.join(' / ') + '<br>已规避: ' + profile.doNotMention.join(' / ') + '</div></div>' + crisisHTML;
   }
 
   renderHealthList();
