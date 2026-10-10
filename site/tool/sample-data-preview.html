@@ -112,7 +112,16 @@
       <div class="container">
         <h2 class="section-title" style="font-size: 32px;">👥 20 位联系人</h2>
 
-        <div class="preview-grid">
+        <div style="background: white; border-radius: 16px; padding: 20px; margin-bottom: 24px; border: 1px solid #E5E5EA;">
+          <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+            <input type="text" id="search-input" placeholder="🔍 搜索姓名 / 标签 / 备注..." style="flex: 1; min-width: 200px; padding: 10px 16px; border: 1px solid #E5E5EA; border-radius: 999px; font-size: 14px; font-family: inherit;">
+            <div id="tag-filters" style="display: flex; gap: 6px; flex-wrap: wrap;"></div>
+            <button id="reset-filters" style="padding: 8px 14px; background: #FBFBFD; border: 1px solid #E5E5EA; border-radius: 999px; font-size: 13px; cursor: pointer;">↻ 重置</button>
+          </div>
+          <div id="result-count" style="font-size: 13px; color: #6E6E73; margin-top: 12px;">显示 20 / 20 位</div>
+        </div>
+
+        <div class="preview-grid" id="preview-grid">
           <div class="contact-card">
             <div class="avatar" style="background: #FFD66B;">W</div>
             <div class="name">王五 <span class="tier-badge tier-1">核心 1</span></div>
@@ -389,5 +398,76 @@
   </footer>
 
   <script src="../assets/js/main.js"></script>
+  <script>
+  // ===== 搜索 + 标签筛选 =====
+  (function() {
+    const grid = document.getElementById('preview-grid');
+    if (!grid) return;
+    const cards = Array.from(grid.querySelectorAll('.contact-card'));
+    const searchInput = document.getElementById('search-input');
+    const tagFiltersContainer = document.getElementById('tag-filters');
+    const resultCount = document.getElementById('result-count');
+    const resetBtn = document.getElementById('reset-filters');
+
+    // 提取每张卡片的数据
+    const allTags = new Set();
+    const cardData = cards.map(card => {
+      const name = card.querySelector('.name')?.textContent.trim() || '';
+      const meta = card.querySelector('.meta')?.textContent.trim() || '';
+      const notes = card.querySelector('.notes')?.textContent.trim() || '';
+      const tags = Array.from(card.querySelectorAll('.tag')).map(t => t.textContent.trim());
+      tags.forEach(t => allTags.add(t));
+      return { card, name, meta, notes, tags, text: (name + ' ' + meta + ' ' + notes + ' ' + tags.join(' ')).toLowerCase() };
+    });
+
+    let activeTag = null;
+
+    // 渲染标签筛选按钮
+    const tagColors = ['#8B7FE8', '#5BB5E0', '#FF8C5A', '#4ECDC4', '#FFB088', '#E8919C', '#FFD66B', '#92B8D8'];
+    Array.from(allTags).sort().forEach((tag, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'tag-filter';
+      btn.textContent = tag;
+      btn.dataset.tag = tag;
+      btn.style.cssText = `padding: 6px 12px; border-radius: 999px; font-size: 12px; cursor: pointer; border: 1px solid ${tagColors[i % tagColors.length]}; background: white; color: ${tagColors[i % tagColors.length]}; transition: all 150ms;`;
+      btn.onclick = () => {
+        if (activeTag === tag) { activeTag = null; btn.style.background = 'white'; btn.style.color = tagColors[i % tagColors.length]; }
+        else { activeTag = tag; document.querySelectorAll('.tag-filter').forEach(b => { b.style.background = 'white'; b.style.color = b.dataset.color || '#86868B'; }); btn.style.background = tagColors[i % tagColors.length]; btn.style.color = 'white'; }
+        applyFilters();
+      };
+      btn.dataset.color = tagColors[i % tagColors.length];
+      tagFiltersContainer.appendChild(btn);
+    });
+
+    function applyFilters() {
+      const q = (searchInput.value || '').trim().toLowerCase();
+      let visible = 0;
+      cardData.forEach(d => {
+        const matchSearch = !q || d.text.includes(q);
+        const matchTag = !activeTag || d.tags.includes(activeTag);
+        const show = matchSearch && matchTag;
+        d.card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      resultCount.textContent = `显示 ${visible} / ${cards.length} 位`;
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    resetBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      activeTag = null;
+      document.querySelectorAll('.tag-filter').forEach(b => { b.style.background = 'white'; b.style.color = b.dataset.color; });
+      applyFilters();
+    });
+
+    // 键盘快捷键：/ 聚焦搜索框
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        searchInput.focus();
+      }
+    });
+  })();
+  </script>
 </body>
 </html>
