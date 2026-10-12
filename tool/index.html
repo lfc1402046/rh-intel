@@ -7,20 +7,20 @@
 <style>
 /* ===== 侦探暗黑主题 ===== */
 :root {
-  --bg-deep: #07070a;
-  --bg-card: #0f0f15;
-  --bg-card-hover: #15151e;
-  --bg-elevated: #14141c;
-  --border: #1e1e2a;
-  --border-light: #2a2a3a;
-  --gold: #c9a84c;
-  --gold-dim: #8a7a3a;
-  --gold-glow: rgba(201,168,76,0.15);
+  --bg-deep: #FFFFFF;
+  --bg-card: #F5F5F7;
+  --bg-card-hover: #EAEAEC;
+  --bg-elevated: #FFFFFF;
+  --border: #D2D2D7;
+  --border-light: #E5E5EA;
+  --gold: #0071E3;
+  --gold-dim: #6E6E73;
+  --gold-glow: rgba(0,113,227,0.1);
   --green: #2d7a3a;
   --green-dim: #1d5a28;
-  --text: #d4d4dc;
-  --text-dim: #7a7a8a;
-  --text-muted: #4a4a5a;
+  --text: #1D1D1F;
+  --text-dim: #6E6E73;
+  --text-muted: #86868B;
   --danger: #c0392b;
   --danger-glow: rgba(192,57,43,0.2);
   --safe: #27ae60;
@@ -139,12 +139,12 @@ body{
 }
 .btn:hover{background:var(--bg-card-hover);border-color:var(--text-muted);}
 .btn-gold{
-  background:linear-gradient(135deg,#c9a84c,#b8942e);
+  background:linear-gradient(135deg,#6E6E73,#b8942e);
   color:#000;
   border-color:var(--gold);
   font-weight:600;
 }
-.btn-gold:hover{background:linear-gradient(135deg,#d4b85a,#c9a84c);box-shadow:var(--shadow-glow);}
+.btn-gold:hover{background:linear-gradient(135deg,#d4b85a,#6E6E73);box-shadow:var(--shadow-glow);}
 .btn-sm{padding:4px 10px;font-size:12px;}
 .btn-icon{
   width:32px;height:32px;padding:0;
@@ -1850,7 +1850,7 @@ function drawGraph(ctx,rect,nodes,edges,tooltip,canvas){
     // Node circle
     ctx.beginPath();
     ctx.arc(n.x,n.y,n.radius,0,Math.PI*2);
-    ctx.fillStyle=n.strength>=4?'#c9a84c':n.strength>=3?'#2d7a3a':'#1e1e2a';
+    ctx.fillStyle=n.strength>=4?'#6E6E73':n.strength>=3?'#2d7a3a':'#1e1e2a';
     ctx.fill();
     ctx.strokeStyle=n.strength>=4?'#d4af37':'#2a2a3a';
     ctx.lineWidth=2;
@@ -1858,7 +1858,7 @@ function drawGraph(ctx,rect,nodes,edges,tooltip,canvas){
 
     // Name label
     ctx.font='11px sans-serif';
-    ctx.fillStyle='#d4d4dc';
+    ctx.fillStyle='#1D1D1F';
     ctx.textAlign='center';
     ctx.fillText(n.name,n.x,n.y+n.radius+14);
   });
