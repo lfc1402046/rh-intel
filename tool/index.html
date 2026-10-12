@@ -698,7 +698,7 @@ body{
         <span id="contactCount" style="font-size:12px;color:var(--text-muted);"></span>
       </div>
       <div class="module-cards" id="moduleCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px"></div>
-      <script>setTimeout(renderModuleCards, 100);</script>
+      <script>try { if (typeof renderModuleCards === "function") renderModuleCards(); } catch(e) { console.warn("module init:", e); }</script>
 
             <div class="contact-grid" id="contactGrid"></div>
     </div>
@@ -1054,9 +1054,9 @@ function renderModuleSummary(){
 
 // ===== v33 Round 2: 渲染 6 大模块入口卡片 =====
 function renderModuleCards(){
-  const el = document.getElementById('moduleCards');
-  if (!el) return;
-  const s = renderModuleSummary();
+  try {
+    const el = document.getElementById('moduleCards');
+    if (!el) return;
   const cards = [
     { label: '核心圈', value: s.tier1, color: '#FFD66B', emoji: '⭐', filter: 1 },
     { label: '亲密朋友', value: s.tier2, color: '#5BB5E0', emoji: '💙', filter: 2 },
@@ -1078,6 +1078,7 @@ function renderModuleCards(){
     card.addEventListener('mouseenter', () => { card.style.transform = 'translateY(-2px)'; card.style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'; });
     card.addEventListener('mouseleave', () => { card.style.transform = ''; card.style.boxShadow = ''; });
   });
+  } catch(e) { console.warn("renderModuleCards error:", e); }
 }
 
 function filterByModule(filter){
