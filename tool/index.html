@@ -1757,7 +1757,9 @@ function renderGraph(){
       const node=getNodeAt(x,y);
       if(node){
         cvs.style.cursor='pointer';
-        tooltip.innerHTML=`<strong>${node.name}</strong><br>强度: ${'★'.repeat(node.strength)}${node.tags.length?'<br>标签: '+node.tags.join(', '):''}`;
+        const tagsHtml = (node.tags && node.tags.length) ? '<br><span style="color:#6E6E73">标签:</span> ' + node.tags.slice(0,3).map(t => '<span style="background:rgba(91,181,224,0.15);color:#2A6E9E;padding:1px 6px;border-radius:3px;font-size:10px;margin-right:2px">' + t + '</span>').join('') : '';
+        const strengthHtml = '<span style="color:#FFD66B">' + '★'.repeat(node.strength) + '</span>';
+        tooltip.innerHTML='<div style="font-weight:600;font-size:13px;margin-bottom:4px">' + node.name + '</div><div style="font-size:11px;color:#6E6E73">强度: ' + strengthHtml + ' (v3.0 圈层' + node.strength + ')</div>' + tagsHtml;
         tooltip.style.left=(x+14)+'px';
         tooltip.style.top=(y-10)+'px';
         tooltip.classList.add('visible');
@@ -1823,8 +1825,11 @@ function drawGraph(ctx,rect,nodes,edges,tooltip,canvas){
     ctx.beginPath();
     ctx.moveTo(from.x,from.y);
     ctx.lineTo(to.x,to.y);
-    ctx.strokeStyle=e.color+'80';
-    ctx.lineWidth=1.5;
+    ctx.strokeStyle=e.color+'66';
+    // 边粗细：基于 source 和 target 的 strength 平均
+    const aStr = from.strength || 2, bStr = to.strength || 2;
+    const avgStr = (aStr + bStr) / 2;
+    ctx.lineWidth=1 + avgStr * 0.6;
     ctx.stroke();
 
     // Draw label at midpoint
@@ -1847,20 +1852,52 @@ function drawGraph(ctx,rect,nodes,edges,tooltip,canvas){
     ctx.arc(n.x,n.y,n.radius*2.5,0,Math.PI*2);
     ctx.fill();
 
-    // Node circle
+    // v37 升级：节点按 strength 5 档配色 + 首字 + 标签
+    const tierColors = {5:'#FFD66B', 4:'#5BB5E0', 3:'#4ECDC4', 2:'#92B8D8', 1:'#C8B8DB'};
+    const tierNames  = {5:'核心',    4:'亲密',   3:'一般',  2:'弱',    1:'极弱'};
+    const nodeColor = tierColors[n.strength] || '#86868B';
+
+    // Glow（按 strength 调节强度）
+    const grad=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.radius*2.5);
+    grad.addColorStop(0, nodeColor + (n.strength >= 4 ? '60' : '30'));
+    grad.addColorStop(1, nodeColor + '00');
+    ctx.fillStyle=grad;
     ctx.beginPath();
-    ctx.arc(n.x,n.y,n.radius,0,Math.PI*2);
-    ctx.fillStyle=n.strength>=4?'#6E6E73':n.strength>=3?'#2d7a3a':'#1e1e2a';
+    ctx.arc(n.x,n.y,n.radius*2.5,0,Math.PI*2);
     ctx.fill();
-    ctx.strokeStyle=n.strength>=4?'#d4af37':'#2a2a3a';
+
+    // Node circle（按 strength 大小）
+    const nodeR = 12 + n.strength * 4;
+    ctx.beginPath();
+    ctx.arc(n.x,n.y,nodeR,0,Math.PI*2);
+    ctx.fillStyle=nodeColor;
+    ctx.fill();
+    ctx.strokeStyle='#FFFFFF';
     ctx.lineWidth=2;
     ctx.stroke();
 
-    // Name label
+    // First char of name（首字）
+    if(n.name && n.name.length>0){
+      ctx.font='bold ' + Math.round(nodeR * 0.7) + 'px sans-serif';
+      ctx.fillStyle='#FFFFFF';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      ctx.fillText(n.name[0], n.x, n.y);
+    }
+
+    // Name label（下方）
     ctx.font='11px sans-serif';
     ctx.fillStyle='#1D1D1F';
     ctx.textAlign='center';
-    ctx.fillText(n.name,n.x,n.y+n.radius+14);
+    ctx.textBaseline='alphabetic';
+    ctx.fillText(n.name,n.x,n.y+nodeR+14);
+
+    // Tier label (small)
+    if (n.strength) {
+      ctx.font='9px sans-serif';
+      ctx.fillStyle=nodeColor;
+      ctx.fillText(tierNames[n.strength] || '', n.x, n.y+nodeR+26);
+    }
   });
 }
 

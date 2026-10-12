@@ -1,0 +1,2447 @@
+{
+  "_meta": {
+    "version": "3.0-100contacts",
+    "description": "扩展到 100 联系人 + 100 互动 + 76 连接（v0.1 兼容）",
+    "generated": "2026-10-12",
+    "targetUse": "工具本体 import 测试 + 网络图演示",
+    "compatibility": "100% 兼容 tool/index.html v0.1 schema",
+    "upgraded": "2026-10-12"
+  },
+  "contacts": [
+    {
+      "id": "c001",
+      "name": "王五",
+      "wechat": "wuwu_paobu",
+      "phone": "138-0001-1001",
+      "tags": [
+        "跑团",
+        "挚友",
+        "AI",
+        "核心"
+      ],
+      "strength": 5,
+      "notes": "8 年挚友。环岛路晨跑认识。融资压力中。",
+      "interactions": [
+        {
+          "id": "i1",
+          "time": "2026-10-08",
+          "method": "微信",
+          "summary": "聊新项目方向"
+        }
+      ],
+      "connections": [
+        "c006",
+        "c007"
+      ],
+      "createdAt": "2024-01-15T10:00:00Z"
+    },
+    {
+      "id": "c002",
+      "name": "李四",
+      "wechat": "lisixin2026",
+      "phone": "139-0002-2002",
+      "tags": [
+        "跑团",
+        "朋友",
+        "互联网"
+      ],
+      "strength": 4,
+      "notes": "大学同学。6 次马拉松。INTJ。想换工作。",
+      "interactions": [
+        {
+          "id": "i2",
+          "time": "2026-10-05",
+          "method": "微信",
+          "summary": "聊 AI 创业机会"
+        }
+      ],
+      "connections": [
+        "c006"
+      ],
+      "createdAt": "2024-02-10T14:00:00Z"
+    },
+    {
+      "id": "c003",
+      "name": "妈",
+      "wechat": "mama_family",
+      "phone": "0598-222-3333",
+      "tags": [
+        "家人",
+        "重要",
+        "核心"
+      ],
+      "strength": 5,
+      "notes": "妈妈。每周通话。健康重要。",
+      "interactions": [
+        {
+          "id": "i3",
+          "time": "2026-10-07",
+          "method": "电话",
+          "summary": "聊血压稳定"
+        }
+      ],
+      "connections": [
+        "c004"
+      ],
+      "createdAt": "2023-01-01T00:00:00Z"
+    },
+    {
+      "id": "c004",
+      "name": "爸",
+      "wechat": "baba_family",
+      "phone": "0598-222-3334",
+      "tags": [
+        "家人",
+        "重要",
+        "核心"
+      ],
+      "strength": 5,
+      "notes": "爸爸。话不多。担心我工作。",
+      "interactions": [
+        {
+          "id": "i4",
+          "time": "2026-10-05",
+          "method": "微信",
+          "summary": "转发经济新闻"
+        }
+      ],
+      "connections": [
+        "c003"
+      ],
+      "createdAt": "2023-01-01T00:00:00Z"
+    },
+    {
+      "id": "c005",
+      "name": "张总",
+      "wechat": "zhang_zong",
+      "phone": "133-0019-9019",
+      "tags": [
+        "客户",
+        "重要",
+        "AI 项目"
+      ],
+      "strength": 2,
+      "notes": "客户。80 万 AI 项目。每周汇报。",
+      "interactions": [
+        {
+          "id": "i5",
+          "time": "2026-10-08",
+          "method": "微信",
+          "summary": "问项目进度"
+        }
+      ],
+      "connections": [
+        "c001"
+      ],
+      "createdAt": "2026-05-15T14:00:00Z"
+    },
+    {
+      "id": "c006",
+      "name": "周教练",
+      "wechat": "coach_zhou",
+      "phone": "138-0009-9009",
+      "tags": [
+        "跑团",
+        "教练",
+        "重要"
+      ],
+      "strength": 4,
+      "notes": "跑团团长。15 年执教。",
+      "interactions": [
+        {
+          "id": "i6",
+          "time": "2026-10-05",
+          "method": "跑步",
+          "location": "环岛路",
+          "summary": "11 月半马训练计划"
+        }
+      ],
+      "connections": [
+        "c001",
+        "c002",
+        "c007",
+        "c010",
+        "c011",
+        "c012"
+      ],
+      "createdAt": "2024-03-15T16:00:00Z"
+    },
+    {
+      "id": "c007",
+      "name": "孙八",
+      "wechat": "sunba_options",
+      "phone": "135-0005-5005",
+      "tags": [
+        "投资",
+        "期权",
+        "上海"
+      ],
+      "strength": 3,
+      "notes": "投资经理。SOXL 专家。上海。",
+      "interactions": [
+        {
+          "id": "i7",
+          "time": "2026-09-25",
+          "method": "微信",
+          "summary": "聊 SOXL 走势"
+        }
+      ],
+      "connections": [
+        "c001",
+        "c013"
+      ],
+      "createdAt": "2024-10-20T16:00:00Z"
+    },
+    {
+      "id": "c008",
+      "name": "吴十",
+      "wechat": "wushi_laowu",
+      "phone": "131-0007-7007",
+      "tags": [
+        "朋友",
+        "制造业"
+      ],
+      "strength": 3,
+      "notes": "制造业副总。工厂数字化。",
+      "interactions": [
+        {
+          "id": "i8",
+          "time": "2026-08-15",
+          "method": "微信",
+          "summary": "聊工厂数字化"
+        }
+      ],
+      "connections": [
+        "c001",
+        "c005"
+      ],
+      "createdAt": "2024-09-05T10:30:00Z"
+    },
+    {
+      "id": "c009",
+      "name": "小敏",
+      "wechat": "xiaomin_private",
+      "phone": "139-0011-1011",
+      "tags": [
+        "前女友",
+        "大学",
+        "敏感"
+      ],
+      "strength": 2,
+      "notes": "前女友。3 年前分手。已为朋友。",
+      "interactions": [
+        {
+          "id": "i9",
+          "time": "2025-12-25",
+          "method": "微信",
+          "summary": "圣诞祝福"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2023-12-01T20:00:00Z"
+    },
+    {
+      "id": "c010",
+      "name": "张老师",
+      "wechat": "zhang_teacher",
+      "phone": "135-0013-3013",
+      "tags": [
+        "大学",
+        "老师",
+        "建筑"
+      ],
+      "strength": 1,
+      "notes": "大学建筑系老师。2 年未联系。转行让他不解。",
+      "interactions": [
+        {
+          "id": "i10",
+          "time": "2024-09-10",
+          "method": "微信",
+          "summary": "教师节问候"
+        }
+      ],
+      "connections": [
+        "c002"
+      ],
+      "createdAt": "2024-01-05T10:00:00Z"
+    },
+    {
+      "id": "c011",
+      "name": "周九",
+      "wechat": "yoga_zhou",
+      "phone": "150-0006-6006",
+      "tags": [
+        "跑团",
+        "瑜伽",
+        "教练"
+      ],
+      "strength": 3,
+      "notes": "瑜伽教练。跑团活动认识。",
+      "interactions": [
+        {
+          "id": "i11",
+          "time": "2026-10-06",
+          "method": "跑步",
+          "location": "环岛路",
+          "summary": "跑团活动"
+        }
+      ],
+      "connections": [
+        "c006"
+      ],
+      "createdAt": "2025-01-10T09:00:00Z"
+    },
+    {
+      "id": "c012",
+      "name": "林医生",
+      "wechat": "lin_doctor",
+      "phone": "0592-1234-5678",
+      "tags": [
+        "医生",
+        "健康",
+        "糖尿病"
+      ],
+      "strength": 3,
+      "notes": "体检医生。三甲医院内分泌。",
+      "interactions": [
+        {
+          "id": "i12",
+          "time": "2026-08-30",
+          "method": "面对面",
+          "location": "医院",
+          "summary": "年度体检"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2022-03-10T14:30:00Z"
+    },
+    {
+      "id": "c013",
+      "name": "阿涛",
+      "wechat": "atao_88",
+      "phone": "139-0020-2020",
+      "tags": [
+        "投资人",
+        "老朋友",
+        "泉州"
+      ],
+      "strength": 3,
+      "notes": "天使投资人。每季度见。",
+      "interactions": [
+        {
+          "id": "i13",
+          "time": "2026-08-20",
+          "method": "咖啡",
+          "location": "咖啡馆",
+          "summary": "聊早期项目"
+        }
+      ],
+      "connections": [
+        "c007"
+      ],
+      "createdAt": "2024-04-10T16:00:00Z"
+    },
+    {
+      "id": "c014",
+      "name": "Vivian",
+      "wechat": "vivian_fit",
+      "phone": "139-0018-8018",
+      "tags": [
+        "新朋友",
+        "舞蹈",
+        "健身"
+      ],
+      "strength": 3,
+      "notes": "舞蹈老师。环岛路夜跑认识。",
+      "interactions": [
+        {
+          "id": "i14",
+          "time": "2026-09-28",
+          "method": "微信",
+          "summary": "邀开放日活动"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2024-09-20T19:00:00Z"
+    },
+    {
+      "id": "c015",
+      "name": "老陈",
+      "wechat": "chen_gaozhong",
+      "phone": "180-0015-5015",
+      "tags": [
+        "高中",
+        "上海"
+      ],
+      "strength": 2,
+      "notes": "高中同学。上海。每年春节聚。",
+      "interactions": [
+        {
+          "id": "i15",
+          "time": "2026-02-12",
+          "method": "面对面",
+          "location": "三明",
+          "summary": "春节聚会"
+        }
+      ],
+      "connections": [
+        "c016"
+      ],
+      "createdAt": "2024-08-08T10:00:00Z"
+    },
+    {
+      "id": "c016",
+      "name": "老张",
+      "wechat": "zhang_jun",
+      "phone": "180-0016-6016",
+      "tags": [
+        "高中",
+        "三明",
+        "建筑"
+      ],
+      "strength": 2,
+      "notes": "高中同学。现在做建筑。",
+      "interactions": [
+        {
+          "id": "i16",
+          "time": "2026-02-12",
+          "method": "面对面",
+          "summary": "春节聚会"
+        }
+      ],
+      "connections": [
+        "c015"
+      ],
+      "createdAt": "2024-08-09T10:00:00Z"
+    },
+    {
+      "id": "c017",
+      "name": "王主管",
+      "wechat": "wang_zg",
+      "phone": "136-0014-4014",
+      "tags": [
+        "前同事",
+        "建筑"
+      ],
+      "strength": 2,
+      "notes": "前同事。转行前 14 个月未联系。",
+      "interactions": [
+        {
+          "id": "i17",
+          "time": "2025-08-12",
+          "method": "微信",
+          "summary": "寒暄"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2024-05-20T11:00:00Z"
+    },
+    {
+      "id": "c018",
+      "name": "赵六",
+      "wechat": "zhaoliu_design",
+      "phone": "137-0003-3003",
+      "tags": [
+        "设计师",
+        "朋友",
+        "AI"
+      ],
+      "strength": 4,
+      "notes": "设计总监。帮工具做过 UI 评审。",
+      "interactions": [
+        {
+          "id": "i18",
+          "time": "2026-09-08",
+          "method": "微信",
+          "summary": "UI 评审"
+        }
+      ],
+      "connections": [
+        "c001"
+      ],
+      "createdAt": "2024-06-01T11:30:00Z"
+    },
+    {
+      "id": "c019",
+      "name": "堂姐小燕",
+      "wechat": "xiaoyan_cousin",
+      "phone": "139-0019-9019",
+      "tags": [
+        "家人",
+        "堂亲"
+      ],
+      "strength": 3,
+      "notes": "堂姐。在三明。节日聚。",
+      "interactions": [
+        {
+          "id": "i19",
+          "time": "2026-05-01",
+          "method": "微信",
+          "summary": "五一问候"
+        }
+      ],
+      "connections": [
+        "c003"
+      ],
+      "createdAt": "2024-05-01T10:00:00Z"
+    },
+    {
+      "id": "c020",
+      "name": "表哥建华",
+      "wechat": "jianhua_cousin",
+      "phone": "139-0020-3020",
+      "tags": [
+        "家人",
+        "表亲",
+        "深圳"
+      ],
+      "strength": 3,
+      "notes": "表哥。在深圳做工程。",
+      "interactions": [
+        {
+          "id": "i20",
+          "time": "2026-09-15",
+          "method": "微信",
+          "summary": "中秋祝福"
+        }
+      ],
+      "connections": [
+        "c003"
+      ],
+      "createdAt": "2024-05-02T10:00:00Z"
+    },
+    {
+      "id": "c021",
+      "name": "阿杰",
+      "wechat": "ajie_paobu",
+      "phone": "139-0021-2021",
+      "tags": [
+        "跑团",
+        "工程师"
+      ],
+      "strength": 3,
+      "notes": "跑团成员。软件工程师。",
+      "interactions": [
+        {
+          "id": "i21",
+          "time": "2026-10-04",
+          "method": "跑步",
+          "summary": "周六晨跑"
+        }
+      ],
+      "connections": [
+        "c006",
+        "c002"
+      ],
+      "createdAt": "2025-03-10T10:00:00Z"
+    },
+    {
+      "id": "c022",
+      "name": "小琪",
+      "wechat": "xiaoqi_paobu",
+      "phone": "139-0022-2022",
+      "tags": [
+        "跑团",
+        "女生"
+      ],
+      "strength": 3,
+      "notes": "跑团小妹妹。HR 经理。",
+      "interactions": [
+        {
+          "id": "i22",
+          "time": "2026-10-04",
+          "method": "跑步",
+          "summary": "晨跑"
+        }
+      ],
+      "connections": [
+        "c006",
+        "c011"
+      ],
+      "createdAt": "2025-04-15T10:00:00Z"
+    },
+    {
+      "id": "c023",
+      "name": "老王头",
+      "wechat": "laowang_paobu",
+      "phone": "139-0023-2023",
+      "tags": [
+        "跑团",
+        "老马"
+      ],
+      "strength": 3,
+      "notes": "跑团老马。50+。常分享经验。",
+      "interactions": [
+        {
+          "id": "i23",
+          "time": "2026-10-04",
+          "method": "跑步",
+          "summary": "晨跑"
+        }
+      ],
+      "connections": [
+        "c006"
+      ],
+      "createdAt": "2025-01-20T10:00:00Z"
+    },
+    {
+      "id": "c024",
+      "name": "老郑",
+      "wechat": "laozheng_paobu",
+      "phone": "139-0024-2024",
+      "tags": [
+        "跑团",
+        "退休"
+      ],
+      "strength": 2,
+      "notes": "跑团退休大叔。话多。",
+      "interactions": [
+        {
+          "id": "i24",
+          "time": "2026-09-27",
+          "method": "跑步",
+          "summary": "晨跑"
+        }
+      ],
+      "connections": [
+        "c006"
+      ],
+      "createdAt": "2025-02-10T10:00:00Z"
+    },
+    {
+      "id": "c025",
+      "name": "林总",
+      "wechat": "lin_zong_ai",
+      "phone": "139-0025-2025",
+      "tags": [
+        "AI",
+        "创业者",
+        "深圳"
+      ],
+      "strength": 2,
+      "notes": "AI 创业同行。深圳 AGI Meetup。",
+      "interactions": [
+        {
+          "id": "i25",
+          "time": "2026-09-20",
+          "method": "微信",
+          "summary": "聊 AI Agent"
+        }
+      ],
+      "connections": [
+        "c005"
+      ],
+      "createdAt": "2025-05-12T10:00:00Z"
+    },
+    {
+      "id": "c026",
+      "name": "Mia",
+      "wechat": "mia_pm",
+      "phone": "139-0026-2026",
+      "tags": [
+        "产品",
+        "同行",
+        "上海"
+      ],
+      "strength": 2,
+      "notes": "上海 PM 同行。偶尔聊产品。",
+      "interactions": [
+        {
+          "id": "i26",
+          "time": "2026-08-15",
+          "method": "微信",
+          "summary": "聊 PRD"
+        }
+      ],
+      "connections": [
+        "c025"
+      ],
+      "createdAt": "2025-06-15T10:00:00Z"
+    },
+    {
+      "id": "c027",
+      "name": "阿信",
+      "wechat": "axin_ai",
+      "phone": "139-0027-2027",
+      "tags": [
+        "AI",
+        "工程师",
+        "杭州"
+      ],
+      "strength": 2,
+      "notes": "杭州 AI 工程师。",
+      "interactions": [
+        {
+          "id": "i27",
+          "time": "2026-09-05",
+          "method": "微信",
+          "summary": "聊 LLM"
+        }
+      ],
+      "connections": [
+        "c025"
+      ],
+      "createdAt": "2025-08-20T10:00:00Z"
+    },
+    {
+      "id": "c028",
+      "name": "小马",
+      "wechat": "xiaoma_friend",
+      "phone": "139-0028-2028",
+      "tags": [
+        "朋友",
+        "新朋友"
+      ],
+      "strength": 2,
+      "notes": "今年认识的新朋友。",
+      "interactions": [
+        {
+          "id": "i28",
+          "time": "2026-10-01",
+          "method": "微信",
+          "summary": "国庆祝福"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-09-01T10:00:00Z"
+    },
+    {
+      "id": "c029",
+      "name": "老林",
+      "wechat": "laolin_junior",
+      "phone": "139-0029-2029",
+      "tags": [
+        "大学",
+        "同学",
+        "深圳"
+      ],
+      "strength": 2,
+      "notes": "大学同学。深圳做产品。",
+      "interactions": [
+        {
+          "id": "i29",
+          "time": "2026-08-08",
+          "method": "微信",
+          "summary": "聊产品"
+        }
+      ],
+      "connections": [
+        "c010"
+      ],
+      "createdAt": "2025-01-15T10:00:00Z"
+    },
+    {
+      "id": "c030",
+      "name": "陈工",
+      "wechat": "chen_gong",
+      "phone": "139-0030-3030",
+      "tags": [
+        "前同事",
+        "建筑"
+      ],
+      "strength": 2,
+      "notes": "建筑行业前同事。",
+      "interactions": [
+        {
+          "id": "i30",
+          "time": "2025-06-20",
+          "method": "微信",
+          "summary": "寒暄"
+        }
+      ],
+      "connections": [
+        "c017"
+      ],
+      "createdAt": "2024-06-20T11:00:00Z"
+    },
+    {
+      "id": "c031",
+      "name": "老吴律师",
+      "wechat": "wulaoshi_falv",
+      "phone": "139-0031-3031",
+      "tags": [
+        "律师",
+        "专业人士"
+      ],
+      "strength": 2,
+      "notes": "大学同学。律师。",
+      "interactions": [
+        {
+          "id": "i31",
+          "time": "2026-09-12",
+          "method": "微信",
+          "summary": "法律咨询"
+        }
+      ],
+      "connections": [
+        "c010"
+      ],
+      "createdAt": "2025-09-01T10:00:00Z"
+    },
+    {
+      "id": "c032",
+      "name": "小丁 HR",
+      "wechat": "xiaoding_hr",
+      "phone": "139-0032-3032",
+      "tags": [
+        "HR",
+        "朋友"
+      ],
+      "strength": 2,
+      "notes": "互联网 HR 朋友。",
+      "interactions": [
+        {
+          "id": "i32",
+          "time": "2026-10-09",
+          "method": "微信",
+          "summary": "聊招聘"
+        }
+      ],
+      "connections": [
+        "c002"
+      ],
+      "createdAt": "2025-10-15T10:00:00Z"
+    },
+    {
+      "id": "c033",
+      "name": "老钱",
+      "wechat": "laoqian_options",
+      "phone": "139-0033-3033",
+      "tags": [
+        "期权",
+        "投资者",
+        "上海"
+      ],
+      "strength": 2,
+      "notes": "期权玩家。上海。",
+      "interactions": [
+        {
+          "id": "i33",
+          "time": "2026-09-10",
+          "method": "微信",
+          "summary": "聊 SPY"
+        }
+      ],
+      "connections": [
+        "c007"
+      ],
+      "createdAt": "2025-12-01T10:00:00Z"
+    },
+    {
+      "id": "c034",
+      "name": "小美",
+      "wechat": "xiaomei_friend",
+      "phone": "139-0034-3034",
+      "tags": [
+        "朋友",
+        "女生"
+      ],
+      "strength": 2,
+      "notes": "女性朋友。设计师。",
+      "interactions": [
+        {
+          "id": "i34",
+          "time": "2026-10-02",
+          "method": "微信",
+          "summary": "聊设计"
+        }
+      ],
+      "connections": [
+        "c018"
+      ],
+      "createdAt": "2026-04-15T10:00:00Z"
+    },
+    {
+      "id": "c035",
+      "name": "老黄",
+      "wechat": "laohuang_quan",
+      "phone": "139-0035-3035",
+      "tags": [
+        "圈外",
+        "新朋友"
+      ],
+      "strength": 1,
+      "notes": "圈外活动认识。话少。",
+      "interactions": [
+        {
+          "id": "i35",
+          "time": "2026-08-20",
+          "method": "微信",
+          "summary": "打招呼"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-08-20T10:00:00Z"
+    },
+    {
+      "id": "c036",
+      "name": "老谢",
+      "wechat": "laoxie_jingji",
+      "phone": "139-0036-3036",
+      "tags": [
+        "经济",
+        "网友"
+      ],
+      "strength": 2,
+      "notes": "经济学网友。",
+      "interactions": [
+        {
+          "id": "i36",
+          "time": "2026-10-05",
+          "method": "微信",
+          "summary": "聊宏观经济"
+        }
+      ],
+      "connections": [
+        "c033"
+      ],
+      "createdAt": "2026-01-10T10:00:00Z"
+    },
+    {
+      "id": "c037",
+      "name": "小芳",
+      "wechat": "xiaofang_dance",
+      "phone": "139-0037-3037",
+      "tags": [
+        "新朋友",
+        "舞蹈"
+      ],
+      "strength": 1,
+      "notes": "Vivian 工作室。",
+      "interactions": [
+        {
+          "id": "i37",
+          "time": "2026-10-09",
+          "method": "微信",
+          "summary": "互加好友"
+        }
+      ],
+      "connections": [
+        "c014"
+      ],
+      "createdAt": "2026-10-09T10:00:00Z"
+    },
+    {
+      "id": "c038",
+      "name": "老韩",
+      "wechat": "laohan_zhongzi",
+      "phone": "139-0038-3038",
+      "tags": [
+        "种子",
+        "新朋友"
+      ],
+      "strength": 1,
+      "notes": "种子轮创始人。",
+      "interactions": [
+        {
+          "id": "i38",
+          "time": "2026-10-08",
+          "method": "微信",
+          "summary": "交换名片"
+        }
+      ],
+      "connections": [
+        "c013"
+      ],
+      "createdAt": "2026-10-08T10:00:00Z"
+    },
+    {
+      "id": "c039",
+      "name": "阿哲",
+      "wechat": "azhe_zhong",
+      "phone": "139-0039-3039",
+      "tags": [
+        "新朋友",
+        "Z 世代"
+      ],
+      "strength": 1,
+      "notes": "Z 世代创业者。",
+      "interactions": [
+        {
+          "id": "i39",
+          "time": "2026-10-09",
+          "method": "微信",
+          "summary": "互加"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-09T10:00:00Z"
+    },
+    {
+      "id": "c040",
+      "name": "老郭",
+      "wechat": "laoguo_neirong",
+      "phone": "139-0040-4040",
+      "tags": [
+        "内容",
+        "网友"
+      ],
+      "strength": 2,
+      "notes": "内容创作者。",
+      "interactions": [
+        {
+          "id": "i40",
+          "time": "2026-09-25",
+          "method": "微信",
+          "summary": "聊内容"
+        }
+      ],
+      "connections": [
+        "c026"
+      ],
+      "createdAt": "2026-03-15T10:00:00Z"
+    },
+    {
+      "id": "c041",
+      "name": "阿成",
+      "wechat": "acheng_paobu",
+      "phone": "139-0041-4041",
+      "tags": [
+        "跑团",
+        "新人"
+      ],
+      "strength": 2,
+      "notes": "新跑团成员。",
+      "interactions": [
+        {
+          "id": "i41",
+          "time": "2026-10-04",
+          "method": "跑步",
+          "summary": "晨跑"
+        }
+      ],
+      "connections": [
+        "c006"
+      ],
+      "createdAt": "2026-09-15T10:00:00Z"
+    },
+    {
+      "id": "c042",
+      "name": "老苏",
+      "wechat": "laosu_laoxiang",
+      "phone": "139-0042-4042",
+      "tags": [
+        "老乡",
+        "泉州"
+      ],
+      "strength": 2,
+      "notes": "泉州老乡。",
+      "interactions": [
+        {
+          "id": "i42",
+          "time": "2026-05-01",
+          "method": "微信",
+          "summary": "聊家乡"
+        }
+      ],
+      "connections": [
+        "c013"
+      ],
+      "createdAt": "2025-12-12T10:00:00Z"
+    },
+    {
+      "id": "c043",
+      "name": "小颖",
+      "wechat": "xiaoying_ai",
+      "phone": "139-0043-4043",
+      "tags": [
+        "AI",
+        "女生"
+      ],
+      "strength": 2,
+      "notes": "AI 创业女性。",
+      "interactions": [
+        {
+          "id": "i43",
+          "time": "2026-09-15",
+          "method": "微信",
+          "summary": "聊 AI 趋势"
+        }
+      ],
+      "connections": [
+        "c025"
+      ],
+      "createdAt": "2026-05-15T10:00:00Z"
+    },
+    {
+      "id": "c044",
+      "name": "老周老师",
+      "wechat": "laozhou_laoshi",
+      "phone": "139-0044-4044",
+      "tags": [
+        "老师",
+        "大学",
+        "MBA"
+      ],
+      "strength": 2,
+      "notes": "MBA 课程老师。",
+      "interactions": [
+        {
+          "id": "i44",
+          "time": "2025-12-15",
+          "method": "微信",
+          "summary": "师生问候"
+        }
+      ],
+      "connections": [
+        "c010"
+      ],
+      "createdAt": "2024-06-10T10:00:00Z"
+    },
+    {
+      "id": "c045",
+      "name": "小徐",
+      "wechat": "xiaoxu_friend",
+      "phone": "139-0045-4045",
+      "tags": [
+        "新朋友",
+        "AI"
+      ],
+      "strength": 1,
+      "notes": "AI 训练师。",
+      "interactions": [
+        {
+          "id": "i45",
+          "time": "2026-10-09",
+          "method": "微信",
+          "summary": "交换"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-09T10:00:00Z"
+    },
+    {
+      "id": "c046",
+      "name": "老冯",
+      "wechat": "laofeng_zhong",
+      "phone": "139-0046-4046",
+      "tags": [
+        "新朋友",
+        "上海"
+      ],
+      "strength": 1,
+      "notes": "上海新朋友。",
+      "interactions": [
+        {
+          "id": "i46",
+          "time": "2026-09-22",
+          "method": "微信",
+          "summary": "打招呼"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-09-22T10:00:00Z"
+    },
+    {
+      "id": "c047",
+      "name": "阿辉",
+      "wechat": "ahui_ai",
+      "phone": "139-0047-4047",
+      "tags": [
+        "AI",
+        "新朋友"
+      ],
+      "strength": 1,
+      "notes": "AI 工程师。",
+      "interactions": [
+        {
+          "id": "i47",
+          "time": "2026-10-10",
+          "method": "微信",
+          "summary": "互加"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-10T10:00:00Z"
+    },
+    {
+      "id": "c048",
+      "name": "表妹小婷",
+      "wechat": "xiaoting_cousin",
+      "phone": "139-0048-4048",
+      "tags": [
+        "家人",
+        "表亲",
+        "上海"
+      ],
+      "strength": 3,
+      "notes": "表妹。在上海读研。",
+      "interactions": [
+        {
+          "id": "i48",
+          "time": "2026-10-01",
+          "method": "微信",
+          "summary": "国庆祝福"
+        }
+      ],
+      "connections": [
+        "c003"
+      ],
+      "createdAt": "2024-09-10T10:00:00Z"
+    },
+    {
+      "id": "c049",
+      "name": "老周客户",
+      "wechat": "laozhou_kehu",
+      "phone": "139-0049-4049",
+      "tags": [
+        "客户",
+        "制造业"
+      ],
+      "strength": 1,
+      "notes": "吴十介绍的客户。",
+      "interactions": [
+        {
+          "id": "i49",
+          "time": "2026-10-09",
+          "method": "微信",
+          "summary": "打招呼"
+        }
+      ],
+      "connections": [
+        "c008"
+      ],
+      "createdAt": "2026-10-09T10:00:00Z"
+    },
+    {
+      "id": "c050",
+      "name": "小柯",
+      "wechat": "xiaoke_pm",
+      "phone": "139-0050-5050",
+      "tags": [
+        "PM",
+        "网友",
+        "深圳"
+      ],
+      "strength": 1,
+      "notes": "深圳 PM 网友。",
+      "interactions": [
+        {
+          "id": "i50",
+          "time": "2026-10-10",
+          "method": "微信",
+          "summary": "打招呼"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-10T10:00:00Z"
+    },
+    {
+      "id": "c051",
+      "name": "陈律师",
+      "wechat": "chen_lawyer",
+      "phone": "139-0051-5051",
+      "tags": [
+        "律师",
+        "专业人士"
+      ],
+      "strength": 2,
+      "notes": "陈氏律师事务所。",
+      "interactions": [
+        {
+          "id": "i51",
+          "time": "2026-09-12",
+          "method": "微信",
+          "summary": "法律咨询"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-08-15T10:00:00Z"
+    },
+    {
+      "id": "c052",
+      "name": "小王 HR",
+      "wechat": "xiaowang_hr",
+      "phone": "139-0052-5052",
+      "tags": [
+        "HR",
+        "朋友"
+      ],
+      "strength": 2,
+      "notes": "互联网 HR。",
+      "interactions": [
+        {
+          "id": "i52",
+          "time": "2026-10-08",
+          "method": "微信",
+          "summary": "聊招聘"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c032",
+          "type": "同行"
+        }
+      ],
+      "createdAt": "2026-05-20T10:00:00Z"
+    },
+    {
+      "id": "c053",
+      "name": "老周医生",
+      "wechat": "zhou_doctor",
+      "phone": "139-0053-5053",
+      "tags": [
+        "医生",
+        "朋友"
+      ],
+      "strength": 2,
+      "notes": "家庭医生。",
+      "interactions": [
+        {
+          "id": "i53",
+          "time": "2026-09-10",
+          "method": "电话",
+          "summary": "健康咨询"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-04-15T10:00:00Z"
+    },
+    {
+      "id": "c054",
+      "name": "阿杨营养师",
+      "wechat": "ayang_nutri",
+      "phone": "139-0054-5054",
+      "tags": [
+        "营养师",
+        "新朋友"
+      ],
+      "strength": 1,
+      "notes": "营养师。林医生推荐。",
+      "interactions": [
+        {
+          "id": "i54",
+          "time": "2026-10-08",
+          "method": "微信",
+          "summary": "聊糖尿病饮食"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c012",
+          "type": "推荐"
+        }
+      ],
+      "createdAt": "2026-10-08T10:00:00Z"
+    },
+    {
+      "id": "c055",
+      "name": "老赵教练",
+      "wechat": "laozhao_coach",
+      "phone": "139-0055-5055",
+      "tags": [
+        "教练",
+        "专业人士"
+      ],
+      "strength": 1,
+      "notes": "心理咨询教练。",
+      "interactions": [
+        {
+          "id": "i55",
+          "time": "2026-09-20",
+          "method": "微信",
+          "summary": "咨询"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-09-15T10:00:00Z"
+    },
+    {
+      "id": "c056",
+      "name": "小王培训师",
+      "wechat": "xiaowang_trainer",
+      "phone": "139-0056-5056",
+      "tags": [
+        "培训",
+        "新朋友"
+      ],
+      "strength": 1,
+      "notes": "企业培训师。",
+      "interactions": [
+        {
+          "id": "i56",
+          "time": "2026-10-09",
+          "method": "微信",
+          "summary": "互加"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-09T10:00:00Z"
+    },
+    {
+      "id": "c057",
+      "name": "老周会计",
+      "wechat": "laozhou_cpa",
+      "phone": "139-0057-5057",
+      "tags": [
+        "会计",
+        "专业人士"
+      ],
+      "strength": 2,
+      "notes": "CPA。税务咨询。",
+      "interactions": [
+        {
+          "id": "i57",
+          "time": "2026-08-25",
+          "method": "微信",
+          "summary": "税务咨询"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2025-09-15T10:00:00Z"
+    },
+    {
+      "id": "c058",
+      "name": "阿力运动康复",
+      "wechat": "ali_rehab",
+      "phone": "139-0058-5058",
+      "tags": [
+        "康复",
+        "新朋友"
+      ],
+      "strength": 1,
+      "notes": "运动康复师。",
+      "interactions": [
+        {
+          "id": "i58",
+          "time": "2026-10-09",
+          "method": "微信",
+          "summary": "互加"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c006",
+          "type": "跑团"
+        }
+      ],
+      "createdAt": "2026-10-09T10:00:00Z"
+    },
+    {
+      "id": "c059",
+      "name": "老王 KOL",
+      "wechat": "laowang_kol",
+      "phone": "139-0059-5059",
+      "tags": [
+        "KOL",
+        "科技"
+      ],
+      "strength": 2,
+      "notes": "科技博主。",
+      "interactions": [
+        {
+          "id": "i59",
+          "time": "2026-09-15",
+          "method": "微信",
+          "summary": "交换"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2025-12-15T10:00:00Z"
+    },
+    {
+      "id": "c060",
+      "name": "小马 PM",
+      "wechat": "xiaoma_pm",
+      "phone": "139-0060-6060",
+      "tags": [
+        "KOL",
+        "PM"
+      ],
+      "strength": 2,
+      "notes": "产品经理 KOL。",
+      "interactions": [
+        {
+          "id": "i60",
+          "time": "2026-10-05",
+          "method": "微信",
+          "summary": "聊产品"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c026",
+          "type": "PM圈"
+        }
+      ],
+      "createdAt": "2025-11-10T10:00:00Z"
+    },
+    {
+      "id": "c061",
+      "name": "老吴 AI 博主",
+      "wechat": "wulaoshi_ai",
+      "phone": "139-0061-6061",
+      "tags": [
+        "KOL",
+        "AI"
+      ],
+      "strength": 2,
+      "notes": "AI 公众号博主。",
+      "interactions": [
+        {
+          "id": "i61",
+          "time": "2026-09-25",
+          "method": "微信",
+          "summary": "内容合作"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2025-10-20T10:00:00Z"
+    },
+    {
+      "id": "c062",
+      "name": "阿星自媒体",
+      "wechat": "axing_media",
+      "phone": "139-0062-6062",
+      "tags": [
+        "自媒体",
+        "新朋友"
+      ],
+      "strength": 1,
+      "notes": "视频自媒体。",
+      "interactions": [
+        {
+          "id": "i62",
+          "time": "2026-10-10",
+          "method": "微信",
+          "summary": "互加"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-10T10:00:00Z"
+    },
+    {
+      "id": "c063",
+      "name": "小可 KOL",
+      "wechat": "xiaoke_kol",
+      "phone": "139-0063-6063",
+      "tags": [
+        "KOL",
+        "财经"
+      ],
+      "strength": 1,
+      "notes": "财经 KOL。",
+      "interactions": [
+        {
+          "id": "i63",
+          "time": "2026-10-10",
+          "method": "微信",
+          "summary": "互加"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c036",
+          "type": "财经"
+        }
+      ],
+      "createdAt": "2026-10-10T10:00:00Z"
+    },
+    {
+      "id": "c064",
+      "name": "老周 KOC",
+      "wechat": "laozhou_koc",
+      "phone": "139-0064-6064",
+      "tags": [
+        "KOC",
+        "本地"
+      ],
+      "strength": 1,
+      "notes": "本地探店 KOC。",
+      "interactions": [
+        {
+          "id": "i64",
+          "time": "2026-10-09",
+          "method": "微信",
+          "summary": "互加"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-09T10:00:00Z"
+    },
+    {
+      "id": "c065",
+      "name": "阿K KOL",
+      "wechat": "ak_kol",
+      "phone": "139-0065-6065",
+      "tags": [
+        "KOL",
+        "AI"
+      ],
+      "strength": 1,
+      "notes": "AI 教程博主。",
+      "interactions": [
+        {
+          "id": "i65",
+          "time": "2026-10-10",
+          "method": "微信",
+          "summary": "互加"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-10T10:00:00Z"
+    },
+    {
+      "id": "c066",
+      "name": "小鹿读书",
+      "wechat": "xiaolu_book",
+      "phone": "139-0066-6066",
+      "tags": [
+        "KOL",
+        "读书"
+      ],
+      "strength": 1,
+      "notes": "读书博主。",
+      "interactions": [
+        {
+          "id": "i66",
+          "time": "2026-10-10",
+          "method": "微信",
+          "summary": "互加"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-10T10:00:00Z"
+    },
+    {
+      "id": "c067",
+      "name": "老赵同学",
+      "wechat": "laozhao_xue",
+      "phone": "139-0067-6067",
+      "tags": [
+        "大学",
+        "同学",
+        "上海"
+      ],
+      "strength": 2,
+      "notes": "大学同学。上海。",
+      "interactions": [
+        {
+          "id": "i67",
+          "time": "2025-12-10",
+          "method": "微信",
+          "summary": "同学聚会"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c010",
+          "type": "大学"
+        }
+      ],
+      "createdAt": "2025-01-15T10:00:00Z"
+    },
+    {
+      "id": "c068",
+      "name": "小宋",
+      "wechat": "xiaosong_uni",
+      "phone": "139-0068-6068",
+      "tags": [
+        "大学",
+        "同学",
+        "深圳"
+      ],
+      "strength": 2,
+      "notes": "大学同学。深圳。",
+      "interactions": [
+        {
+          "id": "i68",
+          "time": "2026-04-12",
+          "method": "微信",
+          "summary": "聚会"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c010",
+          "type": "大学"
+        }
+      ],
+      "createdAt": "2024-12-15T10:00:00Z"
+    },
+    {
+      "id": "c069",
+      "name": "小沈",
+      "wechat": "xiaoshen_uni",
+      "phone": "139-0069-6069",
+      "tags": [
+        "大学",
+        "同学",
+        "北京"
+      ],
+      "strength": 2,
+      "notes": "大学同学。北京公务员。",
+      "interactions": [
+        {
+          "id": "i69",
+          "time": "2026-09-25",
+          "method": "微信",
+          "summary": "聊近况"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c010",
+          "type": "大学"
+        }
+      ],
+      "createdAt": "2025-02-10T10:00:00Z"
+    },
+    {
+      "id": "c070",
+      "name": "老潘",
+      "wechat": "laopan_uni",
+      "phone": "139-0070-7070",
+      "tags": [
+        "大学",
+        "同学",
+        "广州"
+      ],
+      "strength": 1,
+      "notes": "大学同学。广州做工程。",
+      "interactions": [
+        {
+          "id": "i70",
+          "time": "2025-12-20",
+          "method": "微信",
+          "summary": "寒暄"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c010",
+          "type": "大学"
+        }
+      ],
+      "createdAt": "2025-03-15T10:00:00Z"
+    },
+    {
+      "id": "c071",
+      "name": "小齐",
+      "wechat": "xiaoqi_uni",
+      "phone": "139-0071-7071",
+      "tags": [
+        "大学",
+        "同学",
+        "杭州"
+      ],
+      "strength": 1,
+      "notes": "大学同学。杭州。",
+      "interactions": [
+        {
+          "id": "i71",
+          "time": "2026-05-01",
+          "method": "微信",
+          "summary": "问候"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c010",
+          "type": "大学"
+        }
+      ],
+      "createdAt": "2025-04-12T10:00:00Z"
+    },
+    {
+      "id": "c072",
+      "name": "老胡",
+      "wechat": "laohu_uni",
+      "phone": "139-0072-7072",
+      "tags": [
+        "大学",
+        "同学",
+        "厦门"
+      ],
+      "strength": 2,
+      "notes": "大学同学。厦门做设计。",
+      "interactions": [
+        {
+          "id": "i72",
+          "time": "2026-10-05",
+          "method": "面对面",
+          "location": "咖啡",
+          "summary": "聊近况"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c010",
+          "type": "大学"
+        },
+        {
+          "targetId": "c018",
+          "type": "设计"
+        }
+      ],
+      "createdAt": "2025-05-20T10:00:00Z"
+    },
+    {
+      "id": "c073",
+      "name": "小曹",
+      "wechat": "xiaocao_hs",
+      "phone": "139-0073-7073",
+      "tags": [
+        "高中",
+        "同学"
+      ],
+      "strength": 2,
+      "notes": "高中同学。",
+      "interactions": [
+        {
+          "id": "i73",
+          "time": "2026-02-12",
+          "method": "面对面",
+          "summary": "春节聚"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c015",
+          "type": "高中"
+        }
+      ],
+      "createdAt": "2024-10-10T10:00:00Z"
+    },
+    {
+      "id": "c074",
+      "name": "老林",
+      "wechat": "laolin_hs",
+      "phone": "139-0074-7074",
+      "tags": [
+        "高中",
+        "同学"
+      ],
+      "strength": 2,
+      "notes": "高中同学。",
+      "interactions": [
+        {
+          "id": "i74",
+          "time": "2026-02-12",
+          "method": "面对面",
+          "summary": "春节聚"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c015",
+          "type": "高中"
+        }
+      ],
+      "createdAt": "2024-11-15T10:00:00Z"
+    },
+    {
+      "id": "c075",
+      "name": "小陈",
+      "wechat": "xiaocheng_hs",
+      "phone": "139-0075-7075",
+      "tags": [
+        "高中",
+        "同学"
+      ],
+      "strength": 1,
+      "notes": "高中同学。",
+      "interactions": [
+        {
+          "id": "i75",
+          "time": "2025-02-10",
+          "method": "微信",
+          "summary": "寒暄"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c015",
+          "type": "高中"
+        }
+      ],
+      "createdAt": "2025-01-15T10:00:00Z"
+    },
+    {
+      "id": "c076",
+      "name": "阿赖",
+      "wechat": "alai_hs",
+      "phone": "139-0076-7076",
+      "tags": [
+        "高中",
+        "同学"
+      ],
+      "strength": 1,
+      "notes": "高中同学。",
+      "interactions": [
+        {
+          "id": "i76",
+          "time": "2025-02-11",
+          "method": "微信",
+          "summary": "问候"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c015",
+          "type": "高中"
+        }
+      ],
+      "createdAt": "2025-02-12T10:00:00Z"
+    },
+    {
+      "id": "c077",
+      "name": "小郭",
+      "wechat": "xiaoguo_hs",
+      "phone": "139-0077-7077",
+      "tags": [
+        "高中",
+        "同学"
+      ],
+      "strength": 1,
+      "notes": "高中同学。",
+      "interactions": [
+        {
+          "id": "i77",
+          "time": "2025-02-12",
+          "method": "微信",
+          "summary": "寒暄"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c015",
+          "type": "高中"
+        }
+      ],
+      "createdAt": "2025-02-15T10:00:00Z"
+    },
+    {
+      "id": "c078",
+      "name": "北京阿成",
+      "wechat": "acheng_bj",
+      "phone": "139-0078-7078",
+      "tags": [
+        "远距离",
+        "朋友",
+        "北京"
+      ],
+      "strength": 2,
+      "notes": "北京的朋友。",
+      "interactions": [
+        {
+          "id": "i78",
+          "time": "2026-08-20",
+          "method": "微信",
+          "summary": "聊近况"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2025-04-15T10:00:00Z"
+    },
+    {
+      "id": "c079",
+      "name": "深圳小刘",
+      "wechat": "xiaoliu_sz",
+      "phone": "139-0079-7079",
+      "tags": [
+        "远距离",
+        "朋友",
+        "深圳"
+      ],
+      "strength": 2,
+      "notes": "深圳的朋友。",
+      "interactions": [
+        {
+          "id": "i79",
+          "time": "2026-07-15",
+          "method": "微信",
+          "summary": "聊近况"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2025-05-15T10:00:00Z"
+    },
+    {
+      "id": "c080",
+      "name": "广州老周",
+      "wechat": "laozhou_gz",
+      "phone": "139-0080-8080",
+      "tags": [
+        "远距离",
+        "朋友",
+        "广州"
+      ],
+      "strength": 2,
+      "notes": "广州的朋友。",
+      "interactions": [
+        {
+          "id": "i80",
+          "time": "2026-09-10",
+          "method": "微信",
+          "summary": "聊近况"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2025-06-15T10:00:00Z"
+    },
+    {
+      "id": "c081",
+      "name": "杭州小陈",
+      "wechat": "xiaocheng_hz",
+      "phone": "139-0081-8081",
+      "tags": [
+        "远距离",
+        "朋友",
+        "杭州"
+      ],
+      "strength": 1,
+      "notes": "杭州的朋友。",
+      "interactions": [
+        {
+          "id": "i81",
+          "time": "2026-10-05",
+          "method": "微信",
+          "summary": "问候"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-08-15T10:00:00Z"
+    },
+    {
+      "id": "c082",
+      "name": "表弟小东",
+      "wechat": "xiaodong_cousin",
+      "phone": "139-0082-8082",
+      "tags": [
+        "家人",
+        "表亲"
+      ],
+      "strength": 3,
+      "notes": "表弟。在厦门读书。",
+      "interactions": [
+        {
+          "id": "i82",
+          "time": "2026-10-01",
+          "method": "微信",
+          "summary": "国庆问候"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c003",
+          "type": "家人"
+        }
+      ],
+      "createdAt": "2024-05-15T10:00:00Z"
+    },
+    {
+      "id": "c083",
+      "name": "表姐小莉",
+      "wechat": "xiaoli_cousin",
+      "phone": "139-0083-8083",
+      "tags": [
+        "家人",
+        "表亲",
+        "深圳"
+      ],
+      "strength": 2,
+      "notes": "表姐。在深圳。",
+      "interactions": [
+        {
+          "id": "i83",
+          "time": "2026-09-15",
+          "method": "微信",
+          "summary": "中秋祝福"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c003",
+          "type": "家人"
+        }
+      ],
+      "createdAt": "2024-06-10T10:00:00Z"
+    },
+    {
+      "id": "c084",
+      "name": "堂弟小亮",
+      "wechat": "xiaoliang_cousin",
+      "phone": "139-0084-8084",
+      "tags": [
+        "家人",
+        "堂亲"
+      ],
+      "strength": 2,
+      "notes": "堂弟。",
+      "interactions": [
+        {
+          "id": "i84",
+          "time": "2026-05-01",
+          "method": "微信",
+          "summary": "五一问候"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c019",
+          "type": "家人"
+        }
+      ],
+      "createdAt": "2024-07-15T10:00:00Z"
+    },
+    {
+      "id": "c085",
+      "name": "堂妹小梅",
+      "wechat": "xiaomei_cousin",
+      "phone": "139-0085-8085",
+      "tags": [
+        "家人",
+        "堂亲"
+      ],
+      "strength": 2,
+      "notes": "堂妹。",
+      "interactions": [
+        {
+          "id": "i85",
+          "time": "2026-10-01",
+          "method": "微信",
+          "summary": "国庆"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c019",
+          "type": "家人"
+        }
+      ],
+      "createdAt": "2024-08-15T10:00:00Z"
+    },
+    {
+      "id": "c086",
+      "name": "姑妈",
+      "wechat": "guma_xx",
+      "phone": "139-0086-8086",
+      "tags": [
+        "家人",
+        "亲戚"
+      ],
+      "strength": 2,
+      "notes": "姑妈。三明。",
+      "interactions": [
+        {
+          "id": "i86",
+          "time": "2026-05-01",
+          "method": "微信",
+          "summary": "节日问候"
+        }
+      ],
+      "connections": [
+        {
+          "targetId": "c003",
+          "type": "家人"
+        }
+      ],
+      "createdAt": "2024-09-15T10:00:00Z"
+    },
+    {
+      "id": "c087",
+      "name": "邻居老张",
+      "wechat": "laozhang_nb",
+      "phone": "139-0087-8087",
+      "tags": [
+        "邻居"
+      ],
+      "strength": 1,
+      "notes": "小区邻居。",
+      "interactions": [
+        {
+          "id": "i87",
+          "time": "2026-09-20",
+          "method": "面对面",
+          "location": "小区",
+          "summary": "打招呼"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-09-20T10:00:00Z"
+    },
+    {
+      "id": "c088",
+      "name": "邻居小陈",
+      "wechat": "xiaocheng_nb",
+      "phone": "139-0088-8088",
+      "tags": [
+        "邻居"
+      ],
+      "strength": 1,
+      "notes": "小区邻居。",
+      "interactions": [
+        {
+          "id": "i88",
+          "time": "2026-10-08",
+          "method": "微信",
+          "summary": "打招呼"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-08T10:00:00Z"
+    },
+    {
+      "id": "c089",
+      "name": "楼下老周",
+      "wechat": "louxia_zh",
+      "phone": "139-0089-8089",
+      "tags": [
+        "邻居"
+      ],
+      "strength": 1,
+      "notes": "楼下邻居。",
+      "interactions": [
+        {
+          "id": "i89",
+          "time": "2026-10-09",
+          "method": "微信",
+          "summary": "问候"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-09T10:00:00Z"
+    },
+    {
+      "id": "c090",
+      "name": "物业老林",
+      "wechat": "wuye_ll",
+      "phone": "139-0090-9090",
+      "tags": [
+        "邻居",
+        "服务"
+      ],
+      "strength": 1,
+      "notes": "小区物业。",
+      "interactions": [
+        {
+          "id": "i90",
+          "time": "2026-09-15",
+          "method": "电话",
+          "summary": "报修"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2025-12-10T10:00:00Z"
+    },
+    {
+      "id": "c091",
+      "name": "丈母娘",
+      "wechat": "zhangmu_n",
+      "phone": "139-0091-9091",
+      "tags": [
+        "家人",
+        "配偶"
+      ],
+      "strength": 3,
+      "notes": "丈母娘。（假设已婚）",
+      "interactions": [
+        {
+          "id": "i91",
+          "time": "2026-10-05",
+          "method": "电话",
+          "summary": "节日问候"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2025-01-15T10:00:00Z"
+    },
+    {
+      "id": "c092",
+      "name": "小舅子",
+      "wechat": "xiao_jz",
+      "phone": "139-0092-9092",
+      "tags": [
+        "家人",
+        "配偶",
+        "小辈"
+      ],
+      "strength": 2,
+      "notes": "小舅子。",
+      "interactions": [
+        {
+          "id": "i92",
+          "time": "2026-09-15",
+          "method": "微信",
+          "summary": "中秋祝福"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2025-02-10T10:00:00Z"
+    },
+    {
+      "id": "c093",
+      "name": "老王网友",
+      "wechat": "laowang_online",
+      "phone": "139-0093-9093",
+      "tags": [
+        "网友",
+        "弱连接"
+      ],
+      "strength": 1,
+      "notes": "微信群认识。",
+      "interactions": [
+        {
+          "id": "i93",
+          "time": "2026-10-09",
+          "method": "微信",
+          "summary": "互加"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-09T10:00:00Z"
+    },
+    {
+      "id": "c094",
+      "name": "小马线上",
+      "wechat": "xiaoma_online",
+      "phone": "139-0094-9094",
+      "tags": [
+        "网友",
+        "弱连接"
+      ],
+      "strength": 1,
+      "notes": "线上活动认识。",
+      "interactions": [
+        {
+          "id": "i94",
+          "time": "2026-10-08",
+          "method": "微信",
+          "summary": "互加"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-08T10:00:00Z"
+    },
+    {
+      "id": "c095",
+      "name": "老赵社群",
+      "wechat": "laozhao_qun",
+      "phone": "139-0095-9095",
+      "tags": [
+        "社群",
+        "弱连接"
+      ],
+      "strength": 1,
+      "notes": "社群好友。",
+      "interactions": [
+        {
+          "id": "i95",
+          "time": "2026-10-09",
+          "method": "微信",
+          "summary": "互加"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-09T10:00:00Z"
+    },
+    {
+      "id": "c096",
+      "name": "小杨旧同事",
+      "wechat": "xiaoyang_old",
+      "phone": "139-0096-9096",
+      "tags": [
+        "前同事",
+        "弱连接"
+      ],
+      "strength": 1,
+      "notes": "5 年前同事。",
+      "interactions": [
+        {
+          "id": "i96",
+          "time": "2025-08-15",
+          "method": "微信",
+          "summary": "寒暄"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2025-09-15T10:00:00Z"
+    },
+    {
+      "id": "c097",
+      "name": "老孙弱连接",
+      "wechat": "laosun_weak",
+      "phone": "139-0097-9097",
+      "tags": [
+        "弱连接"
+      ],
+      "strength": 1,
+      "notes": "活动交换。",
+      "interactions": [
+        {
+          "id": "i97",
+          "time": "2026-10-09",
+          "method": "微信",
+          "summary": "互加"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-09T10:00:00Z"
+    },
+    {
+      "id": "c098",
+      "name": "小黄初识",
+      "wechat": "xiaohuang_",
+      "phone": "139-0098-9098",
+      "tags": [
+        "新朋友"
+      ],
+      "strength": 1,
+      "notes": "刚认识。",
+      "interactions": [
+        {
+          "id": "i98",
+          "time": "2026-10-10",
+          "method": "微信",
+          "summary": "互加"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-10T10:00:00Z"
+    },
+    {
+      "id": "c099",
+      "name": "老周线下",
+      "wechat": "laozhou_xx",
+      "phone": "139-0099-9099",
+      "tags": [
+        "新朋友",
+        "线下"
+      ],
+      "strength": 1,
+      "notes": "线下活动。",
+      "interactions": [
+        {
+          "id": "i99",
+          "time": "2026-10-10",
+          "method": "微信",
+          "summary": "互加"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-10T10:00:00Z"
+    },
+    {
+      "id": "c100",
+      "name": "小可初识",
+      "wechat": "xiaoke_xx",
+      "phone": "139-0100-1001",
+      "tags": [
+        "新朋友"
+      ],
+      "strength": 1,
+      "notes": "刚认识。",
+      "interactions": [
+        {
+          "id": "i100",
+          "time": "2026-10-10",
+          "method": "微信",
+          "summary": "互加"
+        }
+      ],
+      "connections": [],
+      "createdAt": "2026-10-10T10:00:00Z"
+    }
+  ]
+}
