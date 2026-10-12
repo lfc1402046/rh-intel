@@ -697,7 +697,10 @@ body{
         <span style="flex:1"></span>
         <span id="contactCount" style="font-size:12px;color:var(--text-muted);"></span>
       </div>
-      <div class="contact-grid" id="contactGrid"></div>
+      <div class="module-cards" id="moduleCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px"></div>
+      <script>setTimeout(renderModuleCards, 100);</script>
+
+            <div class="contact-grid" id="contactGrid"></div>
     </div>
 
     <!-- Graph View -->
@@ -1019,6 +1022,76 @@ function updateCounts(){
   document.getElementById('contactCount').textContent=`共 ${contacts.length} 位联系人`;
 }
 
+
+// ===== v33 Round 2: 6 大模块入口卡片（看板） =====
+function renderModuleSummary(){
+  const contacts = getAllContacts();
+  const t = { tier1:0, tier2:0, tier3:0, tier4:0, dormant:0, recent:0, withTags:0 };
+  contacts.forEach(c => {
+    const tier = c.dunbarTier != null ? c.dunbarTier : (c.strength >= 5 ? 1 : c.strength >= 4 ? 2 : c.strength >= 2 ? 3 : 4);
+    if (tier === 1) t.tier1++;
+    else if (tier === 2) t.tier2++;
+    else if (tier === 3) t.tier3++;
+    else t.tier4++;
+    if (c.lastInteractionAt) {
+      const days = daysSince(c.lastInteractionAt);
+      if (days > 90) t.dormant++;
+      else if (days < 7) t.recent++;
+    }
+    if ((c.tags||[]).length > 0) t.withTags++;
+  });
+  const pendingTodos = contacts.reduce((sum, c) => sum + (c.todos||[]).filter(x => x.status !== 'done').length, 0);
+  const upcomingDates = contacts.reduce((sum, c) => sum + (c.keyDates||[]).length, 0);
+  return {
+    tier1: t.tier1, tier2: t.tier2, tier3: t.tier3, tier4: t.tier4,
+    dormant: t.dormant, recent: t.recent, withTags: t.withTags,
+    pendingTodos, upcomingDates,
+    total: contacts.length
+  };
+}
+
+
+
+// ===== v33 Round 2: 渲染 6 大模块入口卡片 =====
+function renderModuleCards(){
+  const el = document.getElementById('moduleCards');
+  if (!el) return;
+  const s = renderModuleSummary();
+  const cards = [
+    { label: '核心圈', value: s.tier1, color: '#FFD66B', emoji: '⭐', filter: 1 },
+    { label: '亲密朋友', value: s.tier2, color: '#5BB5E0', emoji: '💙', filter: 2 },
+    { label: '一般朋友', value: s.tier3, color: '#4ECDC4', emoji: '💚', filter: 3 },
+    { label: '弱连接', value: s.tier4, color: '#92B8D8', emoji: '🌫️', filter: 4 },
+    { label: '近期互动', value: s.recent, color: '#7FD4A0', emoji: '⚡', filter: 'recent' },
+    { label: '需关注', value: s.dormant, color: '#FFA47C', emoji: '⏰', filter: 'dormant' },
+    { label: '未完成待办', value: s.pendingTodos, color: '#E8919C', emoji: '✅', filter: 'todos' },
+    { label: '重要日期', value: s.upcomingDates, color: '#C8B8DB', emoji: '📅', filter: 'dates' }
+  ];
+  el.innerHTML = cards.map(c =>
+    '<div class="module-card" onclick="filterByModule(\'' + c.filter + '\')" style="cursor:pointer;background:white;border:1px solid #E5E5EA;border-radius:14px;padding:16px;text-align:center;transition:all 200ms">' +
+      '<div style="font-size:28px;margin-bottom:4px">' + c.emoji + '</div>' +
+      '<div style="font-size:24px;font-weight:700;color:' + c.color + '">' + c.value + '</div>' +
+      '<div style="font-size:12px;color:#6E6E73;margin-top:4px">' + c.label + '</div>' +
+    '</div>'
+  ).join('');
+  el.querySelectorAll('.module-card').forEach(card => {
+    card.addEventListener('mouseenter', () => { card.style.transform = 'translateY(-2px)'; card.style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'; });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; card.style.boxShadow = ''; });
+  });
+}
+
+function filterByModule(filter){
+  // 简化版：只对 tier 1-4 做基础筛选，其他只显示信息
+  if (filter === 'recent') { toast('近期 7 天内互动: ' + renderModuleSummary().recent + ' 人', 'info'); return; }
+  if (filter === 'dormant') { toast('需关注 90+ 天未互动: ' + renderModuleSummary().dormant + ' 人', 'warn'); return; }
+  if (filter === 'todos') { toast('未完成待办: ' + renderModuleSummary().pendingTodos + ' 项', 'info'); return; }
+  if (filter === 'dates') { toast('重要日期: ' + renderModuleSummary().upcomingDates + ' 项', 'info'); return; }
+  // 1-4 是 dunbarTier 筛选（简化版：只 toast 反馈）
+  const tierNames = ['', '核心圈', '亲密朋友', '一般朋友', '弱连接'];
+  toast('筛选 ' + tierNames[filter] + '（Round 3 完整版）', 'info');
+}
+
+
 // ===== Tag Filter =====
 function renderTagFilters(){
   const container=document.getElementById('tagFilterContainer');
@@ -1311,6 +1384,36 @@ function openDetail(id){
           <div class="stat-label">趋势</div>
           <div class="stat-value" style="font-size:13px">${trendIcon}</div>
         </div>
+      </div>
+
+      <div class="section-title">🎯 关系画像 (v3.0)</div>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">邓巴圈层</div>
+          <div class="info-value" style="color:${['#FFD66B','#5BB5E0','#4ECDC4','#92B8D8'][c.dunbarTier!=null?c.dunbarTier:0] || '#86868B'}">${['核心','亲密','一般','弱连接'][c.dunbarTier!=null?c.dunbarTier:0] || '未分类'}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">信任度</div>
+          <div class="info-value">${'★'.repeat(c.trustLevel || 0)}${'☆'.repeat(5-(c.trustLevel || 0))}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">熟悉度</div>
+          <div class="info-value">${({stranger:'陌生人',familiar:'熟人',close:'密友'}[c.familiarity]) || c.familiarity || 'familiar'}</div>
+        </div>
+        ${c.nickname?`<div class="info-item"><div class="info-label">昵称</div><div class="info-value">${c.nickname}</div></div>`:''}
+        ${c.gender?`<div class="info-item"><div class="info-label">性别</div><div class="info-value">${c.gender}</div></div>`:''}
+        ${c.ageRange?`<div class="info-item"><div class="info-label">年龄段</div><div class="info-value">${c.ageRange}</div></div>`:''}
+        ${c.email?`<div class="info-item"><div class="info-label">邮箱</div><div class="info-value">${c.email}</div></div>`:''}
+        ${c.company?`<div class="info-item"><div class="info-label">公司</div><div class="info-value">${c.company}</div></div>`:''}
+        ${c.position?`<div class="info-item"><div class="info-label">职位</div><div class="info-value">${c.position}</div></div>`:''}
+        ${(c.hometown || c.currentCity)?`<div class="info-item"><div class="info-label">地区</div><div class="info-value">${[c.hometown,c.currentCity].filter(Boolean).join(' → ')}</div></div>`:''}
+        ${c.metAt?`<div class="info-item"><div class="info-label">初次见面</div><div class="info-value" style="font-size:12px">${c.metAt}</div></div>`:''}
+        ${c.metScene?`<div class="info-item"><div class="info-label">见面场景</div><div class="info-value" style="font-size:12px">${c.metScene}</div></div>`:''}
+        ${c.introducedBy?`<div class="info-item"><div class="info-label">引荐人</div><div class="info-value" style="font-size:12px">${(()=>{const p=getContact(c.introducedBy);return p?p.name:'未知';})()}</div></div>`:''}
+        ${(c.keyDates && c.keyDates.length)?`<div class="info-item"><div class="info-label">重要日期 (${c.keyDates.length})</div><div class="info-value" style="font-size:12px">${c.keyDates.map(d=>d.label||d.type).slice(0,3).join('、')}${c.keyDates.length>3?'等':''}</div></div>`:''}
+        ${(c.todos && c.todos.length)?`<div class="info-item"><div class="info-label">待办 (${c.todos.length})</div><div class="info-value" style="font-size:12px">${c.todos.filter(t=>t.status!=='done').length} 项未完成</div></div>`:''}
+        ${c.lastInteractionAt?`<div class="info-item"><div class="info-label">最后互动</div><div class="info-value" style="font-size:12px">${c.lastInteractionAt.slice(0,10)}</div></div>`:''}
+        ${c.avgIntervalDays?`<div class="info-item"><div class="info-label">平均互动间隔</div><div class="info-value" style="font-size:12px">${c.avgIntervalDays} 天</div></div>`:''}
       </div>
 
       <div class="info-grid">
