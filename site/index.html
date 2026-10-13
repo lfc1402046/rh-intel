@@ -2049,15 +2049,6 @@ function drawGraph(ctx,rect,nodes,edges,tooltip,canvas){
 
   // Draw nodes
   nodes.forEach(n=>{
-    // Glow
-    const grad=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.radius*2.5);
-    grad.addColorStop(0,`rgba(201,168,76,${n.strength*0.05})`);
-    grad.addColorStop(1,'rgba(0,0,0,0)');
-    ctx.fillStyle=grad;
-    ctx.beginPath();
-    ctx.arc(n.x,n.y,n.radius*2.5,0,Math.PI*2);
-    ctx.fill();
-
     // v37 升级：节点按 strength 5 档配色 + 首字 + 标签
     const tierColors = {5:'#FFD66B', 4:'#5BB5E0', 3:'#4ECDC4', 2:'#92B8D8', 1:'#C8B8DB'};
     const tierNames  = {5:'核心',    4:'亲密',   3:'一般',  2:'弱',    1:'极弱'};
