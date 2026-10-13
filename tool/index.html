@@ -536,6 +536,55 @@ body{
   margin-top:2px;
 }
 
+
+/* ===== v40: 日历热力图（GitHub contribution 风格）===== */
+.heatmap-container{
+  background:var(--bg-elevated);
+  border:1px solid var(--border-light);
+  border-radius:10px;
+  padding:14px;
+  margin-bottom:16px;
+}
+.heatmap-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:12px;color:var(--text-dim)}
+.heatmap-header strong{color:var(--text);font-size:14px;font-weight:600}
+.heatmap-grid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,12px);gap:3px;overflow-x:auto;padding-bottom:4px}
+.heatmap-cell{width:12px;height:12px;border-radius:2px;background:var(--border-light);position:relative;cursor:default}
+.heatmap-cell.l1{background:rgba(0,113,227,0.15)}
+.heatmap-cell.l2{background:rgba(0,113,227,0.35)}
+.heatmap-cell.l3{background:rgba(0,113,227,0.6)}
+.heatmap-cell.l4{background:rgba(0,113,227,0.85)}
+.heatmap-cell.l5{background:#0071E3}
+.heatmap-cell:hover{outline:1px solid var(--text);z-index:1}
+.heatmap-months{display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-top:4px;padding:0 2px}
+.heatmap-legend{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text-muted);margin-top:6px}
+.heatmap-legend .heatmap-cell{cursor:default}
+
+/* ===== v40: 趋势 Sparkline（过去 30 天互动）===== */
+.sparkline-container{
+  background:var(--bg-elevated);
+  border:1px solid var(--border-light);
+  border-radius:10px;
+  padding:14px;
+  margin-bottom:16px;
+}
+.sparkline-bar{
+  display:flex;
+  align-items:flex-end;
+  height:48px;
+  gap:2px;
+  margin-top:8px;
+}
+.sparkline-bar div{
+  flex:1;
+  background:linear-gradient(180deg,#0071E3 0%,#5BB5E0 100%);
+  border-radius:2px 2px 0 0;
+  min-height:2px;
+  position:relative;
+}
+.sparkline-bar div:hover{background:linear-gradient(180deg,#FF9F0A 0%,#FFD66B 100%)}
+.sparkline-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:6px}
+.sparkline-meta strong{color:var(--text);font-weight:600}
+
 /* ===== Stats Bar ===== */
 .stats-bar{
   display:flex;
@@ -1081,6 +1130,68 @@ function renderModuleCards(){
   } catch(e) { console.warn("renderModuleCards error:", e); }
 }
 
+// ===== v40: 渲染日历热力图 + 趋势 Sparkline =====
+function renderActivityStats(contactId){
+  const c = getContact(contactId);
+  if (!c) return '';
+  const interactions = c.interactions || [];
+  const days = 365;
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  // 计算每天的互动数
+  const counts = new Array(days).fill(0);
+  interactions.forEach(i => {
+    const d = new Date(i.time || i.date || 0);
+    d.setHours(0,0,0,0);
+    const diff = Math.floor((today - d) / 86400000);
+    if (diff >= 0 && diff < days) counts[diff]++;
+  });
+  // 计算最大（用于颜色等级）
+  const maxCount = Math.max(1, ...counts);
+  // 找出过去 365 天的第一天
+  const startDate = new Date(today);
+  startDate.setDate(startDate.getDate() - days + 1);
+  // 生成 53 周 × 7 天的网格
+  let cells = '';
+  for (let i = 0; i < days; i++) {
+    const d = new Date(startDate);
+    d.setDate(d.getDate() + i);
+    const c_count = counts[i];
+    let level = '';
+    if (c_count === 0) level = '';
+    else if (c_count === 1) level = 'l1';
+    else if (c_count === 2) level = 'l2';
+    else if (c_count <= 4) level = 'l3';
+    else if (c_count <= 6) level = 'l4';
+    else level = 'l5';
+    const dateStr = d.toISOString().slice(0,10);
+    cells += '<div class="heatmap-cell ' + level + '" title="' + dateStr + ': ' + c_count + ' 次互动"></div>';
+  }
+  // 总互动数
+  const total30 = counts.slice(-30).reduce((a,b) => a+b, 0);
+  const total7 = counts.slice(-7).reduce((a,b) => a+b, 0);
+
+  // 30 天 sparkline
+  const last30 = counts.slice(-30);
+  const max30 = Math.max(1, ...last30);
+  let bars = '';
+  last30.forEach((v, i) => {
+    const h = v === 0 ? 4 : Math.max(4, Math.round((v / max30) * 48));
+    bars += '<div style="height:' + h + 'px" title="' + (today.getDate()-29+i) + '日: ' + v + '"></div>';
+  });
+
+  return '<div class="heatmap-container">' +
+    '<div class="heatmap-header"><strong>📅 过去 12 个月活动热力图</strong><span>总: ' + interactions.length + ' 次</span></div>' +
+    '<div class="heatmap-grid">' + cells + '</div>' +
+    '<div class="heatmap-legend">少 <div class="heatmap-cell l1"></div><div class="heatmap-cell l2"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l4"></div><div class="heatmap-cell l5"></div> 多</div>' +
+    '</div>' +
+    '<div class="sparkline-container">' +
+    '<div class="heatmap-header"><strong>📈 过去 30 天互动趋势</strong><span>近 7 天: ' + total7 + ' / 近 30 天: ' + total30 + '</span></div>' +
+    '<div class="sparkline-bar">' + bars + '</div>' +
+    '<div class="sparkline-meta"><span>30 天前</span><strong>今天</strong></div>' +
+    '</div>';
+}
+
 function filterByModule(filter){
   // 简化版：只对 tier 1-4 做基础筛选，其他只显示信息
   if (filter === 'recent') { toast('近期 7 天内互动: ' + renderModuleSummary().recent + ' 人', 'info'); return; }
@@ -1386,6 +1497,9 @@ function openDetail(id){
           <div class="stat-value" style="font-size:13px">${trendIcon}</div>
         </div>
       </div>
+
+      ${renderActivityStats(c.id)}
+
 
       <div class="section-title">🎯 关系画像 (v3.0)</div>
       <div class="info-grid">
