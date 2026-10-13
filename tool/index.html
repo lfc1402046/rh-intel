@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>人际关系侦探 · 情报中心</title>
 <style>
-/* ===== 侦探暗黑主题 ===== */
+/* ===== Round 3: Apple-inspired Design System (对齐 main.css) ===== */
 :root {
   --bg-deep: #FFFFFF;
   --bg-card: #F5F5F7;
@@ -26,9 +26,17 @@
   --safe: #27ae60;
   --radius: 8px;
   --radius-lg: 12px;
-  --shadow-card: 0 2px 12px rgba(0,0,0,0.4);
+  --radius-xl: 18px;
+  --shadow-card: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
   --shadow-glow: 0 0 20px var(--gold-glow);
-  --font: "PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+  /* Round 3: 系统字体栈对齐 Apple SF Pro */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro SC", "SF Pro Display", "SF Pro Text", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Round 3: 缓动函数对齐 Apple */
+  --ease-standard: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-spring: cubic-bezier(0.5, 1.5, 0.6, 1);
+  --t-fast: 150ms var(--ease-standard);
+  --t-base: 300ms var(--ease-standard);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;}
@@ -209,12 +217,13 @@ body{
 .contact-card{
   background:var(--bg-card);
   border:1px solid var(--border);
-  border-radius:var(--radius-lg);
+  border-radius:var(--radius-xl);  /* Round 3: 12 → 18px (Apple 风更圆润) */
   padding:14px;
   cursor:pointer;
-  transition:all .25s;
+  transition:all var(--t-base);  /* Round 3: Apple 缓动 */
   position:relative;
   overflow:hidden;
+  box-shadow:var(--shadow-card);  /* Round 3: 加入微妙阴影 */
 }
 .contact-card::before{
   content:'';
@@ -228,8 +237,9 @@ body{
 .contact-card:hover{
   background:var(--bg-card-hover);
   border-color:var(--border-light);
-  transform:translateY(-1px);
-  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+  transform:translateY(-2px);  /* Round 3: 加大幅度（Apple 风格 hover）*/
+  box-shadow:var(--shadow-md);  /* Round 3: 用 token 一致阴影 */
+  border-color:#D2D2D7;
 }
 .contact-card:hover::before{opacity:1;}
 .contact-card .card-header{
@@ -330,11 +340,11 @@ body{
 .modal{
   background:var(--bg-elevated);
   border:1px solid var(--border-light);
-  border-radius:var(--radius-lg);
+  border-radius:var(--radius-xl);  /* Round 3: 12 → 18px */
   width:100%;
   max-width:520px;
   margin:20px auto;
-  box-shadow:0 8px 40px rgba(0,0,0,0.6);
+  box-shadow:0 12px 32px rgba(0,0,0,0.08), 0 0 1px rgba(0,0,0,0.06);  /* Round 3: Apple 浅阴影 */
   overflow:hidden;
 }
 .modal-header{
@@ -603,6 +613,148 @@ body{
 .stat-card .stat-label{font-size:11px;color:var(--text-muted);}
 .stat-card .stat-value{font-size:18px;font-weight:700;color:var(--gold);}
 
+/* ===== Round 2: 邓巴徽章 / 倒计时 / 待办 ===== */
+.dunbar-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 12px;border-radius:999px;
+  font-size:12px;font-weight:600;letter-spacing:0.3px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.06);
+}
+.dunbar-trend{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 10px;border-radius:999px;
+  font-size:12px;font-weight:500;
+  background:#F5F5F7;color:#1D1D1F;border:1px solid #E5E5EA;
+}
+.dunbar-trend.up{background:#E8F5E9;color:#1B5E20;}
+.dunbar-trend.down{background:#FFEBEE;color:#B71C1C;}
+.dunbar-pill{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 10px;border-radius:999px;
+  font-size:11px;
+}
+.keydate-list{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.keydate-item{
+  background:#FFFFFF;border:1px solid #E5E5EA;border-radius:10px;
+  padding:10px 12px;display:flex;align-items:center;gap:8px;
+  transition:all 150ms;
+}
+.keydate-item:hover{border-color:#0071E3;box-shadow:0 1px 6px rgba(0,113,227,0.08)}
+.keydate-badge{
+  display:inline-flex;align-items:center;
+  padding:2px 8px;border-radius:999px;
+  font-size:10px;font-weight:600;white-space:nowrap;
+}
+.keydate-badge.today{background:#FFD66B;color:#5B4500;}
+.keydate-badge.soon{background:#E8919C;color:#fff;}
+.keydate-badge.future{background:#F5F5F7;color:#86868B;}
+.keydate-badge.past{background:#F5F5F7;color:#86868B;text-decoration:line-through;opacity:0.7}
+.empty-tip{font-size:12px;color:var(--text-muted);padding:8px 12px}
+.todo-list{display:flex;flex-direction:column;gap:4px;margin-bottom:14px}
+.todo-item{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 12px;background:#FFFFFF;border:1px solid #E5E5EA;
+  border-radius:8px;cursor:pointer;transition:all 150ms;
+  font-size:13px;
+}
+.todo-item:hover{border-color:#0071E3;background:#FAFCFF}
+.todo-item.done{opacity:0.55;background:#F5F5F7}
+.todo-item.done .todo-text{text-decoration:line-through}
+.todo-check{
+  width:18px;height:18px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#0071E3;color:#fff;font-size:12px;font-weight:700;
+  flex-shrink:0;
+}
+.todo-item.done .todo-check{background:#27ae60}
+.todo-item:not(.done) .todo-check{background:#fff;color:#86868B;border:1.5px solid #C7C7CC}
+.todo-text{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.todo-due{font-size:11px;color:var(--text-muted);flex-shrink:0}
+.todo-del{
+  background:transparent;border:none;color:#86868B;
+  font-size:14px;cursor:pointer;padding:2px 6px;border-radius:4px;
+  opacity:0;transition:all 150ms;
+}
+.todo-item:hover .todo-del{opacity:1}
+.todo-del:hover{background:#FFEBEE;color:#B71C1C}
+.tl-range-btn{
+  background:#FFFFFF;border:1px solid #E5E5EA;border-radius:6px;
+  padding:3px 10px;font-size:11px;cursor:pointer;color:#6E6E73;
+  font-family:var(--font);transition:all 150ms;
+}
+.tl-range-btn:hover{border-color:#0071E3;color:#0071E3}
+.tl-range-btn.active{background:#0071E3;color:#fff;border-color:#0071E3}
+
+/* ===== Round 2-3: 洞察面板 ===== */
+.insight-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:12px;margin-bottom:16px;
+}
+.health-card{
+  background:#FFFFFF;border:1px solid #E5E5EA;border-radius:14px;
+  padding:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.04);
+  transition:all 200ms;
+}
+.health-card:hover{box-shadow:0 4px 12px rgba(0,0,0,0.08);transform:translateY(-1px)}
+.health-emoji{font-size:24px;margin-bottom:4px}
+.health-value{font-size:28px;font-weight:700;line-height:1.2;margin-bottom:2px}
+.health-label{font-size:11px;color:#6E6E73;font-weight:500}
+.health-sub{font-size:10px;color:#86868B;margin-top:2px}
+.insight-section{
+  background:#FFFFFF;border:1px solid #E5E5EA;border-radius:14px;
+  padding:14px 16px;margin-bottom:12px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.04);
+}
+.insight-section h3{
+  font-size:14px;font-weight:600;margin:0 0 12px;color:#1D1D1F;
+  display:flex;align-items:center;gap:6px;
+}
+.tier-bars{display:flex;flex-direction:column;gap:8px}
+.tier-bar-row{display:flex;align-items:center;gap:8px}
+.tier-bar-label{width:80px;font-size:12px;font-weight:500;color:#1D1D1F;flex-shrink:0}
+.tier-bar-track{
+  flex:1;height:24px;background:#F5F5F7;border-radius:6px;
+  position:relative;overflow:hidden;display:flex;
+}
+.tier-bar-fill{height:100%;border-radius:6px;transition:width 600ms ease}
+.tier-bar-dormant{height:100%;position:absolute;top:0;right:0;border-radius:6px}
+.tier-bar-value{width:140px;text-align:right;font-size:11px;color:#6E6E73;flex-shrink:0}
+.freq-bars{display:flex;flex-direction:column;gap:6px}
+.freq-bar-row{display:flex;align-items:center;gap:8px}
+.freq-bar-label{width:60px;font-size:12px;color:#1D1D1F;flex-shrink:0}
+.freq-bar-track{flex:1;height:18px;background:#F5F5F7;border-radius:4px;overflow:hidden}
+.freq-bar-fill{height:100%;border-radius:4px;transition:width 600ms ease;min-width:2px}
+.freq-bar-value{width:60px;text-align:right;font-size:11px;color:#6E6E73;flex-shrink:0}
+.method-stack-row{display:flex;border-radius:8px;overflow:hidden;border:1px solid #E5E5EA}
+.dormant-list{display:flex;flex-direction:column;gap:4px;max-height:300px;overflow-y:auto}
+.dormant-row{
+  display:flex;align-items:center;gap:8px;padding:6px 8px;
+  background:#F5F5F7;border-radius:8px;cursor:pointer;transition:all 150ms;
+}
+.dormant-row:hover{background:#FFEBEE;transform:translateX(2px)}
+.dormant-rank{
+  width:20px;height:20px;border-radius:50%;background:#E8919C;color:#fff;
+  font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.dormant-name{font-size:12px;font-weight:600;color:#1D1D1F;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dormant-tag{font-size:10px;color:#86868B}
+.dormant-days{font-size:11px;color:#B71C1C;font-weight:600;flex-shrink:0}
+.trend-list{display:flex;flex-direction:column;gap:4px;max-height:300px;overflow-y:auto}
+.trend-row{
+  display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;
+  cursor:pointer;transition:all 150ms;font-size:12px;
+}
+.trend-row:hover{transform:translateX(2px)}
+.trend-row.up{background:#E8F5E9}
+.trend-row.up:hover{background:#C8E6C9}
+.trend-row.down{background:#FFEBEE}
+.trend-row.down:hover{background:#FFCDD2}
+.trend-icon{font-size:14px;flex-shrink:0}
+.trend-name{color:#1D1D1F;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+.trend-delta{font-size:11px;font-weight:700;flex-shrink:0}
+.trend-row.up .trend-delta{color:#1B5E20}
+.trend-row.down .trend-delta{color:#B71C1C}
+
 /* ===== Graph View ===== */
 .graph-container{
   width:100%;
@@ -723,6 +875,7 @@ body{
     <div class="header-tabs">
       <button class="tab-btn active" data-tab="grid">📋 通讯录</button>
       <button class="tab-btn" data-tab="graph">🕸️ 关系图谱</button>
+      <button class="tab-btn" data-tab="insight">🧠 洞察</button>
     </div>
     <div class="header-actions">
       <div class="search-box">
@@ -759,6 +912,11 @@ body{
         <div class="graph-tooltip" id="graphTooltip"></div>
         <div class="graph-legend" id="graphLegend"></div>
       </div>
+    </div>
+
+    <!-- Insight View (Round 2-3) -->
+    <div id="insightView" style="display:none;padding:16px;overflow-y:auto;flex:1">
+      <div id="insightContent"></div>
     </div>
   </div>
 </div>
@@ -1130,65 +1288,126 @@ function renderModuleCards(){
   } catch(e) { console.warn("renderModuleCards error:", e); }
 }
 
-// ===== v40: 渲染日历热力图 + 趋势 Sparkline =====
+// ===== v40+ Round 2.0: 时间线 2.0 - 多周期 + 方式分色 + 月度聚合 =====
 function renderActivityStats(contactId){
   const c = getContact(contactId);
   if (!c) return '';
   const interactions = c.interactions || [];
-  const days = 365;
   const today = new Date();
   today.setHours(0,0,0,0);
-  // 计算每天的互动数
+  // 当前展示周期（默认 365）。由按钮点击切换，状态保存在 contactId 上
+  const stateKey = '_timelineRange_' + contactId;
+  if (window[stateKey] === undefined) window[stateKey] = 365;
+  const days = window[stateKey];
+  // 计算每天的互动数 + 每日方式堆叠
+  const methodColors = { '微信':'#07C160', '电话':'#5BB5E0', '见面':'#FFD66B', '吃饭':'#E8919C', '跑步':'#4ECDC4', '聚会':'#9b59b6', '会议':'#7f8c8d', '其他':'#C7C7CC' };
   const counts = new Array(days).fill(0);
+  const perMethod = {}; // perMethod[method] = array of daily counts
+  Object.keys(methodColors).forEach(m => perMethod[m] = new Array(days).fill(0));
   interactions.forEach(i => {
     const d = new Date(i.time || i.date || 0);
     d.setHours(0,0,0,0);
     const diff = Math.floor((today - d) / 86400000);
-    if (diff >= 0 && diff < days) counts[diff]++;
+    if (diff >= 0 && diff < days) {
+      counts[diff]++;
+      const m = i.method || '其他';
+      if (!perMethod[m]) perMethod[m] = new Array(days).fill(0);
+      perMethod[m][diff] = (perMethod[m][diff] || 0) + 1;
+    }
   });
-  // 计算最大（用于颜色等级）
-  const maxCount = Math.max(1, ...counts);
-  // 找出过去 365 天的第一天
+  // 找周期第一天
   const startDate = new Date(today);
   startDate.setDate(startDate.getDate() - days + 1);
-  // 生成 53 周 × 7 天的网格
+
+  // === A. 热力图（按周期展示） ===
   let cells = '';
   for (let i = 0; i < days; i++) {
     const d = new Date(startDate);
     d.setDate(d.getDate() + i);
-    const c_count = counts[i];
+    const cc = counts[i];
     let level = '';
-    if (c_count === 0) level = '';
-    else if (c_count === 1) level = 'l1';
-    else if (c_count === 2) level = 'l2';
-    else if (c_count <= 4) level = 'l3';
-    else if (c_count <= 6) level = 'l4';
+    if (cc === 0) level = '';
+    else if (cc === 1) level = 'l1';
+    else if (cc === 2) level = 'l2';
+    else if (cc <= 4) level = 'l3';
+    else if (cc <= 6) level = 'l4';
     else level = 'l5';
     const dateStr = d.toISOString().slice(0,10);
-    cells += '<div class="heatmap-cell ' + level + '" title="' + dateStr + ': ' + c_count + ' 次互动"></div>';
+    cells += '<div class="heatmap-cell ' + level + '" title="' + dateStr + ': ' + cc + ' 次互动"></div>';
   }
-  // 总互动数
-  const total30 = counts.slice(-30).reduce((a,b) => a+b, 0);
-  const total7 = counts.slice(-7).reduce((a,b) => a+b, 0);
 
-  // 30 天 sparkline
+  // === B. 30 天 sparkline（保持） ===
   const last30 = counts.slice(-30);
   const max30 = Math.max(1, ...last30);
   let bars = '';
   last30.forEach((v, i) => {
     const h = v === 0 ? 4 : Math.max(4, Math.round((v / max30) * 48));
-    bars += '<div style="height:' + h + 'px" title="' + (today.getDate()-29+i) + '日: ' + v + '"></div>';
+    bars += '<div style="height:' + h + 'px" title="第' + (i+1) + '天: ' + v + ' 次"></div>';
   });
 
+  // === C. Round 2.0: 方式分色堆叠柱（仅 30/90 周期显示） ===
+  let methodBars = '';
+  if (days <= 90) {
+    const N = days;
+    const stackMax = Math.max(1, ...counts);
+    methodBars = '<div class="method-stack" style="display:flex;align-items:flex-end;gap:2px;height:60px;padding-top:6px">';
+    for (let i = 0; i < N; i++) {
+      const total = counts[i];
+      if (total === 0) { methodBars += '<div style="flex:1;height:2px;background:#F5F5F7;border-radius:1px" title="无互动"></div>'; continue; }
+      const dateStr = new Date(startDate); dateStr.setDate(dateStr.getDate()+i);
+      const segs = Object.keys(methodColors).map(m => perMethod[m][i]).filter(v => v > 0);
+      const segHtml = segs.map((v, idx) => {
+        const colors = Object.keys(methodColors).map(m => perMethod[m][i] > 0 ? methodColors[m] : null).filter(Boolean);
+        return '<div style="height:' + Math.round((v/stackMax)*52) + 'px;background:' + colors[idx] + ';flex:1"></div>';
+      }).join('');
+      methodBars += '<div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:1px" title="' + dateStr.toISOString().slice(0,10) + ': ' + total + ' 次">' + segHtml + '</div>';
+    }
+    methodBars += '</div>';
+  }
+
+  // === D. Round 2.0: 月度聚合（仅 365 周期显示） ===
+  let monthBars = '';
+  if (days === 365) {
+    const months = {};
+    for (let i = 0; i < days; i++) {
+      const d = new Date(startDate); d.setDate(d.getDate()+i);
+      const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+      months[key] = (months[key] || 0) + counts[i];
+    }
+    const maxM = Math.max(1, ...Object.values(months));
+    const monthKeys = Object.keys(months).sort();
+    const last12 = monthKeys.slice(-12);
+    monthBars = '<div style="display:flex;align-items:flex-end;gap:4px;height:60px;padding-top:6px">' +
+      last12.map(k => {
+        const v = months[k];
+        const h = Math.max(2, Math.round((v/maxM)*50));
+        return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px" title="' + k + ': ' + v + ' 次">' +
+          '<div style="width:100%;height:' + h + 'px;background:linear-gradient(180deg,#5BB5E0,#0071E3);border-radius:3px"></div>' +
+          '<div style="font-size:9px;color:var(--text-muted)">' + k.slice(5) + '月</div>' +
+        '</div>';
+      }).join('') +
+    '</div>';
+  }
+
+  // === E. 周期切换按钮 ===
+  const switchBtn = (d, label) => '<button class="tl-range-btn ' + (days===d?'active':'') + '" onclick="window._timelineRange_' + contactId + '=' + d + ';openDetail(\'' + contactId + '\')">' + label + '</button>';
+
+  // === F. 方式图例（仅 30/90 显示） ===
+  const legend = days <= 90 ? '<div class="method-legend" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;font-size:10px">' +
+    Object.keys(methodColors).map(m => {
+      const total = (perMethod[m]||[]).reduce((a,b)=>a+b,0);
+      return '<span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:' + methodColors[m] + '"></span>' + m + ' ' + total + '</span>';
+    }).join('') + '</div>' : '';
+
   return '<div class="heatmap-container">' +
-    '<div class="heatmap-header"><strong>📅 过去 12 个月活动热力图</strong><span>总: ' + interactions.length + ' 次</span></div>' +
+    '<div class="heatmap-header">' +
+      '<strong>📅 时间线 (Round 2.0)</strong>' +
+      '<div style="display:flex;gap:4px">' + switchBtn(30,'30天') + switchBtn(90,'90天') + switchBtn(365,'365天') + '</div>' +
+    '</div>' +
     '<div class="heatmap-grid">' + cells + '</div>' +
     '<div class="heatmap-legend">少 <div class="heatmap-cell l1"></div><div class="heatmap-cell l2"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l4"></div><div class="heatmap-cell l5"></div> 多</div>' +
-    '</div>' +
-    '<div class="sparkline-container">' +
-    '<div class="heatmap-header"><strong>📈 过去 30 天互动趋势</strong><span>近 7 天: ' + total7 + ' / 近 30 天: ' + total30 + '</span></div>' +
-    '<div class="sparkline-bar">' + bars + '</div>' +
-    '<div class="sparkline-meta"><span>30 天前</span><strong>今天</strong></div>' +
+    (methodBars ? '<div class="heatmap-header" style="margin-top:14px"><strong>🎨 方式分色堆叠</strong><span>按互动方式分色</span></div>' + methodBars + legend : '') +
+    (monthBars ? '<div class="heatmap-header" style="margin-top:14px"><strong>📊 月度聚合</strong><span>近 12 个月</span></div>' + monthBars : '') +
     '</div>';
 }
 
@@ -1500,6 +1719,54 @@ function openDetail(id){
 
       ${renderActivityStats(c.id)}
 
+      <div class="section-title">🪪 关系定位</div>
+      ${(() => {
+        // 邓巴圈层：1=核心、2=亲密、3=一般、4=弱连接
+        const tier = c.dunbarTier != null ? c.dunbarTier : (c.strength >= 5 ? 1 : c.strength >= 4 ? 2 : c.strength >= 2 ? 3 : 4);
+        const tierMap = {1:['⭐ 核心圈','#FFD66B','#5B4500'],2:['💙 亲密朋友','#5BB5E0','#0F3A52'],3:['🌿 一般朋友','#4ECDC4','#0E423A'],4:['· 弱连接','#92B8D8','#2A4055']};
+        const [tierLabel, tierBg, tierFg] = tierMap[tier] || tierMap[4];
+        return `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px">
+          <span class="dunbar-badge" style="background:${tierBg};color:${tierFg}">${tierLabel}</span>
+          <span class="dunbar-trend ${trend}">${trendIcon}</span>
+          ${c.lastInteractionAt ? `<span class="dunbar-pill" style="background:#F5F5F7;color:#1D1D1F">⏱ 上次联系：${formatDateShort(c.lastInteractionAt)} (${daysSince(c.lastInteractionAt)} 天前)</span>` : ''}
+          ${c.avgIntervalDays ? `<span class="dunbar-pill" style="background:#F5F5F7;color:#1D1D1F">📊 平均间隔：${c.avgIntervalDays} 天</span>` : ''}
+        </div>`;
+      })()}
+
+      ${(c.keyDates && c.keyDates.length) ? `<div class="section-title">📅 重要日期 (${c.keyDates.length})</div>
+        <div class="keydate-list">${c.keyDates.map((d,idx) => {
+          if(!d.date) return '';
+          const today = new Date(); today.setHours(0,0,0,0);
+          const target = new Date(d.date); target.setHours(0,0,0,0);
+          const diffMs = target - today;
+          const diffDays = Math.round(diffMs/86400000);
+          let badge = '';
+          if(diffDays === 0) badge = '<span class="keydate-badge today">今天</span>';
+          else if(diffDays > 0 && diffDays <= 7) badge = `<span class="keydate-badge soon">${diffDays} 天后</span>`;
+          else if(diffDays > 0) badge = `<span class="keydate-badge future">${diffDays} 天后</span>`;
+          else if(diffDays < 0) badge = `<span class="keydate-badge past">${-diffDays} 天前</span>`;
+          return `<div class="keydate-item">
+            <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0">
+              <span style="font-size:20px">${({birthday:'🎂',anniversary:'💍',custom:'📌'}[d.type]) || '📌'}</span>
+              <div style="min-width:0;flex:1">
+                <div style="font-weight:600;font-size:13px">${d.label || d.type || '未命名'}</div>
+                <div style="font-size:11px;color:var(--text-muted)">${d.date}${d.note?' · '+d.note:''}</div>
+              </div>
+              ${badge}
+            </div>
+          </div>`;
+        }).filter(Boolean).join('') || '<div class="empty-tip">已记录日期但未填写具体日期</div>'}</div>` : ''}
+
+      ${(c.todos && c.todos.length) ? `<div class="section-title">✅ 待办 (${c.todos.filter(t=>t.status!=='done').length}/${c.todos.length})</div>
+        <div class="todo-list">${c.todos.map((t,idx) => {
+          const done = t.status === 'done';
+          return `<div class="todo-item ${done?'done':''}" onclick="toggleTodoHandler('${c.id}',${idx})">
+            <span class="todo-check">${done?'✓':'○'}</span>
+            <span class="todo-text">${t.title || t.text || '未命名'}</span>
+            ${t.dueDate ? `<span class="todo-due">📅 ${t.dueDate}</span>` : ''}
+            <button class="todo-del" onclick="event.stopPropagation();deleteTodoHandler('${c.id}',${idx})" title="删除">✕</button>
+          </div>`;
+        }).join('')}</div>` : ''}
 
       <div class="section-title">🎯 关系画像 (v3.0)</div>
       <div class="info-grid">
@@ -1619,6 +1886,25 @@ function addConnectionHandler(contactId){
   toast('关联已建立','success');
 }
 
+// ===== v44+: 待办 toggle / delete (Round 2 详情面板) =====
+function toggleTodoHandler(contactId, idx){
+  const data=loadData();
+  const c=(data.contacts||[]).find(x=>x.id===contactId);
+  if(!c||!c.todos||!c.todos[idx]) return;
+  c.todos[idx].status = c.todos[idx].status === 'done' ? 'pending' : 'done';
+  saveData(data);
+  openDetail(contactId);
+}
+function deleteTodoHandler(contactId, idx){
+  if(!confirm('删除这条待办？')) return;
+  const data=loadData();
+  const c=(data.contacts||[]).find(x=>x.id===contactId);
+  if(!c||!c.todos) return;
+  c.todos.splice(idx,1);
+  saveData(data);
+  openDetail(contactId);
+}
+
 // ===== Search =====
 document.getElementById('searchInput').addEventListener('input',function(){
   searchQuery=this.value;
@@ -1633,9 +1919,182 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     currentTab=this.dataset.tab;
     document.getElementById('gridView').style.display=currentTab==='grid'?'':'none';
     document.getElementById('graphView').style.display=currentTab==='graph'?'':'none';
+    document.getElementById('insightView').style.display=currentTab==='insight'?'':'none';
     if(currentTab==='graph') renderGraph();
+    if(currentTab==='insight') renderInsight();
   });
 });
+
+// ===== Round 2-3: 洞察面板（全网统计） =====
+function renderInsight(){
+  const container = document.getElementById('insightContent');
+  if(!container) return;
+  const contacts = getAllContacts();
+  if(contacts.length === 0){
+    container.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-muted)">还没有联系人数据，先到 📋 通讯录 加几个吧~</div>';
+    return;
+  }
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  // === A. 健康度总览 ===
+  const tierStats = [1,2,3,4].map(t => {
+    const list = contacts.filter(c => {
+      const tier = c.dunbarTier != null ? c.dunbarTier : (c.strength >= 5 ? 1 : c.strength >= 4 ? 2 : c.strength >= 2 ? 3 : 4);
+      return tier === t;
+    });
+    return { tier: t, total: list.length, dormant: list.filter(c => c.lastInteractionAt && daysSince(c.lastInteractionAt) > 90).length };
+  });
+  const tierColors = {1:'#FFD66B',2:'#5BB5E0',3:'#4ECDC4',4:'#92B8D8'};
+  const tierLabels = {1:'⭐ 核心',2:'💙 亲密',3:'🌿 一般',4:'· 弱连接'};
+  const totalContacts = contacts.length;
+  const dormantTotal = contacts.filter(c => c.lastInteractionAt && daysSince(c.lastInteractionAt) > 90).length;
+  const dormantPct = Math.round(dormantTotal / totalContacts * 100);
+
+  // === B. 最久没联系 Top 10 ===
+  const dormantList = contacts
+    .filter(c => c.lastInteractionAt)
+    .map(c => ({c, days: daysSince(c.lastInteractionAt)}))
+    .sort((a,b) => b.days - a.days)
+    .slice(0, 10);
+
+  // === C. 30 天升温/降温 ===
+  const hotList = []; const coolingList = [];
+  contacts.forEach(c => {
+    const its = c.interactions || [];
+    const recent30 = its.filter(i => daysSince(i.time) <= 30).length;
+    const prior30 = its.filter(i => { const d = daysSince(i.time); return d > 30 && d <= 60; }).length;
+    if(recent30 === 0 && prior30 === 0) return;
+    const delta = recent30 - prior30;
+    if(delta > 0) hotList.push({c, delta, total: recent30});
+    else if(delta < 0) coolingList.push({c, delta: -delta, total: recent30});
+  });
+  hotList.sort((a,b) => b.delta - a.delta);
+  coolingList.sort((a,b) => b.delta - a.delta);
+
+  // === D. 互动频次直方图 ===
+  const freqBuckets = [0,0,0,0,0]; // 0, 1, 2-3, 4-7, 8+
+  contacts.forEach(c => {
+    const n = (c.interactions||[]).filter(i => daysSince(i.time) <= 90).length;
+    if(n === 0) freqBuckets[0]++;
+    else if(n === 1) freqBuckets[1]++;
+    else if(n <= 3) freqBuckets[2]++;
+    else if(n <= 7) freqBuckets[3]++;
+    else freqBuckets[4]++;
+  });
+  const maxBucket = Math.max(1, ...freqBuckets);
+
+  // === E. 方式分布 ===
+  const methodCounts = {};
+  contacts.forEach(c => (c.interactions||[]).forEach(i => {
+    methodCounts[i.method] = (methodCounts[i.method] || 0) + 1;
+  }));
+  const methodTotal = Object.values(methodCounts).reduce((a,b)=>a+b,0) || 1;
+  const methodColors = { '微信':'#07C160', '电话':'#5BB5E0', '见面':'#FFD66B', '吃饭':'#E8919C', '跑步':'#4ECDC4', '聚会':'#9b59b6', '会议':'#7f8c8d', '其他':'#C7C7CC' };
+  const methodList = Object.keys(methodCounts).map(m => ({m, n: methodCounts[m], pct: methodCounts[m]/methodTotal*100}))
+    .sort((a,b) => b.n - a.n);
+
+  // === F. 待办汇总 ===
+  const allPendingTodos = [];
+  contacts.forEach(c => (c.todos||[]).forEach(t => {
+    if(t.status !== 'done') allPendingTodos.push({c, todo: t});
+  }));
+
+  container.innerHTML =
+    // 顶部健康度卡片
+    '<div class="insight-grid">' +
+      healthCard('总联系人', totalContacts, '👥', '#0071E3') +
+      healthCard('健康度', 100 - dormantPct + '%', '💚', dormantPct > 30 ? '#E8919C' : dormantPct > 15 ? '#FFA47C' : '#07C160', dormantPct + '% 沉睡') +
+      healthCard('未完成待办', allPendingTodos.length, '✅', allPendingTodos.length > 10 ? '#E8919C' : '#0071E3') +
+      healthCard('互动方式', Object.keys(methodCounts).length, '🎨', '#5BB5E0') +
+    '</div>' +
+
+    // 邓巴圈层分布
+    '<div class="insight-section">' +
+      '<h3>🌐 邓巴圈层分布</h3>' +
+      '<div class="tier-bars">' +
+        tierStats.map(ts => {
+          const pct = Math.round(ts.total / totalContacts * 100);
+          const dormantPctTier = ts.total > 0 ? Math.round(ts.dormant / ts.total * 100) : 0;
+          return '<div class="tier-bar-row">' +
+            '<div class="tier-bar-label">' + tierLabels[ts.tier] + '</div>' +
+            '<div class="tier-bar-track">' +
+              '<div class="tier-bar-fill" style="width:' + pct + '%;background:' + tierColors[ts.tier] + '"></div>' +
+              (ts.dormant > 0 ? '<div class="tier-bar-dormant" style="width:' + dormantPctTier + '%;background:repeating-linear-gradient(45deg,rgba(232,145,156,0.4),rgba(232,145,156,0.4) 4px,transparent 4px,transparent 8px)"></div>' : '') +
+            '</div>' +
+            '<div class="tier-bar-value">' + ts.total + ' (' + pct + '%)' + (ts.dormant > 0 ? ' · 沉睡 ' + ts.dormant : '') + '</div>' +
+          '</div>';
+        }).join('') +
+      '</div>' +
+    '</div>' +
+
+    // 互动频次
+    '<div class="insight-section">' +
+      '<h3>📊 互动频次分布 (近 90 天)</h3>' +
+      '<div class="freq-bars">' +
+        [
+          {label:'无互动',color:'#C7C7CC'},
+          {label:'1 次',color:'#92B8D8'},
+          {label:'2-3 次',color:'#4ECDC4'},
+          {label:'4-7 次',color:'#5BB5E0'},
+          {label:'8+ 次',color:'#FFD66B'}
+        ].map((b, i) => {
+          const w = freqBuckets[i] / maxBucket * 100;
+          return '<div class="freq-bar-row">' +
+            '<div class="freq-bar-label">' + b.label + '</div>' +
+            '<div class="freq-bar-track"><div class="freq-bar-fill" style="width:' + Math.max(2,w) + '%;background:' + b.color + '"></div></div>' +
+            '<div class="freq-bar-value">' + freqBuckets[i] + ' 人</div>' +
+          '</div>';
+        }).join('') +
+      '</div>' +
+    '</div>' +
+
+    // 方式饼图（用横向堆叠条代替）
+    '<div class="insight-section">' +
+      '<h3>🎨 互动方式分布</h3>' +
+      '<div class="method-stack-row">' +
+        methodList.map(m => '<div style="flex:' + m.pct + ';background:' + (methodColors[m.m] || '#86868B') + ';height:32px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:600" title="' + m.m + ': ' + m.n + ' (' + Math.round(m.pct) + '%)">' + (m.pct > 8 ? m.m : '') + '</div>').join('') +
+      '</div>' +
+      '<div class="method-legend" style="margin-top:8px">' +
+        methodList.map(m => '<span style="display:inline-flex;align-items:center;gap:4px;margin-right:12px;font-size:11px"><span style="width:10px;height:10px;border-radius:2px;background:' + (methodColors[m.m] || '#86868B') + '"></span>' + m.m + ' ' + m.n + '</span>').join('') +
+      '</div>' +
+    '</div>' +
+
+    // 双栏：最久没联系 / 升温降温
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">' +
+      '<div class="insight-section"><h3>⏰ 最久没联系 Top 10</h3>' +
+        (dormantList.length === 0 ? '<div class="empty-tip">尚无互动数据</div>' :
+        '<div class="dormant-list">' +
+          dormantList.map((d, i) => '<div class="dormant-row" onclick="openDetail(\'' + d.c.id + '\')">' +
+            '<div class="dormant-rank">' + (i+1) + '</div>' +
+            '<div style="flex:1;min-width:0"><div class="dormant-name">' + d.c.name + '</div>' +
+            (d.c.tags && d.c.tags[0] ? '<div class="dormant-tag">' + d.c.tags[0] + '</div>' : '') + '</div>' +
+            '<div class="dormant-days">' + d.days + ' 天</div>' +
+          '</div>').join('') +
+        '</div>'
+        ) +
+      '</div>' +
+
+      '<div class="insight-section"><h3>📈 升温 / 降温 (近 30 天 vs 30-60 天)</h3>' +
+        (hotList.length === 0 && coolingList.length === 0 ? '<div class="empty-tip">互动数据不足</div>' :
+        '<div class="trend-list">' +
+          (hotList.slice(0, 5).map(h => '<div class="trend-row up" onclick="openDetail(\'' + h.c.id + '\')">' +
+            '<span class="trend-icon">🔥</span><span style="flex:1;min-width:0" class="trend-name">' + h.c.name + '</span><span class="trend-delta">+' + h.delta + '</span></div>').join('')) +
+          (coolingList.slice(0, 5).map(c => '<div class="trend-row down" onclick="openDetail(\'' + c.c.id + '\')">' +
+            '<span class="trend-icon">❄️</span><span style="flex:1;min-width:0" class="trend-name">' + c.c.name + '</span><span class="trend-delta">-' + c.delta + '</span></div>').join('')) +
+        '</div>'
+        ) +
+      '</div>' +
+    '</div>';
+}
+
+function healthCard(label, value, emoji, color, sub){
+  return '<div class="health-card">' +
+    '<div class="health-emoji">' + emoji + '</div>' +
+    '<div class="health-value" style="color:' + color + '">' + value + '</div>' +
+    '<div class="health-label">' + label + '</div>' +
+    (sub ? '<div class="health-sub">' + sub + '</div>' : '') +
+  '</div>';
+}
 
 // ===== Add Contact Button =====
 document.getElementById('addContactBtn').addEventListener('click',openAddContact);
