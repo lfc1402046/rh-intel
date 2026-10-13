@@ -46,3 +46,7 @@ tool/output/
 # Personal data (绝对不要提交)
 tool/imported-*.json
 tool/imported-contacts-personal.json
+
+# Personal data uploaded for testing (24h 临时)
+site/personal-contacts-tmp.json
+.private/

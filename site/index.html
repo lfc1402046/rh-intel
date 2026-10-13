@@ -1,309 +1,2243 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RH Intel · 用 AI 管理你的人际关系网络</title>
-  <meta name="description" content="单文件工具，本地存储，隐私优先。免费的关系图谱、互动时间线、AI 话术建议。">
-  <meta name="keywords" content="人际关系管理,联系人工具,关系图谱,本地CRM,人脉管理">
-  <meta name="author" content="RH Intel">
-  <meta name="robots" content="index, follow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>人际关系侦探 · 情报中心</title>
+<style>
+/* ===== 侦探暗黑主题 ===== */
+:root {
+  --bg-deep: #FFFFFF;
+  --bg-card: #F5F5F7;
+  --bg-card-hover: #EAEAEC;
+  --bg-elevated: #FFFFFF;
+  --border: #D2D2D7;
+  --border-light: #E5E5EA;
+  --gold: #0071E3;
+  --gold-dim: #6E6E73;
+  --gold-glow: rgba(0,113,227,0.1);
+  --green: #2d7a3a;
+  --green-dim: #1d5a28;
+  --text: #1D1D1F;
+  --text-dim: #6E6E73;
+  --text-muted: #86868B;
+  --danger: #c0392b;
+  --danger-glow: rgba(192,57,43,0.2);
+  --safe: #27ae60;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 20px var(--gold-glow);
+  --font: "PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  background:var(--bg-deep);
+  color:var(--text);
+  font-family:var(--font);
+  font-size:14px;
+  line-height:1.5;
+  overflow:hidden;
+}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:var(--bg-deep);}
+::-webkit-scrollbar-thumb{background:var(--border-light);border-radius:2px;}
+::-webkit-scrollbar-thumb:hover{background:var(--gold-dim);}
 
-  <meta property="og:title" content="RH Intel · 用 AI 管理你的人际关系网络">
-  <meta property="og:description" content="单文件工具，本地存储，隐私优先。免费的关系图谱、互动时间线、AI 话术建议。">
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="zh_CN">
+/* ===== Layout ===== */
+#app{
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  max-width:100vw;
+}
+/* Header */
+.header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 16px;
+  background:var(--bg-card);
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+  position:relative;
+  z-index:10;
+}
+.header-logo{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:18px;
+  font-weight:700;
+  color:var(--gold);
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+.header-logo .icon{font-size:22px;}
+.header-tabs{
+  display:flex;
+  gap:4px;
+  margin-left:12px;
+}
+.header-tabs .tab-btn{
+  padding:6px 14px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--text-dim);
+  border-radius:var(--radius);
+  cursor:pointer;
+  font-size:13px;
+  transition:all .2s;
+  font-family:var(--font);
+}
+.header-tabs .tab-btn:hover{color:var(--text);border-color:var(--text-muted);}
+.header-tabs .tab-btn.active{
+  background:var(--gold-glow);
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.header-actions{
+  margin-left:auto;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.search-box{
+  display:flex;
+  align-items:center;
+  background:var(--bg-deep);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:0 10px;
+  transition:border-color .2s;
+}
+.search-box:focus-within{border-color:var(--gold-dim);}
+.search-box input{
+  background:none;
+  border:none;
+  outline:none;
+  color:var(--text);
+  padding:6px 4px;
+  width:160px;
+  font-size:13px;
+  font-family:var(--font);
+}
+.search-box .search-icon{color:var(--text-muted);font-size:14px;}
+.btn{
+  padding:7px 16px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  cursor:pointer;
+  font-size:13px;
+  transition:all .2s;
+  font-family:var(--font);
+  background:transparent;
+  color:var(--text);
+  white-space:nowrap;
+}
+.btn:hover{background:var(--bg-card-hover);border-color:var(--text-muted);}
+.btn-gold{
+  background:linear-gradient(135deg,#6E6E73,#b8942e);
+  color:#000;
+  border-color:var(--gold);
+  font-weight:600;
+}
+.btn-gold:hover{background:linear-gradient(135deg,#d4b85a,#6E6E73);box-shadow:var(--shadow-glow);}
+.btn-sm{padding:4px 10px;font-size:12px;}
+.btn-icon{
+  width:32px;height:32px;padding:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
+}
+.btn-danger{color:var(--danger);border-color:rgba(192,57,43,0.3);}
+.btn-danger:hover{background:var(--danger-glow);border-color:var(--danger);}
+/* Main Content */
+.main{
+  flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:16px;
+  position:relative;
+}
 
-  <link rel="stylesheet" href="assets/css/main.css">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230071E3'/%3E%3Ctext x='50' y='68' font-size='56' font-weight='700' fill='white' text-anchor='middle' font-family='-apple-system'%3ER%3C/text%3E%3C/svg%3E">
+/* ===== Filter bar ===== */
+.filter-bar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:16px;
+  align-items:center;
+}
+.filter-bar .filter-label{
+  color:var(--text-dim);
+  font-size:12px;
+  margin-right:4px;
+}
+.tag-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:3px 10px;
+  border-radius:20px;
+  font-size:12px;
+  cursor:pointer;
+  transition:all .2s;
+  border:1px solid var(--border);
+  color:var(--text-dim);
+  background:transparent;
+  font-family:var(--font);
+}
+.tag-chip:hover{border-color:var(--text-muted);color:var(--text);}
+.tag-chip.active{
+  background:var(--gold-glow);
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.tag-chip .count{
+  font-size:11px;
+  opacity:0.7;
+}
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "RH Intel",
-    "applicationCategory": "ProductivityApplication",
-    "operatingSystem": "Windows, macOS, Linux",
-    "description": "单文件工具，本地存储，隐私优先的人际关系管理工具",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" }
-  }
-  </script>
+/* ===== Contact Grid ===== */
+.contact-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:12px;
+}
+.contact-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:14px;
+  cursor:pointer;
+  transition:all .25s;
+  position:relative;
+  overflow:hidden;
+}
+.contact-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);
+  opacity:0;
+  transition:opacity .3s;
+}
+.contact-card:hover{
+  background:var(--bg-card-hover);
+  border-color:var(--border-light);
+  transform:translateY(-1px);
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+.contact-card:hover::before{opacity:1;}
+.contact-card .card-header{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:8px;
+}
+.contact-card .avatar{
+  width:40px;height:40px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--gold-dim),var(--gold));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  font-weight:700;
+  color:#000;
+  flex-shrink:0;
+}
+.contact-card .card-info{flex:1;min-width:0;}
+.contact-card .card-name{
+  font-size:15px;
+  font-weight:600;
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.contact-card .card-name .wechat-tag{
+  font-size:11px;
+  color:var(--text-dim);
+  font-weight:400;
+}
+.contact-card .card-meta{
+  font-size:12px;
+  color:var(--text-dim);
+  margin-top:2px;
+}
+.contact-card .card-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px;
+  margin:6px 0;
+}
+.contact-card .card-tags .mini-tag{
+  font-size:10px;
+  padding:1px 7px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  color:var(--text-dim);
+  background:rgba(255,255,255,0.02);
+}
+.contact-card .card-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:6px;
+  padding-top:6px;
+  border-top:1px solid var(--border);
+  font-size:11px;
+  color:var(--text-muted);
+}
+.contact-card .card-footer .last-active{color:var(--green);}
+.stars{
+  color:var(--gold);
+  font-size:13px;
+  letter-spacing:1px;
+}
+.stars .dim{color:var(--text-muted);}
+
+/* ===== Empty State ===== */
+.empty-state{
+  text-align:center;
+  padding:60px 20px;
+  color:var(--text-muted);
+}
+.empty-state .empty-icon{font-size:48px;margin-bottom:12px;opacity:0.4;}
+.empty-state p{font-size:14px;line-height:1.8;}
+.empty-state .btn{margin-top:12px;}
+
+/* ===== Modal/Overlay ===== */
+.overlay{
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,0.75);
+  z-index:100;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:20px;
+  overflow-y:auto;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .25s;
+}
+.overlay.open{opacity:1;pointer-events:auto;}
+.modal{
+  background:var(--bg-elevated);
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  width:100%;
+  max-width:520px;
+  margin:20px auto;
+  box-shadow:0 8px 40px rgba(0,0,0,0.6);
+  overflow:hidden;
+}
+.modal-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 18px;
+  border-bottom:1px solid var(--border);
+  background:var(--bg-card);
+}
+.modal-header h3{font-size:15px;color:var(--gold);font-weight:600;}
+.modal-close{
+  width:28px;height:28px;
+  border:none;background:none;
+  color:var(--text-muted);
+  font-size:18px;
+  cursor:pointer;
+  border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.modal-close:hover{background:var(--border);color:var(--text);}
+.modal-body{padding:18px;}
+.modal-footer{
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+  padding:12px 18px;
+  border-top:1px solid var(--border);
+}
+/* Form */
+.form-group{margin-bottom:14px;}
+.form-group label{
+  display:block;
+  font-size:12px;
+  color:var(--text-dim);
+  margin-bottom:4px;
+  font-weight:500;
+}
+.form-group input,.form-group textarea,.form-group select{
+  width:100%;
+  padding:8px 10px;
+  background:var(--bg-deep);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  color:var(--text);
+  font-size:13px;
+  font-family:var(--font);
+  outline:none;
+  transition:border-color .2s;
+}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{
+  border-color:var(--gold-dim);
+}
+.form-group textarea{min-height:60px;resize:vertical;}
+.form-group .tag-select{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:4px;
+}
+.form-group .tag-option{
+  padding:4px 12px;
+  border:1px solid var(--border);
+  border-radius:20px;
+  font-size:12px;
+  cursor:pointer;
+  transition:all .2s;
+  color:var(--text-dim);
+  background:transparent;
+  font-family:var(--font);
+}
+.form-group .tag-option.selected{
+  background:var(--gold-glow);
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.form-group .star-select{
+  display:flex;
+  gap:4px;
+  font-size:20px;
+}
+.form-group .star-select .star-btn{
+  cursor:pointer;
+  color:var(--text-muted);
+  transition:color .2s;
+  background:none;border:none;font-size:22px;padding:0 2px;
+}
+.form-group .star-select .star-btn.active{color:var(--gold);}
+.form-group .star-select .star-btn:hover{color:var(--gold-dim);}
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+/* ===== Detail Panel ===== */
+.detail-panel{
+  max-width:700px;
+  margin:0 auto;
+}
+.detail-header{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:20px;
+}
+.detail-header .avatar.large{
+  width:56px;height:56px;
+  font-size:24px;
+}
+.detail-header .detail-title{flex:1;}
+.detail-header .detail-title h2{font-size:20px;font-weight:700;color:var(--text);}
+.detail-header .detail-title .subtitle{font-size:13px;color:var(--text-dim);}
+.detail-actions{
+  display:flex;
+  gap:6px;
+}
+.info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:20px;
+}
+.info-item{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:10px 12px;
+}
+.info-item .info-label{font-size:11px;color:var(--text-muted);margin-bottom:2px;}
+.info-item .info-value{font-size:14px;color:var(--text);}
+
+/* ===== Interaction Timeline ===== */
+.section-title{
+  font-size:14px;
+  font-weight:600;
+  color:var(--gold);
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.section-title .badge{
+  font-size:11px;
+  background:var(--gold-glow);
+  color:var(--gold);
+  padding:1px 8px;
+  border-radius:10px;
+  font-weight:400;
+}
+.interaction-timeline{
+  position:relative;
+  padding-left:24px;
+  margin-bottom:20px;
+}
+.interaction-timeline::before{
+  content:'';
+  position:absolute;
+  left:8px;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:var(--border-light);
+}
+.timeline-item{
+  position:relative;
+  padding-bottom:14px;
+}
+.timeline-item:last-child{padding-bottom:0;}
+.timeline-item::before{
+  content:'';
+  position:absolute;
+  left:-16px;
+  top:4px;
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--gold-dim);
+  border:2px solid var(--bg-deep);
+}
+.timeline-item.hot::before{background:var(--gold);box-shadow:0 0 6px var(--gold-glow);}
+.timeline-item .tl-method{
+  display:inline-block;
+  padding:1px 8px;
+  border-radius:4px;
+  font-size:11px;
+  background:var(--gold-glow);
+  color:var(--gold);
+  margin-bottom:2px;
+}
+.timeline-item .tl-time{
+  font-size:11px;
+  color:var(--text-muted);
+  margin-left:6px;
+}
+.timeline-item .tl-summary{
+  font-size:13px;
+  color:var(--text-dim);
+  margin-top:2px;
+}
+
+
+/* ===== v40: 日历热力图（GitHub contribution 风格）===== */
+.heatmap-container{
+  background:var(--bg-elevated);
+  border:1px solid var(--border-light);
+  border-radius:10px;
+  padding:14px;
+  margin-bottom:16px;
+}
+.heatmap-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:12px;color:var(--text-dim)}
+.heatmap-header strong{color:var(--text);font-size:14px;font-weight:600}
+.heatmap-grid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,12px);gap:3px;overflow-x:auto;padding-bottom:4px}
+.heatmap-cell{width:12px;height:12px;border-radius:2px;background:var(--border-light);position:relative;cursor:default}
+.heatmap-cell.l1{background:rgba(0,113,227,0.15)}
+.heatmap-cell.l2{background:rgba(0,113,227,0.35)}
+.heatmap-cell.l3{background:rgba(0,113,227,0.6)}
+.heatmap-cell.l4{background:rgba(0,113,227,0.85)}
+.heatmap-cell.l5{background:#0071E3}
+.heatmap-cell:hover{outline:1px solid var(--text);z-index:1}
+.heatmap-months{display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-top:4px;padding:0 2px}
+.heatmap-legend{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text-muted);margin-top:6px}
+.heatmap-legend .heatmap-cell{cursor:default}
+
+/* ===== v40: 趋势 Sparkline（过去 30 天互动）===== */
+.sparkline-container{
+  background:var(--bg-elevated);
+  border:1px solid var(--border-light);
+  border-radius:10px;
+  padding:14px;
+  margin-bottom:16px;
+}
+.sparkline-bar{
+  display:flex;
+  align-items:flex-end;
+  height:48px;
+  gap:2px;
+  margin-top:8px;
+}
+.sparkline-bar div{
+  flex:1;
+  background:linear-gradient(180deg,#0071E3 0%,#5BB5E0 100%);
+  border-radius:2px 2px 0 0;
+  min-height:2px;
+  position:relative;
+}
+.sparkline-bar div:hover{background:linear-gradient(180deg,#FF9F0A 0%,#FFD66B 100%)}
+.sparkline-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-top:6px}
+.sparkline-meta strong{color:var(--text);font-weight:600}
+
+/* ===== Stats Bar ===== */
+.stats-bar{
+  display:flex;
+  gap:12px;
+  margin-bottom:16px;
+  flex-wrap:wrap;
+}
+.stat-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:10px 14px;
+  flex:1;
+  min-width:100px;
+}
+.stat-card .stat-label{font-size:11px;color:var(--text-muted);}
+.stat-card .stat-value{font-size:18px;font-weight:700;color:var(--gold);}
+
+/* ===== Graph View ===== */
+.graph-container{
+  width:100%;
+  height:100%;
+  min-height:500px;
+  position:relative;
+  background:radial-gradient(ellipse at center,#0a0a12 0%,var(--bg-deep) 100%);
+  border-radius:var(--radius-lg);
+  border:1px solid var(--border);
+  overflow:hidden;
+}
+.graph-container canvas{
+  display:block;
+  width:100%;
+  height:100%;
+  cursor:grab;
+}
+.graph-container canvas:active{cursor:grabbing;}
+.graph-tooltip{
+  position:absolute;
+  background:var(--bg-elevated);
+  border:1px solid var(--gold-dim);
+  border-radius:var(--radius);
+  padding:8px 12px;
+  font-size:12px;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .2s;
+  z-index:10;
+  max-width:200px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.5);
+}
+.graph-tooltip.visible{opacity:1;}
+.graph-legend{
+  position:absolute;
+  bottom:12px;
+  left:12px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  z-index:5;
+}
+.graph-legend .legend-item{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  font-size:11px;
+  color:var(--text-dim);
+}
+.graph-legend .legend-dot{
+  width:8px;height:8px;
+  border-radius:50%;
+}
+
+/* ===== Responsive ===== */
+@media(max-width:768px){
+  .header{padding:10px 12px;flex-wrap:wrap;}
+  .header-logo{font-size:16px;}
+  .header-tabs .tab-btn{padding:5px 10px;font-size:12px;}
+  .search-box input{width:100px;}
+  .contact-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;}
+  .form-row{grid-template-columns:1fr;}
+  .info-grid{grid-template-columns:1fr;}
+  .main{padding:12px;}
+  .header-actions{gap:4px;}
+  .stats-bar{flex-direction:column;}
+  .stats-bar .stat-card{min-width:auto;}
+  .modal{margin:10px auto;}
+}
+@media(max-width:480px){
+  .contact-grid{grid-template-columns:1fr;}
+  .header{flex-direction:column;align-items:stretch;gap:6px;}
+  .header-actions{justify-content:flex-start;}
+  .search-box{flex:1;}
+  .search-box input{width:100%;}
+  .graph-container{min-height:350px;}
+}
+
+/* ===== Toast ===== */
+.toast-container{
+  position:fixed;
+  top:16px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:200;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  pointer-events:none;
+}
+.toast{
+  background:var(--bg-elevated);
+  border:1px solid var(--border-light);
+  border-radius:var(--radius);
+  padding:10px 18px;
+  font-size:13px;
+  color:var(--text);
+  box-shadow:0 4px 20px rgba(0,0,0,0.5);
+  pointer-events:auto;
+  animation:toastIn .3s ease;
+  max-width:360px;
+  text-align:center;
+}
+.toast.success{border-color:var(--safe);}
+.toast.error{border-color:var(--danger);}
+.toast.info{border-color:var(--gold-dim);}
+@keyframes toastIn{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+</style>
 </head>
 <body>
+<div id="app">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-logo">
+      <span class="icon">🔍</span>
+      <span>人际关系侦探</span>
+    </div>
+    <div class="header-tabs">
+      <button class="tab-btn active" data-tab="grid">📋 通讯录</button>
+      <button class="tab-btn" data-tab="graph">🕸️ 关系图谱</button>
+    </div>
+    <div class="header-actions">
+      <div class="search-box">
+        <span class="search-icon">🔎</span>
+        <input type="text" id="searchInput" placeholder="搜索姓名/微信/标签..." autocomplete="off">
+      </div>
+      <button class="btn btn-gold" id="addContactBtn">+ 添加联系人</button>
+      <button class="btn btn-icon" id="importBtn" title="导入数据（文件/粘贴/VCF）">📥</button>
+      <button class="btn btn-icon" id="exportBtn" title="导出备份">📤</button>
+    </div>
+  </div>
 
-  <a href="#main" class="skip-link">跳到主内容</a>
+  <!-- Main Content -->
+  <div class="main" id="mainContent">
+    <!-- Grid View -->
+    <div id="gridView">
+      <div class="filter-bar">
+        <span class="filter-label">标签筛选：</span>
+        <button class="tag-chip active" data-tag="__all">全部</button>
+        <span id="tagFilterContainer"></span>
+        <span style="flex:1"></span>
+        <span id="contactCount" style="font-size:12px;color:var(--text-muted);"></span>
+      </div>
+      <div class="module-cards" id="moduleCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px"></div>
+      <script>try { if (typeof renderModuleCards === "function") renderModuleCards(); } catch(e) { console.warn("module init:", e); }</script>
 
-  <!-- ===== Header ===== -->
-  <header class="header">
-    <div class="header-inner">
-      <a href="/" class="logo">
-        <span class="logo-mark">R</span>
-        <span>RH Intel</span>
-      </a>
-      <nav class="nav" aria-label="主导航">
-        <a href="/" class="active">首页</a>
-        <a href="features.html">功能</a>
-        <a href="architecture.html">架构</a>
-        <a href="guide.html">指南</a>
-        <a href="download.html">下载</a>
-        <a href="contact.html">联系</a>
-      </nav>
-      <div class="header-actions">
-        <a href="#" class="github-link" title="GitHub 仓库即将上线" rel="noopener" target="_blank" aria-label="GitHub 仓库">
-          ⭐ <span>Star</span>
-        </a>
-        <button class="menu-toggle" aria-label="打开菜单" aria-expanded="false">☰</button>
+            <div class="contact-grid" id="contactGrid"></div>
+    </div>
+
+    <!-- Graph View -->
+    <div id="graphView" style="display:none;">
+      <div class="graph-container" id="graphContainer">
+        <canvas id="graphCanvas"></canvas>
+        <div class="graph-tooltip" id="graphTooltip"></div>
+        <div class="graph-legend" id="graphLegend"></div>
       </div>
     </div>
-  </header>
+  </div>
+</div>
 
-  <main id="main">
+<!-- Modal Overlay -->
+<div class="overlay" id="modalOverlay">
+  <div class="modal" id="modalContent"></div>
+</div>
 
-    <!-- ===== Hero ===== -->
-    <section class="hero">
-      <div class="container">
-        <span class="hero-eyebrow">AI 增强 · 本地优先 · 完全免费</span>
-        <h1>用 AI<br>管理你的人际关系网络</h1>
-        <p class="hero-subtitle">单文件工具 · 本地存储 · 隐私优先<br>让每一个值得记住的人，都被温柔以待</p>
-        <div class="hero-ctas">
-          <a href="download.html" class="btn btn-primary btn-lg">免费下载</a>
-          <a href="guide.html" class="btn btn-outline btn-lg">观看演示</a>
-        </div>
-        <div class="hero-meta">
-          <span>31KB · 双击即用</span>
-          <span>10,000+ 用户</span>
-          <span>0 追踪</span>
+<!-- Toast -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// =========================================================================
+// 人际关系侦探 - 数据层
+// =========================================================================
+const STORAGE_KEY = 'relationship_detective_data';
+const TAG_OPTIONS = ['工作','朋友','跑团','家人','投资','同学','邻居','兴趣','客户'];
+const CONNECTION_TYPES = ['同事','朋友','家人','投资','跑团','同学','客户','其他'];
+const INTERACTION_METHODS = ['微信','电话','见面','吃饭','跑步','聚会','会议','其他'];
+
+function uuid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8);}
+
+function loadData(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){/*ignore*/}
+  return {contacts:[],nextId:1};
+}
+
+function saveData(data){
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+}
+
+function getAllContacts(){
+  const data=loadData();
+  return data.contacts||[];
+}
+
+function getContact(id){
+  return getAllContacts().find(c=>c.id===id)||null;
+}
+
+function saveContact(contact){
+  const data=loadData();
+  const idx=data.contacts.findIndex(c=>c.id===contact.id);
+  if(idx>=0) data.contacts[idx]=contact;
+  else data.contacts.push(contact);
+  saveData(data);
+  return contact;
+}
+
+function deleteContact(id){
+  const data=loadData();
+  // Remove connections to this contact
+  data.contacts.forEach(c=>{
+    if(c.connections) c.connections=c.connections.filter(conn=>conn!==id);
+    if(c.connectionTypes&&c.connectionTypes[id]) delete c.connectionTypes[id];
+  });
+  data.contacts=data.contacts.filter(c=>c.id!==id);
+  saveData(data);
+}
+
+function addInteraction(contactId,interaction){
+  const c=getContact(contactId);
+  if(!c) return null;
+  if(!c.interactions) c.interactions=[];
+  interaction.id=uuid();
+  c.interactions.push(interaction);
+  // Sort by time descending
+  c.interactions.sort((a,b)=>new Date(b.time)-new Date(a.time));
+  return saveContact(c);
+}
+
+function deleteInteraction(contactId,interactionId){
+  const c=getContact(contactId);
+  if(!c||!c.interactions) return null;
+  c.interactions=c.interactions.filter(i=>i.id!==interactionId);
+  return saveContact(c);
+}
+
+function addConnection(contactId,targetId,type){
+  const c=getContact(contactId);
+  if(!c) return null;
+  if(!c.connections) c.connections=[];
+  if(!c.connectionTypes) c.connectionTypes={};
+  if(!c.connections.includes(targetId)){
+    c.connections.push(targetId);
+    c.connectionTypes[targetId]=type||'其他';
+  }
+  return saveContact(c);
+}
+
+function removeConnection(contactId,targetId){
+  const c=getContact(contactId);
+  if(!c) return null;
+  if(c.connections) c.connections=c.connections.filter(id=>id!==targetId);
+  if(c.connectionTypes&&c.connectionTypes[targetId]) delete c.connectionTypes[targetId];
+  return saveContact(c);
+}
+
+function getDefaultContact(){
+  return {
+    // v0.1 基础字段
+    id:uuid(),
+    name:'',
+    wechat:'',
+    phone:'',
+    tags:[],
+    strength:3,
+    notes:'',
+    interactions:[],
+    connections:[],
+    connectionTypes:{},
+    createdAt:new Date().toISOString(),
+
+    // v3.0 升级字段（v31 第一轮新增，向后兼容）
+    nickname:'',           // 昵称
+    avatar:'',             // 头像
+    gender:'',             // 性别
+    ageRange:'',           // 年龄段
+    email:'',              // 邮箱
+    company:'',            // 公司
+    position:'',           // 职位
+    hometown:'',           // 籍贯
+    currentCity:'',        // 现居地
+    metAt:'',              // 初次见面时间
+    metScene:'',           // 初次见面场景
+    introducedBy:'',       // 引荐人 ID
+    dunbarTier:null,       // 邓巴圈层 1-4
+    valueTier:'maintain',  // 价值层级
+    familiarity:'familiar',// 熟悉程度
+    trustLevel:3,          // 信任度
+    emotionalTendency:'',  // 情感倾向
+    customAttrs:[],        // 自定义键值
+    lastInteractionAt:'',  // 最后互动时间
+    interactionCount:0,    // 互动次数
+    avgIntervalDays:0,     // 平均互动间隔
+    keyDates:[],           // 重要日期
+    todos:[],              // 待办事项
+    preferences:{          // 偏好
+      likes:[], dislikes:[], gifts:[]
+    },
+    sensitivityTopics:[]  // 敏感话题
+  };
+}
+
+// ===== v31 新增：v0.1 → v3.0 数据迁移 =====
+// 用于读取旧数据时自动升级
+function migrateV1toV3(contact) {
+  if (!contact) return null;
+  // 已迁移过的数据（有 dunbarTier 字段）跳过
+  if (contact.dunbarTier !== undefined && contact.dunbarTier !== null) return contact;
+
+  // 自动计算 lastInteractionAt
+  let lastInteractionAt = '';
+  let interactionCount = 0;
+  if (contact.interactions && contact.interactions.length > 0) {
+    interactionCount = contact.interactions.length;
+    const sorted = [...contact.interactions].sort((a, b) => new Date(b.time || b.date || 0) - new Date(a.time || a.date || 0));
+    lastInteractionAt = sorted[0].time || sorted[0].date || '';
+  }
+
+  // 自动推断 dunbarTier（基于 strength 强度）
+  const dunbarTier = contact.strength >= 5 ? 1 : contact.strength >= 4 ? 2 : contact.strength >= 2 ? 3 : 4;
+
+  return {
+    ...contact,
+    nickname: contact.nickname || '',
+    avatar: contact.avatar || '',
+    gender: contact.gender || '',
+    ageRange: contact.ageRange || '',
+    email: contact.email || '',
+    company: contact.company || '',
+    position: contact.position || '',
+    hometown: contact.hometown || '',
+    currentCity: contact.currentCity || '',
+    metAt: contact.metAt || '',
+    metScene: contact.metScene || '',
+    introducedBy: contact.introducedBy || '',
+    dunbarTier: dunbarTier,
+    valueTier: contact.valueTier || 'maintain',
+    familiarity: contact.familiarity || 'familiar',
+    trustLevel: contact.trustLevel || contact.strength || 3,
+    emotionalTendency: contact.emotionalTendency || '',
+    customAttrs: contact.customAttrs || [],
+    lastInteractionAt: contact.lastInteractionAt || lastInteractionAt,
+    interactionCount: contact.interactionCount || interactionCount,
+    avgIntervalDays: contact.avgIntervalDays || 0,
+    keyDates: contact.keyDates || [],
+    todos: contact.todos || [],
+    preferences: contact.preferences || { likes: [], dislikes: [], gifts: [] },
+    sensitivityTopics: contact.sensitivityTopics || []
+  };
+}
+
+// ===== v31 升级：loadData 自动迁移所有联系人 =====
+function loadData(){
+  const raw=localStorage.getItem(STORAGE_KEY);
+  if(!raw) return {contacts:[]};
+  try{
+    const data=JSON.parse(raw);
+    if(!data.contacts) return {contacts:[]};
+    // 迁移：每个联系人都升级到 v3.0 schema
+    data.contacts = data.contacts.map(c => migrateV1toV3(c));
+    // 自动持久化升级结果
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    return data;
+  }catch(e){
+    console.error('loadData error:',e);
+    return {contacts:[]};
+  }
+}
+
+// Analytics helpers
+function getLastInteraction(contact){
+  if(!contact.interactions||contact.interactions.length===0) return null;
+  return contact.interactions[0];
+}
+
+function getInteractionFrequency(contact){
+  if(!contact.interactions||contact.interactions.length<2) return null;
+  const times=contact.interactions.map(i=>new Date(i.time).getTime()).sort((a,b)=>a-b);
+  const range=times[times.length-1]-times[0];
+  const months=range/(30*24*3600*1000);
+  if(months<0.5) return {count:contact.interactions.length,perMonth:contact.interactions.length};
+  return {count:contact.interactions.length,perMonth:Math.round(contact.interactions.length/months*10)/10};
+}
+
+function getTrend(contact){
+  if(!contact.interactions||contact.interactions.length<2) return 'stable';
+  const all=contact.interactions.sort((a,b)=>new Date(a.time)-new Date(b.time));
+  const mid=Math.floor(all.length/2);
+  const firstHalf=all.slice(0,mid);
+  const secondHalf=all.slice(mid);
+  if(secondHalf.length>firstHalf.length) return 'up';
+  if(secondHalf.length<firstHalf.length) return 'down';
+  return 'stable';
+}
+
+function formatDate(iso){
+  if(!iso) return '';
+  const d=new Date(iso);
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const day=String(d.getDate()).padStart(2,'0');
+  const h=String(d.getHours()).padStart(2,'0');
+  const min=String(d.getMinutes()).padStart(2,'0');
+  return `${y}-${m}-${day} ${h}:${min}`;
+}
+
+function formatDateShort(iso){
+  if(!iso) return '';
+  const d=new Date(iso);
+  const now=new Date();
+  const diff=now-d;
+  if(diff<3600000) return `${Math.floor(diff/60000)}分钟前`;
+  if(diff<86400000) return `${Math.floor(diff/3600000)}小时前`;
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const day=String(d.getDate()).padStart(2,'0');
+  return `${m}-${day}`;
+}
+
+function daysSince(iso){
+  if(!iso) return Infinity;
+  return Math.floor((Date.now()-new Date(iso).getTime())/86400000);
+}
+
+// =========================================================================
+// UI 层
+// =========================================================================
+let currentTab='grid';
+let selectedTag='__all';
+let searchQuery='';
+let detailContactId=null;
+
+function toast(msg,type='info'){
+  const el=document.createElement('div');
+  el.className='toast '+type;
+  el.textContent=msg;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),300)},2500);
+}
+
+function showModal(html){
+  const overlay=document.getElementById('modalOverlay');
+  const content=document.getElementById('modalContent');
+  content.innerHTML=html;
+  overlay.classList.add('open');
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// Close modal on overlay click
+document.getElementById('modalOverlay').addEventListener('click',function(e){
+  if(e.target===this) closeModal();
+});
+
+function renderAll(){
+  renderContactGrid();
+  renderGraph();
+  updateCounts();
+}
+
+function updateCounts(){
+  const contacts=getAllContacts();
+  document.getElementById('contactCount').textContent=`共 ${contacts.length} 位联系人`;
+}
+
+
+// ===== v33 Round 2: 6 大模块入口卡片（看板） =====
+function renderModuleSummary(){
+  const contacts = getAllContacts();
+  const t = { tier1:0, tier2:0, tier3:0, tier4:0, dormant:0, recent:0, withTags:0 };
+  contacts.forEach(c => {
+    const tier = c.dunbarTier != null ? c.dunbarTier : (c.strength >= 5 ? 1 : c.strength >= 4 ? 2 : c.strength >= 2 ? 3 : 4);
+    if (tier === 1) t.tier1++;
+    else if (tier === 2) t.tier2++;
+    else if (tier === 3) t.tier3++;
+    else t.tier4++;
+    if (c.lastInteractionAt) {
+      const days = daysSince(c.lastInteractionAt);
+      if (days > 90) t.dormant++;
+      else if (days < 7) t.recent++;
+    }
+    if ((c.tags||[]).length > 0) t.withTags++;
+  });
+  const pendingTodos = contacts.reduce((sum, c) => sum + (c.todos||[]).filter(x => x.status !== 'done').length, 0);
+  const upcomingDates = contacts.reduce((sum, c) => sum + (c.keyDates||[]).length, 0);
+  return {
+    tier1: t.tier1, tier2: t.tier2, tier3: t.tier3, tier4: t.tier4,
+    dormant: t.dormant, recent: t.recent, withTags: t.withTags,
+    pendingTodos, upcomingDates,
+    total: contacts.length
+  };
+}
+
+
+
+// ===== v33 Round 2: 渲染 6 大模块入口卡片 =====
+function renderModuleCards(){
+  try {
+    const el = document.getElementById('moduleCards');
+    if (!el) return;
+  const cards = [
+    { label: '核心圈', value: s.tier1, color: '#FFD66B', emoji: '⭐', filter: 1 },
+    { label: '亲密朋友', value: s.tier2, color: '#5BB5E0', emoji: '💙', filter: 2 },
+    { label: '一般朋友', value: s.tier3, color: '#4ECDC4', emoji: '💚', filter: 3 },
+    { label: '弱连接', value: s.tier4, color: '#92B8D8', emoji: '🌫️', filter: 4 },
+    { label: '近期互动', value: s.recent, color: '#7FD4A0', emoji: '⚡', filter: 'recent' },
+    { label: '需关注', value: s.dormant, color: '#FFA47C', emoji: '⏰', filter: 'dormant' },
+    { label: '未完成待办', value: s.pendingTodos, color: '#E8919C', emoji: '✅', filter: 'todos' },
+    { label: '重要日期', value: s.upcomingDates, color: '#C8B8DB', emoji: '📅', filter: 'dates' }
+  ];
+  el.innerHTML = cards.map(c =>
+    '<div class="module-card" onclick="filterByModule(\'' + c.filter + '\')" style="cursor:pointer;background:white;border:1px solid #E5E5EA;border-radius:14px;padding:16px;text-align:center;transition:all 200ms">' +
+      '<div style="font-size:28px;margin-bottom:4px">' + c.emoji + '</div>' +
+      '<div style="font-size:24px;font-weight:700;color:' + c.color + '">' + c.value + '</div>' +
+      '<div style="font-size:12px;color:#6E6E73;margin-top:4px">' + c.label + '</div>' +
+    '</div>'
+  ).join('');
+  el.querySelectorAll('.module-card').forEach(card => {
+    card.addEventListener('mouseenter', () => { card.style.transform = 'translateY(-2px)'; card.style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'; });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; card.style.boxShadow = ''; });
+  });
+  } catch(e) { console.warn("renderModuleCards error:", e); }
+}
+
+// ===== v40: 渲染日历热力图 + 趋势 Sparkline =====
+function renderActivityStats(contactId){
+  const c = getContact(contactId);
+  if (!c) return '';
+  const interactions = c.interactions || [];
+  const days = 365;
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  // 计算每天的互动数
+  const counts = new Array(days).fill(0);
+  interactions.forEach(i => {
+    const d = new Date(i.time || i.date || 0);
+    d.setHours(0,0,0,0);
+    const diff = Math.floor((today - d) / 86400000);
+    if (diff >= 0 && diff < days) counts[diff]++;
+  });
+  // 计算最大（用于颜色等级）
+  const maxCount = Math.max(1, ...counts);
+  // 找出过去 365 天的第一天
+  const startDate = new Date(today);
+  startDate.setDate(startDate.getDate() - days + 1);
+  // 生成 53 周 × 7 天的网格
+  let cells = '';
+  for (let i = 0; i < days; i++) {
+    const d = new Date(startDate);
+    d.setDate(d.getDate() + i);
+    const c_count = counts[i];
+    let level = '';
+    if (c_count === 0) level = '';
+    else if (c_count === 1) level = 'l1';
+    else if (c_count === 2) level = 'l2';
+    else if (c_count <= 4) level = 'l3';
+    else if (c_count <= 6) level = 'l4';
+    else level = 'l5';
+    const dateStr = d.toISOString().slice(0,10);
+    cells += '<div class="heatmap-cell ' + level + '" title="' + dateStr + ': ' + c_count + ' 次互动"></div>';
+  }
+  // 总互动数
+  const total30 = counts.slice(-30).reduce((a,b) => a+b, 0);
+  const total7 = counts.slice(-7).reduce((a,b) => a+b, 0);
+
+  // 30 天 sparkline
+  const last30 = counts.slice(-30);
+  const max30 = Math.max(1, ...last30);
+  let bars = '';
+  last30.forEach((v, i) => {
+    const h = v === 0 ? 4 : Math.max(4, Math.round((v / max30) * 48));
+    bars += '<div style="height:' + h + 'px" title="' + (today.getDate()-29+i) + '日: ' + v + '"></div>';
+  });
+
+  return '<div class="heatmap-container">' +
+    '<div class="heatmap-header"><strong>📅 过去 12 个月活动热力图</strong><span>总: ' + interactions.length + ' 次</span></div>' +
+    '<div class="heatmap-grid">' + cells + '</div>' +
+    '<div class="heatmap-legend">少 <div class="heatmap-cell l1"></div><div class="heatmap-cell l2"></div><div class="heatmap-cell l3"></div><div class="heatmap-cell l4"></div><div class="heatmap-cell l5"></div> 多</div>' +
+    '</div>' +
+    '<div class="sparkline-container">' +
+    '<div class="heatmap-header"><strong>📈 过去 30 天互动趋势</strong><span>近 7 天: ' + total7 + ' / 近 30 天: ' + total30 + '</span></div>' +
+    '<div class="sparkline-bar">' + bars + '</div>' +
+    '<div class="sparkline-meta"><span>30 天前</span><strong>今天</strong></div>' +
+    '</div>';
+}
+
+function filterByModule(filter){
+  // 简化版：只对 tier 1-4 做基础筛选，其他只显示信息
+  if (filter === 'recent') { toast('近期 7 天内互动: ' + renderModuleSummary().recent + ' 人', 'info'); return; }
+  if (filter === 'dormant') { toast('需关注 90+ 天未互动: ' + renderModuleSummary().dormant + ' 人', 'warn'); return; }
+  if (filter === 'todos') { toast('未完成待办: ' + renderModuleSummary().pendingTodos + ' 项', 'info'); return; }
+  if (filter === 'dates') { toast('重要日期: ' + renderModuleSummary().upcomingDates + ' 项', 'info'); return; }
+  // 1-4 是 dunbarTier 筛选（简化版：只 toast 反馈）
+  const tierNames = ['', '核心圈', '亲密朋友', '一般朋友', '弱连接'];
+  toast('筛选 ' + tierNames[filter] + '（Round 3 完整版）', 'info');
+}
+
+
+// ===== Tag Filter =====
+function renderTagFilters(){
+  const container=document.getElementById('tagFilterContainer');
+  const contacts=getAllContacts();
+  const tagCounts={};
+  contacts.forEach(c=>{(c.tags||[]).forEach(t=>{tagCounts[t]=(tagCounts[t]||0)+1})});
+  container.innerHTML=TAG_OPTIONS.map(t=>{
+    const count=tagCounts[t]||0;
+    const active=selectedTag===t?'active':'';
+    return `<button class="tag-chip ${active}" data-tag="${t}">${t} <span class="count">${count}</span></button>`;
+  }).join('');
+  // Re-bind click
+  container.querySelectorAll('.tag-chip').forEach(el=>{
+    el.addEventListener('click',function(){
+      document.querySelectorAll('#tagFilterContainer .tag-chip,#gridView .filter-bar>.tag-chip').forEach(btn=>btn.classList.remove('active'));
+      this.classList.add('active');
+      selectedTag=this.dataset.tag;
+      renderContactGrid();
+    });
+  });
+  document.querySelector('#gridView .filter-bar>.tag-chip')?.addEventListener('click',function(){
+    document.querySelectorAll('#tagFilterContainer .tag-chip,#gridView .filter-bar>.tag-chip').forEach(btn=>btn.classList.remove('active'));
+    this.classList.add('active');
+    selectedTag='__all';
+    renderContactGrid();
+  });
+}
+
+function getFilteredContacts(){
+  let contacts=getAllContacts();
+  if(selectedTag!=='__all'){
+    contacts=contacts.filter(c=>(c.tags||[]).includes(selectedTag));
+  }
+  if(searchQuery){
+    const q=searchQuery.toLowerCase();
+    contacts=contacts.filter(c=>
+      (c.name||'').toLowerCase().includes(q)||
+      (c.wechat||'').toLowerCase().includes(q)||
+      (c.tags||[]).some(t=>t.toLowerCase().includes(q))||
+      (c.notes||'').toLowerCase().includes(q)
+    );
+  }
+  return contacts;
+}
+
+// ===== Contact Grid =====
+function renderContactGrid(){
+  const container=document.getElementById('contactGrid');
+  const contacts=getFilteredContacts();
+  renderTagFilters();
+
+  if(contacts.length===0){
+    container.innerHTML=`<div class="empty-state">
+      <div class="empty-icon">🕵️</div>
+      <p>${searchQuery?'没有匹配的联系人':'情报库为空，开始添加你的联系人吧'}</p>
+      ${!searchQuery?'<button class="btn btn-gold" onclick="openAddContact()">+ 添加首位联系人</button>':''}
+    </div>`;
+    return;
+  }
+
+  container.innerHTML=contacts.map(c=>{
+    const avatarChar=(c.name||'?')[0];
+    const stars='★'.repeat(c.strength)+'☆'.repeat(5-c.strength);
+    const last=getLastInteraction(c);
+    const days=last?daysSince(last.time):null;
+    const lastStr=days!==null
+      ?(days===0?'今天':`${days}天前`)
+      :'暂无互动';
+    const tags=(c.tags||[]).map(t=>`<span class="mini-tag">${t}</span>`).join('');
+    return `<div class="contact-card" data-id="${c.id}">
+      <div class="card-header">
+        <div class="avatar">${avatarChar}</div>
+        <div class="card-info">
+          <div class="card-name">
+            ${c.name||'未命名'}
+            ${c.wechat?`<span class="wechat-tag">📱 ${c.wechat}</span>`:''}
+          </div>
+          <div class="card-meta">
+            <span class="stars">${stars}</span>
+          </div>
         </div>
       </div>
-    </section>
+      ${tags?`<div class="card-tags">${tags}</div>`:''}
+      <div class="card-footer">
+        <span class="last-active">${lastStr}</span>
+        <span>${(c.interactions||[]).length} 次互动</span>
+      </div>
+    </div>`;
+  }).join('');
 
-    <!-- ===== 6 Modules ===== -->
-    <section class="section section-divider">
-      <div class="container-wide">
-        <header class="section-header">
-          <span class="section-eyebrow">六大模块</span>
-          <h2 class="section-title">一切，只为让你看清<br>每一段关系</h2>
-          <p class="section-subtitle">联系人、关系图谱、互动时间线、标签圈子、关键信息、情报看板——6 大模块集成在单个 HTML 文件中。</p>
-        </header>
+  // Click events
+  container.querySelectorAll('.contact-card').forEach(el=>{
+    el.addEventListener('click',()=>openDetail(el.dataset.id));
+  });
+}
 
-        <div class="modules-grid">
-          <article class="module-card m1">
-            <div class="module-icon">👤</div>
-            <h3>联系人档案</h3>
-            <p>每个人的完整画像，30+ 字段，Markdown 备注，自定义键值。</p>
-            <a href="features.html#m1" class="module-link">了解更多</a>
-          </article>
+// ===== Add/Edit Contact Form =====
+function openAddContact(){
+  showModal(renderContactForm(null));
+}
 
-          <article class="module-card m2">
-            <div class="module-icon">🕸️</div>
-            <h3>关系图谱</h3>
-            <p>力导向布局可视化你的关系网络，一眼看清谁与谁相连。</p>
-            <a href="features.html#m2" class="module-link">了解更多</a>
-          </article>
+function openEditContact(id){
+  const c=getContact(id);
+  if(!c){toast('联系人不存在','error');return;}
+  showModal(renderContactForm(c));
+}
 
-          <article class="module-card m3">
-            <div class="module-icon">📅</div>
-            <h3>互动时间线</h3>
-            <p>记录每一次相遇，7 指标雷达 + 日历热力图，关系演进一目了然。</p>
-            <a href="features.html#m3" class="module-link">了解更多</a>
-          </article>
+function renderContactForm(contact){
+  const isEdit=!!contact;
+  const c=contact||getDefaultContact();
+  const tagHtml=TAG_OPTIONS.map(t=>{
+    const sel=(c.tags||[]).includes(t)?'selected':'';
+    return `<button class="tag-option ${sel}" data-tag="${t}">${t}</button>`;
+  }).join('');
+  const starHtml=Array.from({length:5},(_,i)=>`<button class="star-btn ${i<c.strength?'active':''}" data-val="${i+1}">★</button>`).join('');
 
-          <article class="module-card m4">
-            <div class="module-icon">🏷️</div>
-            <h3>标签圈子</h3>
-            <p>4 维标签体系，自动识别你的社交圈子，看见隐藏的人脉网络。</p>
-            <a href="features.html#m4" class="module-link">了解更多</a>
-          </article>
-
-          <article class="module-card m5">
-            <div class="module-icon">🔔</div>
-            <h3>关键信息</h3>
-            <p>生日提醒、待办承诺、偏好禁忌——任何重要时刻，都不再遗忘。</p>
-            <a href="features.html#m5" class="module-link">了解更多</a>
-          </article>
-
-          <article class="module-card m6">
-            <div class="module-icon">📊</div>
-            <h3>情报看板</h3>
-            <p>智能提醒 + 邓巴分布 + 趋势洞察，每天 5 秒看清该做什么。</p>
-            <a href="features.html#m6" class="module-link">了解更多</a>
-          </article>
+  return `<div class="modal">
+    <div class="modal-header">
+      <h3>${isEdit?'编辑情报':'新建情报档案'}</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>姓名 *</label>
+          <input type="text" id="cf_name" value="${c.name||''}" placeholder="真实姓名或代号">
+        </div>
+        <div class="form-group">
+          <label>微信昵称</label>
+          <input type="text" id="cf_wechat" value="${c.wechat||''}" placeholder="微信昵称">
         </div>
       </div>
-    </section>
-
-    <!-- ===== Screenshots ===== -->
-    <section class="screenshots-section section-divider">
-      <div class="container-wide">
-        <header class="section-header">
-          <span class="section-eyebrow">界面预览</span>
-          <h2 class="section-title">看看它长什么样</h2>
-          <p class="section-subtitle">5 个核心界面，感受单文件工具的简洁之美。</p>
-        </header>
-
-        <div class="carousel">
-          <div class="carousel-track">
-            <div class="carousel-slide" data-slide="1">
-              <img src="assets/images/screenshot-1.svg" alt="情报看板 - 6 模块顶部 + 数据指标 + AI 建议" loading="lazy">
-            </div>
-            <div class="carousel-slide" data-slide="2">
-              <img src="assets/images/screenshot-2.svg" alt="关系图谱 - 力导向布局 + 节点 + 边" loading="lazy">
-            </div>
-            <div class="carousel-slide" data-slide="3">
-              <img src="assets/images/screenshot-3.svg" alt="互动时间线 - 数据指标 + 热力图 + 雷达图 + 互动列表" loading="lazy">
-            </div>
-            <div class="carousel-slide" data-slide="4">
-              <img src="assets/images/screenshot-4.svg" alt="AI 话术建议 - 3 种版本开场白 + 预期反应 + 风险" loading="lazy">
-            </div>
-            <div class="carousel-slide" data-slide="5">
-              <img src="assets/images/screenshot-5.svg" alt="关键信息 - 重要日期 + 待办清单 + 偏好记录" loading="lazy">
-            </div>
-          </div>
-          <button class="carousel-arrow prev" aria-label="上一张">‹</button>
-          <button class="carousel-arrow next" aria-label="下一张">›</button>
+      <div class="form-row">
+        <div class="form-group">
+          <label>手机号</label>
+          <input type="text" id="cf_phone" value="${c.phone||''}" placeholder="手机号码">
         </div>
-
-        <div class="carousel-dots">
-          <button class="carousel-dot active" aria-label="第 1 张"></button>
-          <button class="carousel-dot" aria-label="第 2 张"></button>
-          <button class="carousel-dot" aria-label="第 3 张"></button>
-          <button class="carousel-dot" aria-label="第 4 张"></button>
-          <button class="carousel-dot" aria-label="第 5 张"></button>
+        <div class="form-group">
+          <label>关系强度</label>
+          <div class="star-select" id="cf_stars">${starHtml}</div>
         </div>
       </div>
-    </section>
-
-    <!-- ===== AI ===== -->
-    <section class="ai-section">
-      <div class="container-wide">
-        <header class="section-header">
-          <span class="section-eyebrow">AI 增强</span>
-          <h2 class="section-title">让 AI 成为你的<br>关系顾问</h2>
-          <p class="section-subtitle">用户自带 API key，所有调用直连 LLM，数据不经过任何中间服务器。</p>
-        </header>
-
-        <div class="ai-features">
-          <div class="ai-feature">
-            <span class="ai-feature-icon">🏷️</span>
-            <h3>自动打标</h3>
-            <p>基于备注和互动历史，AI 推荐最合适的标签。</p>
-          </div>
-          <div class="ai-feature">
-            <span class="ai-feature-icon">💬</span>
-            <h3>话术建议</h3>
-            <p>破冰、升级、修复，3 种版本，根据深度定制。</p>
-          </div>
-          <div class="ai-feature">
-            <span class="ai-feature-icon">📈</span>
-            <h3>月度总结</h3>
-            <p>自动生成本月关系动态 + 关键词云 + 趋势。</p>
-          </div>
-          <div class="ai-feature">
-            <span class="ai-feature-icon">🎯</span>
-            <h3>强度推荐</h3>
-            <p>基于互动频率和深度，AI 推荐真实的关系强度。</p>
-          </div>
-          <div class="ai-feature">
-            <span class="ai-feature-icon">🧭</span>
-            <h3>图谱洞察</h3>
-            <p>谁是你的关系枢纽？哪里有潜在撮合？</p>
-          </div>
-          <div class="ai-feature">
-            <span class="ai-feature-icon">🔗</span>
-            <h3>撮合推荐</h3>
-            <p>基于共同话题，推荐值得认识的人。</p>
-          </div>
-        </div>
+      <div class="form-group">
+        <label>标签（可多选）</label>
+        <div class="tag-select" id="cf_tags">${tagHtml}</div>
       </div>
-    </section>
-
-    <!-- ===== Privacy ===== -->
-    <section class="privacy-section">
-      <div class="container-wide">
-        <header class="section-header">
-          <span class="section-eyebrow">隐私承诺</span>
-          <h2 class="section-title section-title-sm">你的关系<br>永远属于你</h2>
-          <p class="section-subtitle">4 项不可妥协的承诺，刻在工具的每一行代码里。</p>
-        </header>
-
-        <div class="privacy-grid">
-          <div class="privacy-item">
-            <div class="privacy-icon">🔒</div>
-            <h3>本地存储</h3>
-            <p>数据存在你的浏览器，不上任何服务器。</p>
-          </div>
-          <div class="privacy-item">
-            <div class="privacy-icon">🚫</div>
-            <h3>零上传</h3>
-            <p>我们看不到你的联系人信息，也不想要。</p>
-          </div>
-          <div class="privacy-item">
-            <div class="privacy-icon">📖</div>
-            <h3>完全开源</h3>
-            <p>工具本体可审查，每一行代码都公开。</p>
-          </div>
-          <div class="privacy-item">
-            <div class="privacy-icon">🛡️</div>
-            <h3>无追踪</h3>
-            <p>无第三方追踪脚本，无广告，无 cookie。</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== Final CTA ===== -->
-    <section class="final-cta">
-      <div class="container">
-        <h2>开始建立你的<br>关系情报网</h2>
-        <p>31KB · 双击即用 · 完全免费 · 永久隐私</p>
-        <a href="download.html" class="btn btn-primary btn-lg">免费下载</a>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ===== Footer ===== -->
-  <footer class="footer">
-    <div class="container-wide">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="/" class="logo">
-            <span class="logo-mark">R</span>
-            <span>RH Intel</span>
-          </a>
-          <p>人际关系 · 情报中心<br>单文件工具 · 本地存储 · 隐私优先</p>
-        </div>
-        <div class="footer-col">
-          <h4>产品</h4>
-          <ul>
-            <li><a href="features.html">功能</a></li>
-            <li><a href="architecture.html">架构</a></li>
-            <li><a href="guide.html">指南</a></li>
-            <li><a href="download.html">下载</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>资源</h4>
-          <ul>
-            <li><a href="https://github.com/lfc1402046/rh-intel" target="_blank" rel="noopener">GitHub</a></li>
-            <li><a href="download.html#changelog">更新日志</a></li>
-            <li><a href="guide.html#faq">FAQ</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>法律</h4>
-          <ul>
-            <li><a href="privacy.html">隐私</a></li>
-            <li><a href="contact.html">联系</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2026 RH Intel · Made with care · 本地优先</p>
+      <div class="form-group">
+        <label>情报备注</label>
+        <textarea id="cf_notes" placeholder="记录关键信息、特征、共同经历…">${c.notes||''}</textarea>
       </div>
     </div>
-  </footer>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">取消</button>
+      <button class="btn btn-gold" onclick="saveContactForm('${c.id}')">${isEdit?'保存修改':'创建档案'}</button>
+    </div>
+  </div>`;
+}
 
-  <script src="assets/js/main.js"></script>
+// Bind star select after form render
+function bindStarSelect(){
+  const container=document.getElementById('cf_stars');
+  if(!container) return;
+  let val=container.querySelector('.star-btn.active');
+  const cur=val?parseInt(val.dataset.val):3;
+  container.querySelectorAll('.star-btn').forEach(btn=>{
+    btn.addEventListener('click',function(){
+      const v=parseInt(this.dataset.val);
+      container.querySelectorAll('.star-btn').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.val)<=v));
+    });
+  });
+  // Set initial
+  container.querySelectorAll('.star-btn').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.val)<=cur));
+}
+
+// Bind tag select after form render
+function bindTagSelect(){
+  const container=document.getElementById('cf_tags');
+  if(!container) return;
+  container.querySelectorAll('.tag-option').forEach(el=>{
+    el.addEventListener('click',function(){
+      this.classList.toggle('selected');
+    });
+  });
+}
+
+// Save contact form
+function saveContactForm(id){
+  const name=document.getElementById('cf_name').value.trim();
+  if(!name){toast('请输入姓名','error');return;}
+  const wechat=document.getElementById('cf_wechat').value.trim();
+  const phone=document.getElementById('cf_phone').value.trim();
+  const notes=document.getElementById('cf_notes').value.trim();
+
+  const tags=[];
+  document.querySelectorAll('#cf_tags .tag-option.selected').forEach(el=>tags.push(el.dataset.tag));
+
+  let strength=3;
+  const activeStar=document.querySelector('#cf_stars .star-btn.active:last-child');
+  if(activeStar) strength=parseInt(activeStar.dataset.val);
+
+  let contact=getContact(id);
+  if(!contact){
+    contact=getDefaultContact();
+    contact.id=id;
+  }
+  contact.name=name;
+  contact.wechat=wechat;
+  contact.phone=phone;
+  contact.tags=tags;
+  contact.strength=strength;
+  contact.notes=notes;
+
+  saveContact(contact);
+  closeModal();
+  renderAll();
+  toast(contact.interactions&&contact.interactions.length>0?'情报已更新':'档案已建立','success');
+}
+
+// ===== Detail View =====
+function openDetail(id){
+  const c=getContact(id);
+  if(!c){toast('联系人不存在','error');return;}
+  detailContactId=id;
+
+  const last=getLastInteraction(c);
+  const freq=getInteractionFrequency(c);
+  const trend=getTrend(c);
+  const trendIcon={up:'📈 升温',down:'📉 降温',stable:'➡️ 平稳'}[trend]||'➡️ 平稳';
+
+  const connections=(c.connections||[]).map(connId=>{
+    const conn=getContact(connId);
+    if(!conn) return null;
+    const type=c.connectionTypes&&c.connectionTypes[connId]?c.connectionTypes[connId]:'有关联';
+    return `<div class="info-item" style="cursor:pointer" onclick="openDetail('${conn.id}')">
+      <div class="info-label">${type}</div>
+      <div class="info-value">${conn.name||'未知'}</div>
+    </div>`;
+  }).filter(Boolean).join('');
+
+  const allContacts=getAllContacts().filter(x=>x.id!==c.id&&!(c.connections||[]).includes(x.id));
+
+  const interactionsHtml=(c.interactions||[]).map(i=>{
+    const isRecent=daysSince(i.time)<=7;
+    return `<div class="timeline-item ${isRecent?'hot':''}">
+      <span class="tl-method">${i.method}</span>
+      <span class="tl-time">${formatDate(i.time)}</span>
+      <div class="tl-summary">${i.summary||'无记录'}</div>
+      <button class="btn btn-sm btn-danger" style="margin-top:4px" onclick="deleteInteractionHandler('${c.id}','${i.id}')">删除</button>
+    </div>`;
+  }).join('');
+
+  // Add connection section
+  const connectionOptions=allContacts.map(x=>`<option value="${x.id}">${x.name}</option>`).join('');
+
+  const html=`<div class="modal" style="max-width:640px">
+    <div class="modal-header">
+      <h3>🔍 情报档案</h3>
+      <div style="display:flex;gap:4px">
+        <button class="btn btn-sm" onclick="openEditContact('${c.id}')">✏️ 编辑</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteContactHandler('${c.id}')">🗑️ 删除</button>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="detail-header">
+        <div class="avatar large">${(c.name||'?')[0]}</div>
+        <div class="detail-title">
+          <h2>${c.name}</h2>
+          <div class="subtitle">
+            ${c.wechat?`📱 ${c.wechat} `:''}${c.phone?`📞 ${c.phone}`:''}
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-bar">
+        <div class="stat-card">
+          <div class="stat-label">关系强度</div>
+          <div class="stat-value" style="font-size:16px">${'★'.repeat(c.strength)}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">总互动</div>
+          <div class="stat-value">${(c.interactions||[]).length}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">${last?'最近互动':'暂无互动'}</div>
+          <div class="stat-value" style="font-size:13px;color:var(--green)">${last?formatDateShort(last.time):'—'}</div>
+        </div>
+        ${freq?`<div class="stat-card"><div class="stat-label">互动频率</div><div class="stat-value" style="font-size:14px">${freq.perMonth}/月</div></div>`:''}
+        <div class="stat-card">
+          <div class="stat-label">趋势</div>
+          <div class="stat-value" style="font-size:13px">${trendIcon}</div>
+        </div>
+      </div>
+
+      ${renderActivityStats(c.id)}
+
+
+      <div class="section-title">🎯 关系画像 (v3.0)</div>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">邓巴圈层</div>
+          <div class="info-value" style="color:${['#FFD66B','#5BB5E0','#4ECDC4','#92B8D8'][c.dunbarTier!=null?c.dunbarTier:0] || '#86868B'}">${['核心','亲密','一般','弱连接'][c.dunbarTier!=null?c.dunbarTier:0] || '未分类'}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">信任度</div>
+          <div class="info-value">${'★'.repeat(c.trustLevel || 0)}${'☆'.repeat(5-(c.trustLevel || 0))}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">熟悉度</div>
+          <div class="info-value">${({stranger:'陌生人',familiar:'熟人',close:'密友'}[c.familiarity]) || c.familiarity || 'familiar'}</div>
+        </div>
+        ${c.nickname?`<div class="info-item"><div class="info-label">昵称</div><div class="info-value">${c.nickname}</div></div>`:''}
+        ${c.gender?`<div class="info-item"><div class="info-label">性别</div><div class="info-value">${c.gender}</div></div>`:''}
+        ${c.ageRange?`<div class="info-item"><div class="info-label">年龄段</div><div class="info-value">${c.ageRange}</div></div>`:''}
+        ${c.email?`<div class="info-item"><div class="info-label">邮箱</div><div class="info-value">${c.email}</div></div>`:''}
+        ${c.company?`<div class="info-item"><div class="info-label">公司</div><div class="info-value">${c.company}</div></div>`:''}
+        ${c.position?`<div class="info-item"><div class="info-label">职位</div><div class="info-value">${c.position}</div></div>`:''}
+        ${(c.hometown || c.currentCity)?`<div class="info-item"><div class="info-label">地区</div><div class="info-value">${[c.hometown,c.currentCity].filter(Boolean).join(' → ')}</div></div>`:''}
+        ${c.metAt?`<div class="info-item"><div class="info-label">初次见面</div><div class="info-value" style="font-size:12px">${c.metAt}</div></div>`:''}
+        ${c.metScene?`<div class="info-item"><div class="info-label">见面场景</div><div class="info-value" style="font-size:12px">${c.metScene}</div></div>`:''}
+        ${c.introducedBy?`<div class="info-item"><div class="info-label">引荐人</div><div class="info-value" style="font-size:12px">${(()=>{const p=getContact(c.introducedBy);return p?p.name:'未知';})()}</div></div>`:''}
+        ${(c.keyDates && c.keyDates.length)?`<div class="info-item"><div class="info-label">重要日期 (${c.keyDates.length})</div><div class="info-value" style="font-size:12px">${c.keyDates.map(d=>d.label||d.type).slice(0,3).join('、')}${c.keyDates.length>3?'等':''}</div></div>`:''}
+        ${(c.todos && c.todos.length)?`<div class="info-item"><div class="info-label">待办 (${c.todos.length})</div><div class="info-value" style="font-size:12px">${c.todos.filter(t=>t.status!=='done').length} 项未完成</div></div>`:''}
+        ${c.lastInteractionAt?`<div class="info-item"><div class="info-label">最后互动</div><div class="info-value" style="font-size:12px">${c.lastInteractionAt.slice(0,10)}</div></div>`:''}
+        ${c.avgIntervalDays?`<div class="info-item"><div class="info-label">平均互动间隔</div><div class="info-value" style="font-size:12px">${c.avgIntervalDays} 天</div></div>`:''}
+      </div>
+
+      <div class="info-grid">
+        ${(c.tags||[]).map(t=>`<div class="info-item"><div class="info-label">标签</div><div class="info-value" style="color:var(--gold)">${t}</div></div>`).join('')||''}
+        <div class="info-item">
+          <div class="info-label">情报备注</div>
+          <div class="info-value" style="font-size:13px;color:var(--text-dim)">${c.notes||'无'}</div>
+        </div>
+      </div>
+
+      ${connections?`<div class="section-title">🔗 关联人脉 (${(c.connections||[]).length})</div>
+      <div class="info-grid">${connections}</div>
+      <div style="margin-bottom:16px">
+        ${allContacts.length>0?`
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+          <select id="connTarget" style="padding:6px 8px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:12px;font-family:var(--font)">
+            <option value="">选择联系人建立关联...</option>
+            ${connectionOptions}
+          </select>
+          <select id="connType" style="padding:6px 8px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:12px;font-family:var(--font)">
+            ${CONNECTION_TYPES.map(t=>`<option value="${t}">${t}</option>`).join('')}
+          </select>
+          <button class="btn btn-sm btn-gold" onclick="addConnectionHandler('${c.id}')">关联</button>
+        </div>
+        `:'<div style="font-size:12px;color:var(--text-muted)">没有更多可关联的联系人</div>'}
+      </div>`:''}
+
+      <div class="section-title">
+        🕵️ 关系时间线
+        <span class="badge">${(c.interactions||[]).length} 条记录</span>
+      </div>
+
+      <div style="margin-bottom:12px;display:flex;gap:6px;flex-wrap:wrap">
+        <select id="intMethod" style="padding:6px 8px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:12px;font-family:var(--font)">
+          ${INTERACTION_METHODS.map(m=>`<option value="${m}">${m}</option>`).join('')}
+        </select>
+        <input type="datetime-local" id="intTime" style="padding:6px 8px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:12px;font-family:var(--font)" value="${new Date().toISOString().slice(0,16)}">
+        <input type="text" id="intSummary" placeholder="互动内容摘要…" style="flex:1;min-width:120px;padding:6px 8px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:12px;font-family:var(--font)">
+        <button class="btn btn-sm btn-gold" onclick="addInteractionHandler('${c.id}')">记录</button>
+      </div>
+
+      ${(c.interactions||[]).length>0
+        ?`<div class="interaction-timeline">${interactionsHtml}</div>`
+        :`<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px">暂无互动记录，开始建立时间线</div>`
+      }
+    </div>
+  </div>`;
+
+  showModal(html);
+}
+
+// ===== Handlers =====
+function deleteContactHandler(id){
+  if(!confirm('确认永久删除该情报档案？此操作不可撤销。')) return;
+  deleteContact(id);
+  closeModal();
+  detailContactId=null;
+  renderAll();
+  toast('档案已销毁','success');
+}
+
+function addInteractionHandler(contactId){
+  const method=document.getElementById('intMethod').value;
+  const time=document.getElementById('intTime').value;
+  const summary=document.getElementById('intSummary').value.trim();
+  if(!summary){toast('请输入互动内容','error');return;}
+  if(!time){toast('请选择时间','error');return;}
+  addInteraction(contactId,{method,time:new Date(time).toISOString(),summary});
+  renderAll();
+  openDetail(contactId);
+  toast('互动记录已添加','success');
+}
+
+function deleteInteractionHandler(contactId,intId){
+  if(!confirm('删除这条互动记录？')) return;
+  deleteInteraction(contactId,intId);
+  renderAll();
+  openDetail(contactId);
+}
+
+function addConnectionHandler(contactId){
+  const target=document.getElementById('connTarget').value;
+  const type=document.getElementById('connType').value;
+  if(!target){toast('请选择要关联的联系人','error');return;}
+  addConnection(contactId,target,type);
+  renderAll();
+  openDetail(contactId);
+  toast('关联已建立','success');
+}
+
+// ===== Search =====
+document.getElementById('searchInput').addEventListener('input',function(){
+  searchQuery=this.value;
+  renderContactGrid();
+});
+
+// ===== Tabs =====
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    currentTab=this.dataset.tab;
+    document.getElementById('gridView').style.display=currentTab==='grid'?'':'none';
+    document.getElementById('graphView').style.display=currentTab==='graph'?'':'none';
+    if(currentTab==='graph') renderGraph();
+  });
+});
+
+// ===== Add Contact Button =====
+document.getElementById('addContactBtn').addEventListener('click',openAddContact);
+
+// ===== Export/Import =====
+document.getElementById('exportBtn').addEventListener('click',function(){
+  const data=loadData();
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`人际关系侦探_备份_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('数据已导出','success');
+});
+
+// ===== v43: 统一导入（文件 + 粘贴 VCF）=====
+function importData(text) {
+  try {
+    const t = text.trim();
+    if (t.startsWith('BEGIN:VCARD') || t.startsWith('BEGIN:VCALENDAR')) {
+      const contacts = parseVCF(text);
+      if (!contacts.length) { toast('VCF 中未找到有效联系人', 'error'); return; }
+      if (!confirm(`将导入 ${contacts.length} 位联系人（VCF 追加到现有数据）？`)) return;
+      appendContacts(contacts);
+      renderAll();
+      toast(`已导入 ${contacts.length} 位联系人（VCF）`, 'success');
+    } else {
+      const data = JSON.parse(text);
+      if (!data.contacts || !Array.isArray(data.contacts)) throw new Error('格式无效');
+      if (!confirm(`将导入 ${data.contacts.length} 位联系人数据（JSON 覆盖现有数据）？`)) return;
+      saveData(data);
+      renderAll();
+      toast('数据导入成功', 'success');
+    }
+  } catch (err) {
+    toast('文件格式无效: ' + err.message, 'error');
+  }
+}
+
+function openImportModal() {
+  const html = `<div class="modal" style="max-width:600px">
+    <div class="modal-header">
+      <h3>📥 导入联系人</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--text-dim);margin-bottom:16px">
+        支持 <strong>JSON</strong>、<strong>VCF</strong>、<strong>TXT</strong> 三种格式。VCF 解析后追加，JSON 覆盖。完全本地处理。
+      </p>
+
+      <div style="background:var(--bg-elevated);border:2px dashed var(--border);border-radius:12px;padding:32px 20px;text-align:center;cursor:pointer" onclick="document.getElementById('importFile').click()">
+        <div style="font-size:48px;margin-bottom:8px">📂</div>
+        <div style="font-size:15px;font-weight:600;margin-bottom:4px">点击选择文件</div>
+        <div style="font-size:12px;color:var(--text-muted)">.json / .vcf / .txt</div>
+        <input type="file" id="importFile" accept=".json,.vcf,.txt" style="display:none">
+      </div>
+    </div>
+  </div>`;
+  showModal(html);
+  document.getElementById('importFile').addEventListener('change', function(e) {
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      importData(ev.target.result);
+      setTimeout(() => closeModal(), 600);
+    };
+    reader.readAsText(e.target.files[0]);
+  });
+}
+
+document.getElementById('importBtn').addEventListener('click', openImportModal);
+
+// ===== v42: VCF 解析器（本地处理，不联网） =====
+function parseVCF(text) {
+  const contacts = [];
+  const blocks = text.split(/BEGIN:VCARD/i);
+  let counter = 0;
+  for (const block of blocks) {
+    if (!block.includes('END:VCARD')) continue;
+    const lines = block.split(/\r?\n/);
+    let name = '';
+    let displayName = '';
+    const phones = [];
+    let note = '';
+    let org = '';
+    for (const line of lines) {
+      const t = line.trim();
+      if (t.startsWith('END:VCARD')) break;
+      if (t.startsWith('N:') && !name) {
+        const parts = t.substring(2).split(';');
+        const last = parts[0] || parts[1] || '';
+        const first = parts[1] || parts[0] || '';
+        name = (last + first).trim();
+      } else if (t.startsWith('FN:') && !displayName) {
+        displayName = t.substring(3).trim();
+      } else if (t.startsWith('TEL')) {
+        const tel = t.split(':').pop().trim().replace(/[^\d+]/g, '');
+        if (tel && !phones.includes(tel)) phones.push(tel);
+      } else if (t.startsWith('NOTE')) {
+        note += t.substring(5).replace(/^:/, '') + ' ';
+      } else if (t.startsWith('ORG')) {
+        org = t.split(':').pop().trim();
+      }
+    }
+    const finalName = (displayName || name || '未命名').trim();
+    if (!phones.length && !finalName) continue;
+    counter++;
+    contacts.push({
+      id: 'vcf_' + Date.now() + '_' + counter,
+      name: finalName,
+      wechat: '',
+      phone: phones[0] || '',
+      tags: ['VCF 导入'],
+      strength: 2,
+      notes: note.trim().substring(0, 100) || '从 VCF 导入',
+      interactions: [],
+      connections: [],
+      createdAt: new Date().toISOString()
+    });
+  }
+  return contacts;
+}
+
+// 追加到现有数据
+function appendContacts(newContacts) {
+  const data = loadData();
+  data.contacts = (data.contacts || []).concat(newContacts);
+  saveData(data);
+}
+
+
+// Edge color lookup
+function getEdgeColor(type){
+  const colors={'同事':'#3498db','朋友':'#e67e22','家人':'#e74c3c','投资':'#2ecc71','跑团':'#9b59b6','同学':'#1abc9c','客户':'#f1c40f','其他':'#7f8c8d'};
+  return colors[type]||'#7f8c8d';
+}
+
+// =========================================================================
+// 关系图谱 - Canvas
+// =========================================================================
+let graphAnimationId=null;
+const graphState={
+  nodes:[],
+  edges:[],
+  dragging:null,
+  dragOffset:{x:0,y:0},
+  scale:1,
+  offsetX:0,
+  offsetY:0
+};
+
+function renderGraph(){
+  const container=document.getElementById('graphContainer');
+  let canvas=document.getElementById('graphCanvas');
+  const tooltip=document.getElementById('graphTooltip');
+  const legend=document.getElementById('graphLegend');
+
+  const rect=container.getBoundingClientRect();
+  const dpr=window.devicePixelRatio||1;
+  canvas.width=rect.width*dpr;
+  canvas.height=rect.height*dpr;
+  canvas.style.width=rect.width+'px';
+  canvas.style.height=rect.height+'px';
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+
+  const contacts=getAllContacts();
+  if(contacts.length===0){
+    ctx.fillStyle='#4a4a5a';
+    ctx.font='16px sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText('暂无联系人数据，先去添加联系人吧',rect.width/2,rect.height/2);
+    legend.innerHTML='';
+    tooltip.classList.remove('visible');
+    if(graphAnimationId){cancelAnimationFrame(graphAnimationId);graphAnimationId=null;}
+    return;
+  }
+
+  // Build graph nodes & edges
+  const nodes=contacts.map((c,i)=>{
+    const angle=(2*Math.PI*i)/contacts.length+Math.random()*0.2;
+    const radius=Math.min(rect.width,rect.height)*0.3;
+    return {
+      id:c.id,
+      name:c.name||'未命名',
+      strength:c.strength,
+      tags:c.tags||[],
+      x:rect.width/2+Math.cos(angle)*radius+Math.random()*20-10,
+      y:rect.height/2+Math.sin(angle)*radius+Math.random()*20-10,
+      vx:0,vy:0,
+      radius:12+c.strength*4
+    };
+  });
+
+  // Build edges from connections
+  const edges=[];
+  const edgeSet=new Set();
+  contacts.forEach(c=>{
+    (c.connections||[]).forEach(targetId=>{
+      const key=[c.id,targetId].sort().join('|');
+      if(!edgeSet.has(key)){
+        edgeSet.add(key);
+        const from=nodes.find(n=>n.id===c.id);
+        const to=nodes.find(n=>n.id===targetId);
+        if(from&&to){
+          const type=c.connectionTypes&&c.connectionTypes[targetId]||'有关联';
+          edges.push({from:c.id,to:targetId,type,color:getEdgeColor(type)});
+        }
+      }
+    });
+  });
+
+  graphState.nodes=nodes;
+  graphState.edges=edges;
+
+  // Legend
+  const edgeTypes=[...new Set(edges.map(e=>e.type))];
+  legend.innerHTML=edgeTypes.map(t=>`<span class="legend-item"><span class="legend-dot" style="background:${getEdgeColor(t)}"></span>${t}</span>`).join('')+
+    (edges.length===0?'<span class="legend-item" style="color:var(--text-muted)">未建立关联</span>':'');
+
+  // Re-attach listeners to fresh canvas
+  canvas.onmousedown=null; canvas.onmousemove=null;
+  canvas.onmouseup=null; canvas.onmouseleave=null;
+  canvas.ontouchstart=null; canvas.ontouchmove=null; canvas.ontouchcancel=null; canvas.ontouchend=null;
+
+  // Force simulation
+  let running=true;
+  let iterations=0;
+  const maxIter=120;
+
+  function simulate(){
+    if(!running) return;
+    const repulsion=8000;
+    const attraction=0.005;
+    const damping=0.85;
+    const centerForce=0.01;
+
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const a=nodes[i],b=nodes[j];
+        let dx=a.x-b.x;
+        let dy=a.y-b.y;
+        const dist=Math.max(Math.sqrt(dx*dx+dy*dy),10);
+        const force=repulsion/(dist*dist);
+        const fx=dx/dist*force;
+        const fy=dy/dist*force;
+        a.vx+=fx; a.vy+=fy;
+        b.vx-=fx; b.vy-=fy;
+      }
+    }
+
+    edges.forEach(e=>{
+      const a=nodes.find(n=>n.id===e.from);
+      const b=nodes.find(n=>n.id===e.to);
+      if(!a||!b) return;
+      const dx=b.x-a.x, dy=b.y-a.y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      const force=dist*attraction;
+      const fx=dx/dist*force, fy=dy/dist*force;
+      a.vx+=fx; a.vy+=fy;
+      b.vx-=fx; b.vy-=fy;
+    });
+
+    const cx=rect.width/2, cy=rect.height/2;
+    nodes.forEach(n=>{
+      n.vx+=(cx-n.x)*centerForce;
+      n.vy+=(cy-n.y)*centerForce;
+      n.vx*=damping; n.vy*=damping;
+      n.x+=n.vx; n.y+=n.vy;
+      n.x=Math.max(30,Math.min(rect.width-30,n.x));
+      n.y=Math.max(30,Math.min(rect.height-30,n.y));
+    });
+
+    drawGraph(ctx,rect,nodes,edges,tooltip,canvas);
+    iterations++;
+    if(iterations<maxIter) graphAnimationId=requestAnimationFrame(simulate);
+    else graphAnimationId=null;
+  }
+
+  if(graphAnimationId){cancelAnimationFrame(graphAnimationId);}
+
+  // Draw edges once instead of simulation for first paint, then start sim
+  drawGraph(ctx,rect,nodes,edges,tooltip,canvas);
+  graphAnimationId=requestAnimationFrame(simulate);
+
+  // Mouse interaction
+  function setListeners(cvs){
+    function getNodeAt(x,y){
+      for(let i=nodes.length-1;i>=0;i--){
+        const n=nodes[i];
+        const dx=x-n.x, dy=y-n.y;
+        if(dx*dx+dy*dy<=n.radius*n.radius+5) return n;
+      }
+      return null;
+    }
+
+    let dragNode=null;
+
+    cvs.onmousedown=function(e){
+      const br=cvs.getBoundingClientRect();
+      const x=e.clientX-br.left, y=e.clientY-br.top;
+      const node=getNodeAt(x,y);
+      if(node){
+        dragNode=node;
+        node._dragOffX=node.x-x;
+        node._dragOffY=node.y-y;
+        cvs.style.cursor='grabbing';
+      }
+    };
+
+    cvs.onmousemove=function(e){
+      if(graphAnimationId){cancelAnimationFrame(graphAnimationId);graphAnimationId=null;}
+      const br=cvs.getBoundingClientRect();
+      const x=e.clientX-br.left, y=e.clientY-br.top;
+
+      if(dragNode){
+        dragNode.x=x+dragNode._dragOffX;
+        dragNode.y=y+dragNode._dragOffY;
+        dragNode.vx=0; dragNode.vy=0;
+        drawGraph(ctx,rect,nodes,edges,tooltip,canvas);
+        return;
+      }
+
+      const node=getNodeAt(x,y);
+      if(node){
+        cvs.style.cursor='pointer';
+        const tagsHtml = (node.tags && node.tags.length) ? '<br><span style="color:#6E6E73">标签:</span> ' + node.tags.slice(0,3).map(t => '<span style="background:rgba(91,181,224,0.15);color:#2A6E9E;padding:1px 6px;border-radius:3px;font-size:10px;margin-right:2px">' + t + '</span>').join('') : '';
+        const strengthHtml = '<span style="color:#FFD66B">' + '★'.repeat(node.strength) + '</span>';
+        tooltip.innerHTML='<div style="font-weight:600;font-size:13px;margin-bottom:4px">' + node.name + '</div><div style="font-size:11px;color:#6E6E73">强度: ' + strengthHtml + ' (v3.0 圈层' + node.strength + ')</div>' + tagsHtml;
+        tooltip.style.left=(x+14)+'px';
+        tooltip.style.top=(y-10)+'px';
+        tooltip.classList.add('visible');
+      }else{
+        cvs.style.cursor='grab';
+        tooltip.classList.remove('visible');
+      }
+    };
+
+    cvs.onmouseup=function(e){
+      if(dragNode){
+        const br=cvs.getBoundingClientRect();
+        const x=e.clientX-br.left, y=e.clientY-br.top;
+        dragNode=null;
+        cvs.style.cursor='grab';
+        tooltip.classList.remove('visible');
+        const node=getNodeAt(x,y);
+        if(node) openDetail(node.id);
+      }
+    };
+
+    cvs.onmouseleave=function(){dragNode=null;tooltip.classList.remove('visible');};
+
+    cvs.ontouchstart=function(e){
+      e.preventDefault();
+      const t=e.touches[0];
+      const br=cvs.getBoundingClientRect();
+      const x=t.clientX-br.left, y=t.clientY-br.top;
+      const node=getNodeAt(x,y);
+      if(node){dragNode=node;node._dragOffX=node.x-x;node._dragOffY=node.y-y;}
+    };
+
+    cvs.ontouchmove=function(e){
+      e.preventDefault();
+      if(graphAnimationId){cancelAnimationFrame(graphAnimationId);graphAnimationId=null;}
+      const t=e.touches[0];
+      const br=cvs.getBoundingClientRect();
+      const x=t.clientX-br.left, y=t.clientY-br.top;
+      if(dragNode){dragNode.x=x+dragNode._dragOffX;dragNode.y=y+dragNode._dragOffY;dragNode.vx=0;dragNode.vy=0;drawGraph(ctx,rect,nodes,edges,tooltip,canvas);}
+    };
+
+    cvs.ontouchend=function(e){
+      if(dragNode){const id=dragNode.id;dragNode=null;if(id) openDetail(id);}
+    };
+
+    cvs.ontouchcancel=function(){dragNode=null;};
+  }
+
+  setListeners(canvas);
+}
+
+let lastDrawCanvas=null;
+
+function drawGraph(ctx,rect,nodes,edges,tooltip,canvas){
+  lastDrawCanvas=canvas;
+  ctx.clearRect(0,0,rect.width,rect.height);
+
+  // Draw edges
+  edges.forEach(e=>{
+    const from=nodes.find(n=>n.id===e.from);
+    const to=nodes.find(n=>n.id===e.to);
+    if(!from||!to) return;
+    ctx.beginPath();
+    ctx.moveTo(from.x,from.y);
+    ctx.lineTo(to.x,to.y);
+    ctx.strokeStyle=e.color+'66';
+    // 边粗细：基于 source 和 target 的 strength 平均
+    const aStr = from.strength || 2, bStr = to.strength || 2;
+    const avgStr = (aStr + bStr) / 2;
+    ctx.lineWidth=1 + avgStr * 0.6;
+    ctx.stroke();
+
+    // Draw label at midpoint
+    const mx=(from.x+to.x)/2;
+    const my=(from.y+to.y)/2;
+    ctx.font='9px sans-serif';
+    ctx.fillStyle=e.color+'cc';
+    ctx.textAlign='center';
+    ctx.fillText(e.type,mx,my-4);
+  });
+
+  // Draw nodes
+  nodes.forEach(n=>{
+    // Glow
+    const grad=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.radius*2.5);
+    grad.addColorStop(0,`rgba(201,168,76,${n.strength*0.05})`);
+    grad.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=grad;
+    ctx.beginPath();
+    ctx.arc(n.x,n.y,n.radius*2.5,0,Math.PI*2);
+    ctx.fill();
+
+    // v37 升级：节点按 strength 5 档配色 + 首字 + 标签
+    const tierColors = {5:'#FFD66B', 4:'#5BB5E0', 3:'#4ECDC4', 2:'#92B8D8', 1:'#C8B8DB'};
+    const tierNames  = {5:'核心',    4:'亲密',   3:'一般',  2:'弱',    1:'极弱'};
+    const nodeColor = tierColors[n.strength] || '#86868B';
+
+    // Glow（按 strength 调节强度）
+    const grad=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.radius*2.5);
+    grad.addColorStop(0, nodeColor + (n.strength >= 4 ? '60' : '30'));
+    grad.addColorStop(1, nodeColor + '00');
+    ctx.fillStyle=grad;
+    ctx.beginPath();
+    ctx.arc(n.x,n.y,n.radius*2.5,0,Math.PI*2);
+    ctx.fill();
+
+    // Node circle（按 strength 大小）
+    const nodeR = 12 + n.strength * 4;
+    ctx.beginPath();
+    ctx.arc(n.x,n.y,nodeR,0,Math.PI*2);
+    ctx.fillStyle=nodeColor;
+    ctx.fill();
+    ctx.strokeStyle='#FFFFFF';
+    ctx.lineWidth=2;
+    ctx.stroke();
+
+    // First char of name（首字）
+    if(n.name && n.name.length>0){
+      ctx.font='bold ' + Math.round(nodeR * 0.7) + 'px sans-serif';
+      ctx.fillStyle='#FFFFFF';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      ctx.fillText(n.name[0], n.x, n.y);
+    }
+
+    // Name label（下方）
+    ctx.font='11px sans-serif';
+    ctx.fillStyle='#1D1D1F';
+    ctx.textAlign='center';
+    ctx.textBaseline='alphabetic';
+    ctx.fillText(n.name,n.x,n.y+nodeR+14);
+
+    // Tier label (small)
+    if (n.strength) {
+      ctx.font='9px sans-serif';
+      ctx.fillStyle=nodeColor;
+      ctx.fillText(tierNames[n.strength] || '', n.x, n.y+nodeR+26);
+    }
+  });
+}
+
+// =========================================================================
+// Init
+// =========================================================================
+// Modal mutation observer for binding form events
+const modalObserver=new MutationObserver(()=>{
+  const overlay=document.getElementById('modalOverlay');
+  if(overlay.classList.contains('open')){
+    bindStarSelect();
+    bindTagSelect();
+  }
+});
+modalObserver.observe(document.getElementById('modalContent'),{childList:true,subtree:true});
+
+// Initial render
+renderAll();
+
+// Handle window resize for graph
+let resizeTimer;
+window.addEventListener('resize',()=>{
+  clearTimeout(resizeTimer);
+  resizeTimer=setTimeout(()=>{
+    if(currentTab==='graph') renderGraph();
+  },300);
+});
+
+console.log('🕵️ 人际关系侦探已启动 — 情报中心随时待命');
+
+// ============================================================
+// 开箱即用：首次启动自动预装示例数据
+// ============================================================
+(function() {
+  const STORAGE_KEY = 'relationship_detective_data';
+  try {
+    const existing = localStorage.getItem(STORAGE_KEY);
+    if (existing) {
+      console.log('✓ 已检测到本地数据，跳过预装');
+      return;
+    }
+
+    // 8 个示例联系人（精简版，匹配工具 v0.1 schema）
+    const SAMPLE = {
+      contacts: [
+        {
+          id: 'demo_001', name: '王五', wechat: 'wuwu_paobu', phone: '138-0001-1001',
+          tags: ['跑团', '挚友', 'AI'], strength: 5,
+          notes: '8 年老友，跑团认识。每周一起跑步，最近在忙融资。',
+          interactions: [
+            { id: 'i1', time: '2026-10-08', method: '微信', topics: ['新项目'], mood: '😊', summary: '聊了他新项目的方向' },
+            { id: 'i2', time: '2026-10-03', method: '跑步', location: '环岛路', topics: ['跑步'], mood: '😐', summary: '环岛路 10km' }
+          ],
+          connections: [{ targetId: 'demo_006', type: '跑团' }],
+          createdAt: '2024-01-15T10:00:00Z'
+        },
+        {
+          id: 'demo_002', name: '李四', wechat: 'lisixin2026', phone: '139-0002-2002',
+          tags: ['跑团', '互联网'], strength: 4,
+          notes: '大学同学，6 次马拉松战友。INTJ，最近想换工作。',
+          interactions: [
+            { id: 'i3', time: '2026-10-05', method: '微信', topics: ['AI 创业'], mood: '🤝', summary: '聊 AI 创业机会' }
+          ],
+          connections: [],
+          createdAt: '2024-02-10T14:00:00Z'
+        },
+        {
+          id: 'demo_003', name: '妈', wechat: 'mama_family', phone: '0598-222-3333',
+          tags: ['家人', '重要'], strength: 5,
+          notes: '妈妈。每周至少通话 1-2 次。健康重要。',
+          interactions: [
+            { id: 'i4', time: '2026-10-07', method: '电话', location: '家中', topics: ['健康'], mood: '😊', summary: '妈说血压稳定' }
+          ],
+          connections: [{ targetId: 'demo_004', type: '家人' }],
+          createdAt: '2023-01-01T00:00:00Z'
+        },
+        {
+          id: 'demo_004', name: '爸', wechat: 'baba_family', phone: '0598-222-3334',
+          tags: ['家人', '重要'], strength: 5,
+          notes: '爸爸。性格稳重，话不多。对我转行有些担心。',
+          interactions: [
+            { id: 'i5', time: '2026-10-05', method: '微信', topics: ['新闻'], mood: '😐', summary: '转发经济新闻' }
+          ],
+          connections: [{ targetId: 'demo_003', type: '家人' }],
+          createdAt: '2023-01-01T00:00:00Z'
+        },
+        {
+          id: 'demo_005', name: '张总', wechat: 'zhang_zong', phone: '133-0019-9019',
+          tags: ['客户'], strength: 2,
+          notes: '客户。80 万 AI 项目，定期汇报。',
+          interactions: [
+            { id: 'i6', time: '2026-10-08', method: '微信', topics: ['项目'], mood: '😐', summary: '问项目进度' }
+          ],
+          connections: [{ targetId: 'demo_001', type: '引荐' }],
+          createdAt: '2026-05-15T14:00:00Z'
+        },
+        {
+          id: 'demo_006', name: '孙八', wechat: 'sunba_options', phone: '135-0005-5005',
+          tags: ['投资', '期权'], strength: 3,
+          notes: '投资经理。SOXL 行情专家。',
+          interactions: [],
+          connections: [],
+          createdAt: '2024-10-20T16:00:00Z'
+        },
+        {
+          id: 'demo_007', name: '周教练', wechat: 'coach_zhou', phone: '138-0009-9009',
+          tags: ['跑团', '教练'], strength: 4,
+          notes: '跑团团长 / 跑步教练。',
+          interactions: [
+            { id: 'i7', time: '2026-10-05', method: '跑步', location: '环岛路', topics: ['训练'], mood: '😊', summary: '周教练给了 11 月训练计划' }
+          ],
+          connections: [{ targetId: 'demo_001', type: '跑团' }],
+          createdAt: '2024-03-15T16:00:00Z'
+        },
+        {
+          id: 'demo_008', name: '林医生', wechat: 'lin_doctor', phone: '0592-1234-5678',
+          tags: ['医生'], strength: 3,
+          notes: '体检医生。糖尿病管理随访。',
+          interactions: [],
+          connections: [],
+          createdAt: '2022-03-10T14:30:00Z'
+        }
+      ]
+    };
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(SAMPLE));
+    console.log('🎁 已预装 8 位示例联系人 — 立即开始体验！');
+
+    // 触发工具本体的重渲染
+    setTimeout(() => location.reload(), 100);
+  } catch (e) {
+    console.warn('示例数据预装失败（localStorage 不可用？）:', e.message);
+  }
+})();
+</script>
 </body>
 </html>
