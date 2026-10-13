@@ -755,6 +755,70 @@ body{
 .trend-row.up .trend-delta{color:#1B5E20}
 .trend-row.down .trend-delta{color:#B71C1C}
 
+/* ===== Round 4: 重要日期 banner ===== */
+.upcoming-banner{
+  display:flex;align-items:center;gap:12px;
+  padding:8px 16px;
+  background:linear-gradient(135deg,#FFF3E0 0%,#FFE0B2 100%);
+  border-bottom:1px solid #FFB74D;
+  font-size:13px;color:#5D4037;
+  overflow-x:auto;white-space:nowrap;
+  scrollbar-width:none;
+}
+.upcoming-banner::-webkit-scrollbar{display:none}
+.upcoming-banner .banner-icon{font-size:16px;flex-shrink:0}
+.upcoming-banner .banner-text{flex-shrink:0}
+.upcoming-banner .banner-chip{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:999px;
+  background:#FFFFFF;border:1px solid #FFB74D;
+  font-size:12px;color:#5D4037;cursor:pointer;
+  transition:all 150ms;flex-shrink:0;
+  font-weight:500;
+}
+.upcoming-banner .banner-chip:hover{
+  background:#FFD66B;color:#5D4037;
+  transform:translateY(-1px);box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+.upcoming-banner .banner-chip.today{
+  background:#FF6B6B;color:#fff;border-color:#FF6B6B;
+  animation:banner-pulse 2s ease-in-out infinite;
+}
+.upcoming-banner .banner-dismiss{
+  margin-left:auto;background:transparent;border:none;
+  color:#5D4037;font-size:18px;cursor:pointer;
+  padding:0 8px;line-height:1;flex-shrink:0;
+  opacity:0.5;transition:opacity 150ms;
+}
+.upcoming-banner .banner-dismiss:hover{opacity:1}
+@keyframes banner-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,0.4)}
+  50%{box-shadow:0 0 0 6px rgba(255,107,107,0)}
+}
+
+/* ===== Round 4: AI 建议卡片 ===== */
+.ai-recs{display:flex;flex-direction:column;gap:8px}
+.ai-rec{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 14px;background:#FFFFFF;border:1px solid #E5E5EA;
+  border-radius:10px;cursor:pointer;transition:all 200ms;
+}
+.ai-rec:hover{border-color:#0071E3;box-shadow:0 2px 12px rgba(0,113,227,0.1);transform:translateX(2px)}
+.ai-rec.priority-3{border-left:3px solid #FF3B30;background:linear-gradient(90deg,#FFF5F5 0%,#FFFFFF 30%)}
+.ai-rec.priority-2{border-left:3px solid #FF9F0A;background:linear-gradient(90deg,#FFFAF0 0%,#FFFFFF 30%)}
+.ai-rec.priority-1{border-left:3px solid #34C759}
+.ai-rec-icon{font-size:24px;flex-shrink:0;width:32px;text-align:center}
+.ai-rec-title{font-size:13px;font-weight:600;color:#1D1D1F;line-height:1.4}
+.ai-rec-reason{font-size:11px;color:#6E6E73;margin-top:2px;line-height:1.5}
+.ai-rec-action{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:6px 12px;border-radius:999px;
+  background:#0071E3;color:#fff;font-size:11px;font-weight:600;
+  flex-shrink:0;
+  transition:all 150ms;
+}
+.ai-rec:hover .ai-rec-action{background:#006EDB}
+
 /* ===== Graph View ===== */
 .graph-container{
   width:100%;
@@ -887,6 +951,9 @@ body{
       <button class="btn btn-icon" id="exportBtn" title="导出备份">📤</button>
     </div>
   </div>
+
+  <!-- Round 4: 重要日期即将到来 banner -->
+  <div id="upcomingBanner" class="upcoming-banner" style="display:none"></div>
 
   <!-- Main Content -->
   <div class="main" id="mainContent">
@@ -1222,6 +1289,7 @@ function renderAll(){
   renderContactGrid();
   renderGraph();
   updateCounts();
+  renderUpcomingBanner();
 }
 
 function updateCounts(){
@@ -1670,7 +1738,10 @@ function openDetail(id){
       <span class="tl-method">${i.method}</span>
       <span class="tl-time">${formatDate(i.time)}</span>
       <div class="tl-summary">${i.summary||'无记录'}</div>
-      <button class="btn btn-sm btn-danger" style="margin-top:4px" onclick="deleteInteractionHandler('${c.id}','${i.id}')">删除</button>
+      <div style="display:flex;gap:4px;margin-top:4px">
+        <button class="btn btn-sm" onclick="openEditInteraction('${c.id}','${i.id}')">✏️ 编辑</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteInteractionHandler('${c.id}','${i.id}')">删除</button>
+      </div>
     </div>`;
   }).join('');
 
@@ -1867,6 +1938,81 @@ function addInteractionHandler(contactId){
   renderAll();
   openDetail(contactId);
   toast('互动记录已添加','success');
+}
+
+// ===== Round 4: 互动编辑（模态框复用表单） =====
+function openEditInteraction(contactId, intId){
+  const c=getContact(contactId);
+  if(!c) return;
+  const i=(c.interactions||[]).find(x=>x.id===intId);
+  if(!i) return;
+  const currentTime = i.time ? new Date(i.time).toISOString().slice(0,16) : '';
+  const html = `<div class="modal" style="max-width:520px">
+    <div class="modal-header">
+      <h3>✏️ 编辑互动</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;gap:12px">
+        <div>
+          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">互动方式</label>
+          <select id="editIntMethod" style="width:100%;padding:8px 10px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:13px;font-family:var(--font)">
+            ${INTERACTION_METHODS.map(m=>`<option value="${m}" ${m===i.method?'selected':''}>${m}</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">时间</label>
+          <input type="datetime-local" id="editIntTime" value="${currentTime}" style="width:100%;padding:8px 10px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:13px;font-family:var(--font)">
+        </div>
+        <div>
+          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">内容摘要</label>
+          <input type="text" id="editIntSummary" value="${(i.summary||'').replace(/"/g,'&quot;')}" placeholder="互动内容..." style="width:100%;padding:8px 10px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:13px;font-family:var(--font)">
+        </div>
+        <div>
+          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">话题（逗号分隔）</label>
+          <input type="text" id="editIntTopics" value="${(i.topics||[]).join(', ')}" placeholder="AI, 跑步, 投资" style="width:100%;padding:8px 10px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:13px;font-family:var(--font)">
+        </div>
+        <div>
+          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">心情</label>
+          <input type="text" id="editIntMood" value="${i.mood||''}" placeholder="😊 / 🤝 / 😐" style="width:100%;padding:8px 10px;background:var(--bg-deep);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:13px;font-family:var(--font)">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="display:flex;gap:8px;justify-content:flex-end;padding:14px 18px;border-top:1px solid var(--border)">
+      <button class="btn" onclick="closeModal()">取消</button>
+      <button class="btn btn-gold" onclick="saveEditInteraction('${contactId}','${intId}')">💾 保存</button>
+    </div>
+  </div>`;
+  showModal(html);
+}
+
+function saveEditInteraction(contactId, intId){
+  const method=document.getElementById('editIntMethod').value;
+  const time=document.getElementById('editIntTime').value;
+  const summary=document.getElementById('editIntSummary').value.trim();
+  const topicsRaw=document.getElementById('editIntTopics').value.trim();
+  const mood=document.getElementById('editIntMood').value.trim();
+  if(!summary){toast('请输入互动内容','error');return;}
+  if(!time){toast('请选择时间','error');return;}
+  const data=loadData();
+  const c=(data.contacts||[]).find(x=>x.id===contactId);
+  if(!c||!c.interactions) return;
+  const i=c.interactions.find(x=>x.id===intId);
+  if(!i) return;
+  i.method = method;
+  i.time = new Date(time).toISOString();
+  i.summary = summary;
+  if(topicsRaw) i.topics = topicsRaw.split(/[,,]/).map(s=>s.trim()).filter(Boolean);
+  else delete i.topics;
+  if(mood) i.mood = mood;
+  else delete i.mood;
+  // 重新计算 lastInteractionAt
+  const last = c.interactions.slice().sort((a,b)=>new Date(b.time)-new Date(a.time))[0];
+  if(last) c.lastInteractionAt = last.time;
+  saveData(data);
+  closeModal();
+  openDetail(contactId);
+  toast('互动记录已更新','success');
 }
 
 function deleteInteractionHandler(contactId,intId){
@@ -2084,7 +2230,90 @@ function renderInsight(){
         '</div>'
         ) +
       '</div>' +
-    '</div>';
+    '</div>' +
+    // Round 4: AI 建议（本地启发式 · 100% 客户端 · 无外部 API）
+    renderAIInsightsSection();
+}
+
+function renderAIInsightsSection(){
+  const recs = renderAIRecommendations();
+  return '<div class="insight-section" style="background:linear-gradient(135deg,#F0F4FF 0%,#F8FAFF 100%);border-color:#B4C8F0">' +
+    '<h3>🤖 AI 建议 <span style="font-size:10px;font-weight:400;color:var(--text-muted);margin-left:6px">基于本地规则 · 0 上传</span></h3>' +
+    (recs.length === 0
+      ? '<div class="empty-tip">🎉 当前没有紧急建议——你的关系网络很健康！</div>'
+      : '<div class="ai-recs">' + recs.slice(0, 8).map(r =>
+        '<div class="ai-rec priority-' + r.priority + '" onclick="openDetail(\'' + r.c.id + '\')">' +
+          '<span class="ai-rec-icon">' + r.icon + '</span>' +
+          '<div style="flex:1;min-width:0">' +
+            '<div class="ai-rec-title">' + r.title + '</div>' +
+            '<div class="ai-rec-reason">' + r.reason + '</div>' +
+          '</div>' +
+          '<span class="ai-rec-action">' + r.actionEmoji + ' ' + r.action + '</span>' +
+        '</div>'
+      ).join('') + '</div>'
+    ) +
+  '</div>';
+}
+
+// ===== Round 4: 顶部 banner 重要日期即将到来 =====
+function renderUpcomingBanner(){
+  const el = document.getElementById('upcomingBanner');
+  if(!el) return;
+  const contacts = getAllContacts();
+  if(contacts.length === 0){ el.style.display='none'; return; }
+  const today = new Date(); today.setHours(0,0,0,0);
+  const items = []; // {c, date, label, emoji, days, isToday}
+  contacts.forEach(c => {
+    (c.keyDates||[]).forEach(d => {
+      if(!d.date) return;
+      // 年复算：如果今年已过且未跨年，跳到明年
+      let target = new Date(d.date);
+      const m = target.getMonth();
+      const day = target.getDate();
+      target = new Date(today.getFullYear(), m, day);
+      if(target < today) target = new Date(today.getFullYear()+1, m, day);
+      const diffDays = Math.round((target - today) / 86400000);
+      if(diffDays > 30) return; // 30 天内才提醒
+      const emoji = ({birthday:'🎂', anniversary:'💍', custom:'📌'})[d.type] || '📌';
+      items.push({c, date: target, label: d.label || d.type || '纪念日', emoji, days: diffDays, isToday: diffDays===0});
+    });
+  });
+  items.sort((a,b) => a.days - b.days);
+  if(items.length === 0){ el.style.display='none'; return; }
+  const dismissed = JSON.parse(localStorage.getItem('rh_intel_banner_dismissed') || '[]');
+  const visibleItems = items.filter(x => !dismissed.includes(x.c.id + ':' + x.label + ':' + x.date.toISOString().slice(0,10)));
+  if(visibleItems.length === 0){ el.style.display='none'; return; }
+  el.style.display='flex';
+  el.innerHTML =
+    '<span class="banner-icon">🔔</span>' +
+    '<span class="banner-text">未来 30 天：</span>' +
+    visibleItems.slice(0, 6).map(x => {
+      const dayLabel = x.isToday ? '今天' : (x.days === 1 ? '明天' : x.days + ' 天后');
+      return `<span class="banner-chip ${x.isToday?'today':''}" onclick="openDetail('${x.c.id}')" title="${x.c.name} · ${x.label}">${x.emoji} ${x.c.name} · ${x.label} · ${dayLabel}</span>`;
+    }).join('') +
+    (visibleItems.length > 6 ? '<span class="banner-text">+ ' + (visibleItems.length - 6) + ' 项</span>' : '') +
+    '<button class="banner-dismiss" onclick="dismissUpcomingBanner()" title="关闭今日提醒">×</button>';
+}
+
+function dismissUpcomingBanner(){
+  const contacts = getAllContacts();
+  const today = new Date(); today.setHours(0,0,0,0);
+  const dismissed = JSON.parse(localStorage.getItem('rh_intel_banner_dismissed') || '[]');
+  contacts.forEach(c => {
+    (c.keyDates||[]).forEach(d => {
+      if(!d.date) return;
+      let target = new Date(d.date);
+      const m = target.getMonth(), day = target.getDate();
+      target = new Date(today.getFullYear(), m, day);
+      if(target < today) target = new Date(today.getFullYear()+1, m, day);
+      const diffDays = Math.round((target - today) / 86400000);
+      if(diffDays > 30) return;
+      const key = c.id + ':' + (d.label || d.type) + ':' + target.toISOString().slice(0,10);
+      if(!dismissed.includes(key)) dismissed.push(key);
+    });
+  });
+  localStorage.setItem('rh_intel_banner_dismissed', JSON.stringify(dismissed));
+  document.getElementById('upcomingBanner').style.display = 'none';
 }
 
 function healthCard(label, value, emoji, color, sub){
@@ -2094,6 +2323,116 @@ function healthCard(label, value, emoji, color, sub){
     '<div class="health-label">' + label + '</div>' +
     (sub ? '<div class="health-sub">' + sub + '</div>' : '') +
   '</div>';
+}
+
+// ===== Round 4: AI 建议（本地启发式 · 100% 客户端 · 无外部 API） =====
+function renderAIRecommendations(){
+  const contacts = getAllContacts();
+  if(contacts.length === 0) return [];
+  const today = new Date(); today.setHours(0,0,0,0);
+  const recs = [];
+
+  // 规则 1: 核心圈沉睡 (tier 1 且 60+ 天没联系)
+  contacts.forEach(c => {
+    const tier = c.dunbarTier != null ? c.dunbarTier : (c.strength >= 5 ? 1 : c.strength >= 4 ? 2 : c.strength >= 2 ? 3 : 4);
+    if(tier !== 1 || !c.lastInteractionAt) return;
+    const days = daysSince(c.lastInteractionAt);
+    if(days > 60) {
+      recs.push({
+        priority: days > 120 ? 3 : 2,
+        c,
+        icon: '🚨',
+        title: c.name + ' 核心圈已沉睡 ' + days + ' 天',
+        reason: '属于你的核心圈（5★），但已经 ' + days + ' 天没联系了。核心关系需要主动维护。',
+        action: days > 120 ? '打个电话' : '发条微信',
+        actionEmoji: days > 120 ? '📞' : '💬'
+      });
+    }
+  });
+
+  // 规则 2: 生日/纪念日 7 天内
+  contacts.forEach(c => {
+    (c.keyDates||[]).forEach(d => {
+      if(!d.date) return;
+      let target = new Date(d.date);
+      const m = target.getMonth(), day = target.getDate();
+      target = new Date(today.getFullYear(), m, day);
+      if(target < today) target = new Date(today.getFullYear()+1, m, day);
+      const diff = Math.round((target - today) / 86400000);
+      if(diff > 7) return;
+      const emoji = ({birthday:'🎂', anniversary:'💍', custom:'📌'})[d.type] || '📌';
+      recs.push({
+        priority: diff <= 2 ? 3 : 2,
+        c,
+        icon: emoji,
+        title: diff === 0 ? '今天是 ' + c.name + ' 的' + (d.label || d.type || '纪念日') : c.name + ' 的' + (d.label || d.type || '纪念日') + ' 还有 ' + diff + ' 天',
+        reason: '别忘了准备——主动祝贺比事后补强 10 倍。',
+        action: '提前祝福',
+        actionEmoji: '🎁'
+      });
+    });
+  });
+
+  // 规则 3: 互动升温 (近 30 天 vs 30-60 天)
+  contacts.forEach(c => {
+    const its = c.interactions || [];
+    if(its.length < 3) return;
+    const last30 = its.filter(i => daysSince(i.time) <= 30).length;
+    const prior30 = its.filter(i => { const d = daysSince(i.time); return d > 30 && d <= 60; }).length;
+    if(last30 >= 2 && last30 > prior30 * 1.5 && prior30 > 0) {
+      const tier = c.dunbarTier != null ? c.dunbarTier : (c.strength >= 5 ? 1 : c.strength >= 4 ? 2 : c.strength >= 2 ? 3 : 4);
+      if(tier <= 2) {
+        recs.push({
+          priority: 1,
+          c,
+          icon: '📈',
+          title: c.name + ' 互动升温中',
+          reason: '近 30 天互动 ' + last30 + ' 次，是前 30 天的 ' + Math.round(last30/prior30*10)/10 + ' 倍。趁热打铁——深度关系往往在升温期建立。',
+          action: '深度聊天',
+          actionEmoji: '☕'
+        });
+      }
+    }
+  });
+
+  // 规则 4: 核心圈未完成待办
+  contacts.forEach(c => {
+    const tier = c.dunbarTier != null ? c.dunbarTier : (c.strength >= 5 ? 1 : c.strength >= 4 ? 2 : c.strength >= 2 ? 3 : 4);
+    if(tier > 2) return;
+    const pending = (c.todos||[]).filter(t => t.status !== 'done');
+    if(pending.length === 0) return;
+    recs.push({
+      priority: 2,
+      c,
+      icon: '✅',
+      title: c.name + ' 有 ' + pending.length + ' 项待办',
+      reason: '核心/亲密朋友之间的承诺要优先兑现。剩余：' + pending.slice(0,2).map(t => t.title || t.text).join('、') + (pending.length > 2 ? ' 等' : ''),
+      action: '查看待办',
+      actionEmoji: '📋'
+    });
+  });
+
+  // 规则 5: 新添加但零互动 (strength 4+ 且 0 互动)
+  contacts.forEach(c => {
+    if((c.interactions||[]).length > 0) return;
+    if(c.strength < 4) return;
+    recs.push({
+      priority: 1,
+      c,
+      icon: '👋',
+      title: c.name + ' 还没建立第一次互动',
+      reason: 'strength 已标 ' + c.strength + '★ 但 0 条互动记录。关系不维护会迅速降温——建议本周内主动联系一次。',
+      action: '发起破冰',
+      actionEmoji: '👋'
+    });
+  });
+
+  // 排序：优先级高 → 同级取 daysSince 久的在前
+  recs.sort((a,b) => {
+    if(b.priority !== a.priority) return b.priority - a.priority;
+    return daysSince(b.c.lastInteractionAt || 0) - daysSince(a.c.lastInteractionAt || 0);
+  });
+  return recs;
 }
 
 // ===== Add Contact Button =====
