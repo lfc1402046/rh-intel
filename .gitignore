@@ -42,3 +42,7 @@ tool/output/
 # 但 .workbuddy/cache/ 不应该
 .workbuddy/cache/
 .workbuddy/sessions/
+
+# Personal data (绝对不要提交)
+tool/imported-*.json
+tool/imported-contacts-personal.json
