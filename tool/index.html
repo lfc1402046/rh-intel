@@ -730,8 +730,7 @@ body{
         <input type="text" id="searchInput" placeholder="搜索姓名/微信/标签..." autocomplete="off">
       </div>
       <button class="btn btn-gold" id="addContactBtn">+ 添加联系人</button>
-      <button class="btn btn-icon" id="vcfPasteBtn" title="粘贴 VCF 文本">📋</button>
-      <button class="btn btn-icon" id="importBtn" title="导入数据">📥</button>
+      <button class="btn btn-icon" id="importBtn" title="导入数据（文件/粘贴/VCF）">📥</button>
       <button class="btn btn-icon" id="exportBtn" title="导出备份">📤</button>
     </div>
   </div>
@@ -1654,41 +1653,78 @@ document.getElementById('exportBtn').addEventListener('click',function(){
   toast('数据已导出','success');
 });
 
-document.getElementById('importBtn').addEventListener('click',function(){
-  const input=document.createElement('input');
-  input.type='file';
-  input.accept='.json,.vcf,.txt';
-  input.onchange=function(e){
-    const reader=new FileReader();
-    reader.onload=function(ev){
-      const text = ev.target.result;
-      try{
-        // 智能检测格式
-        if (text.trim().startsWith('BEGIN:VCARD') || text.trim().startsWith('BEGIN:VCALENDAR')) {
-          // VCF 格式
-          const contacts = parseVCF(text);
-          if (!contacts.length) { toast('VCF 中未找到有效联系人', 'error'); return; }
-          if (!confirm(`将导入 ${contacts.length} 位联系人（追加到现有数据）？`)) return;
-          appendContacts(contacts);
-          renderAll();
-          toast(`已导入 ${contacts.length} 位联系人（VCF）`, 'success');
-        } else {
-          // JSON 格式
-          const data = JSON.parse(text);
-          if(!data.contacts||!Array.isArray(data.contacts)) throw new Error('无效格式');
-          if(!confirm(`将导入 ${data.contacts.length} 位联系人数据，覆盖当前数据？`)) return;
-          saveData(data);
-          renderAll();
-          toast('数据导入成功','success');
-        }
-      }catch(err){
-        toast('文件格式无效: ' + err.message,'error');
-      }
+// ===== v43: 统一导入（文件 + 粘贴 VCF）=====
+function importData(text) {
+  try {
+    const t = text.trim();
+    if (t.startsWith('BEGIN:VCARD') || t.startsWith('BEGIN:VCALENDAR')) {
+      const contacts = parseVCF(text);
+      if (!contacts.length) { toast('VCF 中未找到有效联系人', 'error'); return; }
+      if (!confirm(`将导入 ${contacts.length} 位联系人（VCF 追加到现有数据）？`)) return;
+      appendContacts(contacts);
+      renderAll();
+      toast(`已导入 ${contacts.length} 位联系人（VCF）`, 'success');
+    } else {
+      const data = JSON.parse(text);
+      if (!data.contacts || !Array.isArray(data.contacts)) throw new Error('格式无效');
+      if (!confirm(`将导入 ${data.contacts.length} 位联系人数据（JSON 覆盖现有数据）？`)) return;
+      saveData(data);
+      renderAll();
+      toast('数据导入成功', 'success');
+    }
+  } catch (err) {
+    toast('文件格式无效: ' + err.message, 'error');
+  }
+}
+
+function openImportModal() {
+  const html = `<div class="modal" style="max-width:600px">
+    <div class="modal-header">
+      <h3>📥 导入联系人</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--text-dim);margin-bottom:16px">
+        支持 <strong>JSON</strong>、<strong>VCF</strong>、<strong>TXT</strong> 三种格式。VCF 解析后追加，JSON 覆盖。完全本地处理。
+      </p>
+
+      <div style="background:var(--bg-elevated);border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;margin-bottom:16px;cursor:pointer" onclick="document.getElementById('importFile').click()">
+        <div style="font-size:36px;margin-bottom:6px">📂</div>
+        <div style="font-size:14px;font-weight:600">点击选择文件</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">.json / .vcf / .txt</div>
+        <input type="file" id="importFile" accept=".json,.vcf,.txt" style="display:none">
+      </div>
+
+      <div style="text-align:center;margin:12px 0;color:var(--text-muted);font-size:12px">— 或 —</div>
+
+      <textarea id="importPasteArea" placeholder="在此粘贴 VCF 文本&#10;BEGIN:VCARD&#10;FN:张三&#10;TEL:+8612345678&#10;END:VCARD&#10;..." style="width:100%;min-height:140px;padding:12px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--font-mono);font-size:12px;line-height:1.5;resize:vertical"></textarea>
+
+      <div style="display:flex;gap:8px;margin-top:14px;align-items:center">
+        <button class="btn btn-primary" onclick="doImport()">🚀 解析并导入</button>
+        <span id="importStatus" style="font-size:12px;color:var(--text-muted)"></span>
+      </div>
+    </div>
+  </div>`;
+  showModal(html);
+  document.getElementById('importFile').addEventListener('change', function(e) {
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      importData(ev.target.result);
+      setTimeout(() => closeModal(), 600);
     };
     reader.readAsText(e.target.files[0]);
-  };
-  input.click();
-});
+  });
+}
+
+function doImport() {
+  const text = document.getElementById('importPasteArea').value.trim();
+  if (!text) { toast('请粘贴内容或选文件', 'warn'); return; }
+  document.getElementById('importStatus').innerHTML = '<span style="color:#0071E3">⏳ 解析中...</span>';
+  importData(text);
+  setTimeout(() => closeModal(), 1000);
+}
+
+document.getElementById('importBtn').addEventListener('click', openImportModal);
 
 // ===== v42: VCF 解析器（本地处理，不联网） =====
 function parseVCF(text) {
@@ -1748,42 +1784,6 @@ function appendContacts(newContacts) {
   saveData(data);
 }
 
-// ===== v42: 粘贴 VCF 模态框 =====
-function openVCFPasteModal() {
-  const html = `<div class="modal" style="max-width:600px">
-    <div class="modal-header">
-      <h3>📋 粘贴 VCF 文本</h3>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <p style="font-size:13px;color:var(--text-dim);margin-bottom:12px">
-        支持 iPhone、Android、微信导出的 VCF 3.0 格式。<br>
-        完全本地处理，不会上传。
-      </p>
-      <textarea id="vcfTextarea" placeholder="BEGIN:VCARD&#10;VERSION:3.0&#10;FN:张三&#10;TEL:+8612345678&#10;END:VCARD&#10;..." style="width:100%;min-height:200px;padding:12px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--font-mono);font-size:12px;line-height:1.5;resize:vertical"></textarea>
-      <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
-        <button class="btn btn-primary" onclick="doVCFPaste()">🚀 解析并添加</button>
-        <span id="vcfStatus" style="font-size:12px;color:var(--text-muted)"></span>
-      </div>
-    </div>
-  </div>`;
-  showModal(html);
-}
-
-function doVCFPaste() {
-  const text = document.getElementById('vcfTextarea').value.trim();
-  if (!text) { toast('请粘贴 VCF 文本', 'warn'); return; }
-  if (!text.includes('BEGIN:VCARD')) { toast('未检测到 BEGIN:VCARD，请确认是 VCF 格式', 'error'); return; }
-  const contacts = parseVCF(text);
-  if (!contacts.length) { toast('VCF 中未找到有效联系人', 'error'); return; }
-  appendContacts(contacts);
-  document.getElementById('vcfStatus').innerHTML = '<span style="color:#2D7A3A">✓ 已添加 ' + contacts.length + ' 位</span>';
-  renderAll();
-  toast('已添加 ' + contacts.length + ' 位联系人（VCF）', 'success');
-  setTimeout(() => closeModal(), 1200);
-}
-
-document.getElementById('vcfPasteBtn').addEventListener('click', openVCFPasteModal);
 
 // Edge color lookup
 function getEdgeColor(type){
