@@ -2674,10 +2674,12 @@ function doExportCSV(){
   const headers = ['姓名','微信','电话','邮箱','公司','职位','家乡','现居','性别','年龄段','标签','强度','邓巴圈层','信任度','熟悉度','昵称','初次见面','引荐人','最后互动','互动次数','平均间隔(天)','重要日期','待办','关联人数','备注','创建时间'];
   const dunbarMap = {1:'核心圈',2:'亲密朋友',3:'一般朋友',4:'弱连接'};
   // 转义 CSV 字段
+  // CSV 转义：逗号/引号加引号包裹；换行符转为字面量 \n，保证每条记录严格单行
+  // （多行字段虽符合 RFC4180，但 Notion 等工具按物理行解析会列错位）
   const esc = (v) => {
     if(v==null) return '';
-    const s = String(v);
-    if(/[",\n\r]/.test(s)) return '"' + s.replace(/"/g,'""') + '"';
+    const s = String(v).replace(/\r\n/g, '\n').replace(/\r/g, '\n').replace(/\n/g, '\\n');
+    if(/[",]/.test(s)) return '"' + s.replace(/"/g,'""') + '"';
     return s;
   };
   const rows = contacts.map(c => {

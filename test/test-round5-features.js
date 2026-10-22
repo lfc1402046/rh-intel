@@ -22,6 +22,7 @@ check('UTF-8 BOM (Excel 兼容)', /\\uFEFF/.test(html), '缺 UTF-8 BOM \\uFEFF')
 check('CSV MIME type', /text\/csv/.test(html), 'CSV MIME type 错');
 check('CSV 字段转义函数 esc 存在', /esc\s*=\s*\(v\)/.test(html), '缺 esc 转义函数');
 check('CSV 双引号转义逻辑', html.indexOf('replace(/"/g,') >= 0 && html.indexOf('""') >= 0, 'CSV 双引号转义缺失');
+check('CSV 换行符已转义为字面 \\n（保证单行记录）', html.indexOf(".replace(/\\n/g, '\\\\n')") >= 0 || html.indexOf("replace(/\\n/g,") >= 0, 'CSV 未处理换行符，Notion 等工具会列错位');
 check('CSV download .csv 扩展名', /a\.download.*\.csv/.test(html), 'CSV 扩展名缺失');
 
 // === 2. 标签管理 ===

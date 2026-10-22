@@ -27,11 +27,18 @@ function daysSince(iso) {
 
 function getAllContacts() { return CONTACTS; }
 
+// 用相对天数构造 lastInteractionAt，避免测试随时间推移而腐烂
+function daysAgo(n) {
+  const d = new Date();
+  d.setDate(d.getDate() - n);
+  return d.toISOString().slice(0, 10);
+}
+
 const CONTACTS = [
-  { id: 'c1', name: '王五', strength: 5, dunbarTier: 1, lastInteractionAt: '2026-10-08', tags: ['跑团'], todos: [{status:'pending'}] },
-  { id: 'c2', name: '李四', strength: 4, dunbarTier: 2, lastInteractionAt: '2026-09-01', tags: ['朋友'] },
-  { id: 'c3', name: '妈', strength: 5, dunbarTier: 1, lastInteractionAt: '2026-10-05', tags: ['家人'], keyDates: [{type:'birthday'},{type:'anniversary'}] },
-  { id: 'c4', name: '老陈', strength: 2, dunbarTier: 3, lastInteractionAt: '2024-01-01' }
+  { id: 'c1', name: '王五', strength: 5, dunbarTier: 1, lastInteractionAt: daysAgo(2), tags: ['跑团'], todos: [{status:'pending'}] },
+  { id: 'c2', name: '李四', strength: 4, dunbarTier: 2, lastInteractionAt: daysAgo(40), tags: ['朋友'] },
+  { id: 'c3', name: '妈', strength: 5, dunbarTier: 1, lastInteractionAt: daysAgo(20), tags: ['家人'], keyDates: [{type:'birthday'},{type:'anniversary'}] },
+  { id: 'c4', name: '老陈', strength: 2, dunbarTier: 3, lastInteractionAt: daysAgo(400) }
 ];
 
 test('模块统计应该正确分类到 4 个 tier', () => {
